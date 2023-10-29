@@ -1,3 +1,3 @@
 # PocketLabImageProcessing
 
-A description of this package.
+ A Custom PoketLabImageProcessing for SwiftUI.
