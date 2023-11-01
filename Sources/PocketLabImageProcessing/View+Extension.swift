@@ -28,9 +28,6 @@ struct ActivityIndicatorPackage: ViewModifier {
     
 }
 
-
-
-
 public extension View {
     
     public func activityIndicator(isLoading: Binding<Bool>) -> some View {
@@ -41,7 +38,6 @@ public extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
-
 
 public extension View {
     public func placeholder<Content: View>(
@@ -225,7 +221,6 @@ extension View {
         }
     }
 }
-
 
 public extension View {
     func hideKeyboard() {

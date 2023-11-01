@@ -9,6 +9,7 @@ import Foundation
 
 extension Data {
     
+    /// convert data to json string
     var jsonString: String? { //prettyPrintedBody
         guard
             let object = try? JSONSerialization.jsonObject(with: self, options: []),

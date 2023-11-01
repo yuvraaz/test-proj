@@ -10,8 +10,11 @@ public protocol UploadImagesAPI {
      func uploadImageStatus(fieldId: String, success: @escaping (ImageDetail) -> (), failure: @escaping (Error) -> ())
 }
 
-public  extension UploadImagesAPI {
-
+public extension UploadImagesAPI {
+    
+    /// uploadImage
+    /// - Parameters:
+    ///   - image: image is Model
      func uploadImage(image: ImageModel, success: @escaping (ImageInfo) -> (), failure: @escaping (Error) -> ()) {
         let urlSession = URLSession.shared
         

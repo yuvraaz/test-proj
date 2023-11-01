@@ -25,7 +25,6 @@ public class UploadImageViewModel: BaseViewModel, ObservableObject, UploadImages
     @Published public var error: Error?
     @Published public var tokenExpired = false
      
-    
     public let status = AVCaptureDevice.authorizationStatus(for: .video)
     public var showAlert: Bool?
     public var showSuccessAlert: Bool = false

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Container is any response from api is handled
 protocol Container: Codable {
     var hasData: Bool {get}
     var statusCode: Int? {get}

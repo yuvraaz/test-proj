@@ -67,7 +67,8 @@ class ARSessionDelegateCoordinator : NSObject, ARSessionDelegate {
         calculateMedian(distance: closeestDistance)
     }
     var count = 0
-    
+    /// calculateMedian
+    /// - Parameter distance: distance between camera and front object
     func calculateMedian(distance:Float) {
         // distance = closeestDistance
         var distArray: [Float] = []
@@ -85,12 +86,7 @@ class ARSessionDelegateCoordinator : NSObject, ARSessionDelegate {
     }
     
     func captureImage(_ session: ARSession, didUpdate frame: ARFrame) {
-        // Turn on the flashlight
           toggleFlashlight(on: true)
-          
-          // ... your capture code ...
-
-          // Optionally, turn off the flashlight after a delay
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
               self.toggleFlashlight(on: false)
           }
@@ -106,6 +102,8 @@ class ARSessionDelegateCoordinator : NSObject, ARSessionDelegate {
         }
     }
     
+    /// toggleFlashlight
+    /// - Parameter on: on to turn on flash light
     func toggleFlashlight(on: Bool) {
         guard let device = AVCaptureDevice.default(for: .video) else { return }
         if device.hasTorch {

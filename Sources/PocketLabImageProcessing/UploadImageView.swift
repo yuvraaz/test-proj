@@ -15,17 +15,6 @@ public struct Colors {
     public static let brown         = #colorLiteral(red: 0.9725490196, green: 0.5215686275, blue: 0.01176470588, alpha: 1).color //F88503
     public static let yellow       = #colorLiteral(red: 0.9960784314, green: 0.7843137255, blue: 0.3019607843, alpha: 1).color //FEC84D
     
-     //    unused
-    public static let greenColor        = #colorLiteral(red: 0, green: 0.7843137255, blue: 0.5921568627, alpha: 1) // 00C897
-    public static let lightestGreyColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) // #FFFFFF
-    public static let lighterGreyColor  = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1) // #F9F9F9
-    public static let lightGreyColor    = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9529411765, alpha: 1) // F2F2F3
-    public static let darkestGreyColor  = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1) // 212121
-    public static let darkerGreyColor   = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1) //666666
-    public static let darkGreyColor     = #colorLiteral(red: 0.6196078431, green: 0.6196078431, blue: 0.6196078431, alpha: 1) //#9E9E9E
-    public static let redColor          = #colorLiteral(red: 0.9529411765, green: 0.3137254902, blue: 0.3137254902, alpha: 1) //F35050
-    public static let lightYellowColor  = #colorLiteral(red: 1, green: 0.9843137255, blue: 0.9490196078, alpha: 1) //FFFBF2
-    
 }
 
 public struct UploadImageView: View {
@@ -51,18 +40,6 @@ public struct UploadImageView: View {
         self._isVisible = isVisible
     }
 
-//    public init(countdown: Int = 4, startCountDown: Bool = false, isPaused: Bool = false, numberOfAdditionalClick: Int = 1, showSuccessAlert: Bool = false, readyToCapture: Bool = false, startButtonPressed: Bool = false, callStartCountDownOnceOnly: Bool = true, isVisible: Binding<Bool>) {
-//        self.countdown = countdown
-//        self.startCountDown = startCountDown
-//        self.isPaused = isPaused
-//        self.numberOfAdditionalClick = numberOfAdditionalClick
-//        self.showSuccessAlert = showSuccessAlert
-//        self.readyToCapture = readyToCapture
-//        self.startButtonPressed = startButtonPressed
-//        self.callStartCountDownOnceOnly = callStartCountDownOnceOnly
-//        self.isVisible = isVisible
-//    }
-//    
     public var body: some View {
         let showAlert = Binding<Bool>(
             get: { viewModel.showAlert ?? false },

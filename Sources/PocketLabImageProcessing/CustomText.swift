@@ -13,6 +13,18 @@ public struct CustomText: View {
     public var multilineTextAlignment: TextAlignment?
     
     
+    /// CustomText
+    /// - Parameters:
+    ///   - name: string that is display
+    ///   - textColor: color of text
+    ///   - darkMode: darkMode
+    ///   - alignment: alignment
+    ///   - padding: padding
+    ///   - font: font in int
+    ///   - maxWidth: maxWidth
+    ///   - setGradient: setGradient
+    ///   - lineLimit: lineLimit
+    ///   - multilineTextAlignment: multilineTextAlignment
     public init(name: String = "", textColor: Color = Colors.pureBlack, darkMode: Bool = false, alignment: Alignment = .leading, padding: CGFloat = 4, font: Font = Fonts.regularFont16, maxWidth: Bool = true, setGradient: Bool = false, lineLimit: Int? = nil, multilineTextAlignment: TextAlignment? = nil) {
         self.name = name
         self.textColor = textColor

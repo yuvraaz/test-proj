@@ -1,6 +1,4 @@
-
 import Foundation
-
 
 class RefreshImplemenation: RefreshTokenAPI {
     
@@ -38,6 +36,7 @@ private var apiQueue: [APICall] = []
 
 fileprivate var timerRunCount = 0
 var timer: Timer?
+var refreshApiIsLoading = false
 
 public extension URLSession {
     
@@ -104,8 +103,10 @@ public extension URLSession {
             //                        }
             
         }
-     
-        apiCall.execute()
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + (refreshApiIsLoading == true ? 3 : 0)) {
+            // This will be executed on the background queue after a 3.0 second delay
+            apiCall.execute()
+        }
         return apiCall
     }
 
@@ -115,7 +116,9 @@ public extension URLSession {
      }
     
     @objc func tokenRefresh() {
+        refreshApiIsLoading = true
         RefreshImplemenation().refreshToken(token: GlobalConstants.KeyValues.token?.token ?? "",success: { newToken in
+            refreshApiIsLoading = false
             print("refresh finished...\(String(describing: newToken.token))")
             
             GlobalConstants.KeyValues.token?.token = newToken.access
