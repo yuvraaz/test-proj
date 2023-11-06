@@ -72,7 +72,7 @@ public struct GlobalConstants {
     }
     
     public  struct Error {
-        static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
+        public static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
 
         
         static var emptyData: NSError { NSError(domain: "Data Empty", code: 205, userInfo: [NSLocalizedDescriptionKey: "Data is Empty."])}
