@@ -1,12 +1,12 @@
 import SwiftUI
 
-public struct CustomText: View {
+public struct PackageCustomText: View {
     public var name: String = ""
-    public var textColor: Color = Colors.pureBlack
+    public var textColor: Color = PackageColors.pureBlack
     public var darkMode: Bool = false
     public var alignment: Alignment = .leading
     public var padding: CGFloat = 4
-    public var font: Font = Fonts.regularFont16
+    public var font: Font = PackageFonts.regularFont16
     public var maxWidth = true
     public var setGradient = false
     public var lineLimit: Int?
@@ -25,7 +25,7 @@ public struct CustomText: View {
     ///   - setGradient: setGradient
     ///   - lineLimit: lineLimit
     ///   - multilineTextAlignment: multilineTextAlignment
-    public init(name: String = "", textColor: Color = Colors.pureBlack, darkMode: Bool = false, alignment: Alignment = .leading, padding: CGFloat = 4, font: Font = Fonts.regularFont16, maxWidth: Bool = true, setGradient: Bool = false, lineLimit: Int? = nil, multilineTextAlignment: TextAlignment? = nil) {
+    public init(name: String = "", textColor: Color = PackageColors.pureBlack, darkMode: Bool = false, alignment: Alignment = .leading, padding: CGFloat = 4, font: Font = PackageFonts.regularFont16, maxWidth: Bool = true, setGradient: Bool = false, lineLimit: Int? = nil, multilineTextAlignment: TextAlignment? = nil) {
         self.name = name
         self.textColor = textColor
         self.darkMode = darkMode
@@ -51,7 +51,7 @@ public struct CustomText: View {
             .if(setGradient) { content in
                 content.foregroundStyle(
                     LinearGradient(
-                        gradient: Gradient(colors: [Colors.brown, Colors.blue]),
+                        gradient: Gradient(colors: [PackageColors.brown, PackageColors.blue]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -85,7 +85,7 @@ public struct CustomText: View {
 
 public struct TextFieldView_Previews: PreviewProvider {
     public static var previews: some View {
-        CustomText()
+        PackageCustomText()
     }
 }
 

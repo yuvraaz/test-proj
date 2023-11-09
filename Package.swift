@@ -21,7 +21,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "PocketLabImageProcessing",
-            dependencies: []),
+            dependencies: [],
+            resources: [.process("PackageImages.xcassets")]
+        ),
         .testTarget(
             name: "PocketLabImageProcessingTests",
             dependencies: ["PocketLabImageProcessing"]),

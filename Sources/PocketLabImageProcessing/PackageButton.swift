@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct PrimaryButton: View {
+struct PackagePrimaryButton: View {
     var text: String
     var cornerRadius = CGFloat(6)
-    var font: Font = Fonts.boldFont16
-    var foregroundColor: Color = Colors.pureWhite
-    var backgroundColor: Color = Colors.blue
+    var font: Font = PackageFonts.boldFont16
+    var foregroundColor: Color = PackageColors.pureWhite
+    var backgroundColor: Color = PackageColors.blue
     var borderWidth: CGFloat?
     var maxHeight: CGFloat = 46
     var clicked: (() -> Void) /// use closure for callback
@@ -13,7 +13,7 @@ struct PrimaryButton: View {
     var body: some View {
         VStack {
             Button(action: clicked) {
-                PrimaryButtonText(
+                PackagePrimaryButtonText(
                     text: text,
                     cornerRadius: cornerRadius,
                     font: font,
@@ -30,6 +30,6 @@ struct PrimaryButton: View {
 
 struct PrimaryButton_Previews: PreviewProvider {
     static var previews: some View {
-        PrimaryButton(text: "Button", clicked: {})
+        PackagePrimaryButton(text: "Button", clicked: {})
     }
 }

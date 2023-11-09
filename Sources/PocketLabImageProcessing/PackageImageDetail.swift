@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Welcome
-public struct ImageDetail: Codable {
+public struct PackageImageDetail: Codable {
     public let id, mimeType: String?
     public let isUploaded: Bool?
     public let createdAt, updatedAt, uri, bucket: String?

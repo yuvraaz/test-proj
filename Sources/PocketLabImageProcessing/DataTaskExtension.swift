@@ -1,10 +1,10 @@
 import Foundation
 
-class RefreshImplemenation: RefreshTokenAPI {
+class RefreshImplemenation: PackageRefreshTokenAPI {
     
 }
 
-public class APICall: Equatable {
+public class DataTaskAPICall: Equatable {
      let id = UUID()
      var task: ((Error?) -> URLSessionDataTask?)?
      var actualDataTask: URLSessionDataTask?
@@ -27,12 +27,12 @@ public class APICall: Equatable {
         apiQueue.removeAll(where: {$0 == self})
     }
     
-   public  static func ==(lhs: APICall, rhs: APICall) -> Bool {
+   public  static func ==(lhs: DataTaskAPICall, rhs: DataTaskAPICall) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
-private var apiQueue: [APICall] = []
+private var apiQueue: [DataTaskAPICall] = []
 
 fileprivate var timerRunCount = 0
 var timer: Timer?
@@ -40,7 +40,7 @@ var refreshApiIsLoading = false
 
 public extension URLSession {
     
-    struct File {
+    struct PackageFile {
         let name: String
         let fileName: String
         let data: Data
@@ -48,9 +48,9 @@ public extension URLSession {
     }
     
     @discardableResult
-    func dataTask<T:Codable>(request: APIRequest, success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> APICall {
+    func dataTask<T:Codable>(request: PackageAPIRequest, success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> DataTaskAPICall {
         
-        let apiCall = APICall(task: { error in
+        let apiCall = DataTaskAPICall(task: { error in
             if let error = error {
                 failure(error)
                 return nil
@@ -128,7 +128,7 @@ public extension URLSession {
     }
     
     @discardableResult
-    func upload<T: Codable>(request: APIRequest, params: [String: Any], files: [File], success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> URLSessionUploadTask {
+    func upload<T: Codable>(request: PackageAPIRequest, params: [String: Any], files: [PackageFile], success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> URLSessionUploadTask {
         //        let url = URL(string: "http://api-host-name/v1/api/uploadfile/single")
         
         let boundary = UUID().uuidString
@@ -145,7 +145,7 @@ public extension URLSession {
         return task
     }
     
-    private func createBodyWithParameters(parameters: [String: Any], files: [File], boundary: String) -> Data {
+    private func createBodyWithParameters(parameters: [String: Any], files: [PackageFile], boundary: String) -> Data {
         var body = Data()
         for (key, value) in parameters {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
@@ -164,7 +164,7 @@ public extension URLSession {
         return body
     }
     
-    private func handle<T: Codable>(request: APIRequest, data: Data?, response: URLResponse?, error: Error?, success: @escaping (T)->(), failure: @escaping (Error) -> ()) {
+    private func handle<T: Codable>(request: PackageAPIRequest, data: Data?, response: URLResponse?, error: Error?, success: @escaping (T)->(), failure: @escaping (Error) -> ()) {
         func send(error: Error) {
             DispatchQueue.main.async {
                 failure(error)
@@ -189,7 +189,7 @@ public extension URLSession {
         request.request.allHTTPHeaderFields?.forEach { key, value in
             print("\(key): \(value)")
         }
-        print("Body: \n\(String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? "")\n Response: \n\(data?.jsonString ?? "")")
+        print("Body: \n\(String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? "")\n Response: \n\(data?.packageJsonString ?? "")")
         var status: Int?
         if let data = data {
             do {

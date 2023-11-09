@@ -8,51 +8,13 @@
 
 import Foundation
 
-//// MARK: - Welcome
-//struct ScenarioResponseParent: Codable {
-//    let total, limit, skip: Int?
-//    let data: [ScenarioResponse]?
-//}
-//
-//// MARK: - Datum
-//struct ScenarioResponse: Codable {
-//    let id: Int?
-//    let name, description: String?
-//    let status: Int?
-//    let creatorID: String?
-//    let ownerOrgID: Int?
-////    let archivedAt, deletedAt: JSONNull?
-//    let createdAt, updatedAt: String?
-//    let cerealTypeID, lastScenarioInstanceID: Int?
-//    let slug: String?
-//    let orderIndex, iconSalt: Int?
-//    let isSystemScenario: Bool?
-//    let statusConstantID: Int?
-////    let betaScenarioInstanceID, userFacingNameTextID, userFacingDescriptionTextID: JSONNull?
-//    var cerealType: CerealType?
-//    let latestScenarioInstance: LatestScenarioInstance?
-////    let scenarioAccessibleThroughChaining, scenarioAccessibleDirectly: JSONNull?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case id, name, description, status
-//        case creatorID = "creatorId"
-//        case ownerOrgID = "ownerOrgId"
-//        case  createdAt, updatedAt
-//        case cerealTypeID = "cerealTypeId"
-//        case lastScenarioInstanceID = "lastScenarioInstanceId"
-//        case slug, orderIndex, iconSalt, isSystemScenario
-//        case statusConstantID = "statusConstantId"
-//        case cerealType, latestScenarioInstance
-//    }
-//}
-//
 //// MARK: - CerealType
-public struct CerealType: Codable {
+public struct PackageCerealType: Codable {
     public let id: Int?
     public let generalName, slug, createdAt, updatedAt: String?
     public let iconForegroundHexColor, iconBackgroundHexColor: String?
     public let textID: Int?
-    public let names: [Name]?
+    public let names: [PackageName]?
 
     enum CodingKeys: String, CodingKey {
         case id, generalName, slug, createdAt, updatedAt, iconForegroundHexColor, iconBackgroundHexColor
@@ -62,7 +24,7 @@ public struct CerealType: Codable {
 }
 //
 //// MARK: - Name
-public struct Name: Codable {
+public struct PackageName: Codable {
     public let id, cerealTypeID: Int?
     public let name, locale: String?
     public let ownerOrgID: Int?
@@ -77,36 +39,14 @@ public struct Name: Codable {
     }
 }
 
-//// MARK: - LatestScenarioInstance
-//struct LatestScenarioInstance: Codable {
-//    let id, scenarioID: Int?
-//    let creatorID: String?
-//    let ownerOrgID: Int?
-////    let deletedAt: JSONNull?
-//    let createdAt, updatedAt: String?
-//    let isArchived: Bool?
-//    let steps: [String]?
-////    let config: JSONNull?
-//    let scenarioInstanceSteps: [ScenarioInstanceStep]?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case scenarioID = "scenarioId"
-//        case creatorID = "creatorId"
-//        case ownerOrgID = "ownerOrgId"
-//        case createdAt, updatedAt, isArchived, steps, scenarioInstanceSteps
-//    }
-//}
-
-
 // MARK: - Welcome
-public struct ScenarioResponseParent: Codable {
+public struct PackageScenarioResponseParent: Codable {
     public let total, limit, skip: Int?
-    public let data: [ScenarioResponse]?
+    public let data: [PackageScenarioResponse]?
 }
 
 // MARK: - Datum
-public struct ScenarioResponse: Codable {
+public struct PackageScenarioResponse: Codable {
     public let id: Int?
     public let name, description: String?
     public let status: Int?
@@ -118,8 +58,8 @@ public struct ScenarioResponse: Codable {
     public let orderIndex, iconSalt: Int?
     public let isSystemScenario: Bool?
     public let statusConstantID: Int?
-    public var cerealType: CerealType?
-    public let latestScenarioInstance: LatestScenarioInstance?
+    public var cerealType: PackageCerealType?
+    public let latestScenarioInstance: PackageLatestScenarioInstance?
 
     public enum CodingKeys: String, CodingKey {
         case id, name, description, status
@@ -143,7 +83,7 @@ public struct ScenarioResponse: Codable {
 //}
 
 // MARK: - LatestScenarioInstance
-public struct LatestScenarioInstance: Codable {
+public struct PackageLatestScenarioInstance: Codable {
     public let id: Int?
     public let status: Int?
     public let scenarioID: Int?

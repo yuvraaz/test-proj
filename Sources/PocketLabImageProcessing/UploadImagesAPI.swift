@@ -6,8 +6,8 @@ import Foundation
 import UIKit
 
 public protocol UploadImagesAPI {
-     func uploadImage(image: ImageModel, success: @escaping (ImageInfo) -> (), failure: @escaping (Error) -> ())
-     func uploadImageStatus(fieldId: String, success: @escaping (ImageDetail) -> (), failure: @escaping (Error) -> ())
+     func uploadImage(image: PackageImageModel, success: @escaping (PackageImageInfo) -> (), failure: @escaping (Error) -> ())
+     func uploadImageStatus(fieldId: String, success: @escaping (PackageImageDetail) -> (), failure: @escaping (Error) -> ())
 }
 
 public extension UploadImagesAPI {
@@ -15,7 +15,7 @@ public extension UploadImagesAPI {
     /// uploadImage
     /// - Parameters:
     ///   - image: image is Model
-     func uploadImage(image: ImageModel, success: @escaping (ImageInfo) -> (), failure: @escaping (Error) -> ()) {
+     func uploadImage(image: PackageImageModel, success: @escaping (PackageImageInfo) -> (), failure: @escaping (Error) -> ()) {
         let urlSession = URLSession.shared
         
         let paramsOfCaptureDevice = [
@@ -34,11 +34,11 @@ public extension UploadImagesAPI {
         params["captured_device"] = paramsOfCaptureDevice
         
         let request = EndPoint.uploadImage.request(body: params)
-        let file = [URLSession.File(name: "image", fileName: "image.jpg", data: image.imageData, contentType: "image/jpeg")]
+        let file = [URLSession.PackageFile(name: "image", fileName: "image.jpg", data: image.imageData, contentType: "image/jpeg")]
         urlSession.upload(request: request, params: params, files: file, success: success, failure: failure)
     }
     
-     func uploadImageStatus(fieldId: String, success: @escaping (ImageDetail) -> (), failure: @escaping (Error) -> ()){
+     func uploadImageStatus(fieldId: String, success: @escaping (PackageImageDetail) -> (), failure: @escaping (Error) -> ()){
         let urlSession = URLSession.shared
         let data = [
             "isUploaded": true

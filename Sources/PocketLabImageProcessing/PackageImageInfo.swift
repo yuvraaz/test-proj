@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ImageInfo: Codable {
+public struct PackageImageInfo: Codable {
     public let imageId: String?
     public let signedRequest: String?
 

@@ -1,18 +1,18 @@
 import SwiftUI
 
-struct PrimaryButtonText: View {
+struct PackagePrimaryButtonText: View {
     var text: String
     var cornerRadius = CGFloat(6)
-    var font: Font = Fonts.boldFont16
-    var foregroundColor: Color = Colors.pureWhite
-    var backgroundColor: Color = Colors.blue
+    var font: Font = PackageFonts.boldFont16
+    var foregroundColor: Color = PackageColors.pureWhite
+    var backgroundColor: Color = PackageColors.blue
     var borderWidth: CGFloat?
     var maxHeight: CGFloat = 46
     var setGradient = false
     
     
     var body: some View {
-        CustomText(
+        PackageCustomText(
                 name: text,
                 textColor: foregroundColor,
                 alignment: .center,
@@ -24,7 +24,7 @@ struct PrimaryButtonText: View {
         .if(setGradient) { content in
             content.background(
                 LinearGradient(
-                    gradient: Gradient(colors: [Colors.brown, Colors.blue]),
+                    gradient: Gradient(colors: [PackageColors.brown, PackageColors.blue]),
                     startPoint: .leading,
                     endPoint: .trailing
                 )
@@ -45,6 +45,6 @@ struct PrimaryButtonText: View {
 
 struct PrimaryButtonText_Previews: PreviewProvider {
     static var previews: some View {
-        PrimaryButtonText(text: "Send", cornerRadius: 20.0)
+        PackagePrimaryButtonText(text: "Send", cornerRadius: 20.0)
     }
 }

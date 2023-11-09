@@ -7,13 +7,16 @@
 
 import SwiftUI
 
-public struct Colors {
+public struct PackageColors {
     public static let pureBlack           = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1).color //000000
     public static let lightGray       = #colorLiteral(red: 0.9725490196, green: 0.968627451, blue: 0.9843137255, alpha: 1).color // F8F7FB
+    public static let darkGray  = #colorLiteral(red: 0.9725490196, green: 0.968627451, blue: 0.9843137255, alpha: 1).color // F8F7FB
+    
     public static let pureWhite       = #colorLiteral(red: 1, green: 0.9999999404, blue: 0.9999999404, alpha: 1).color // FFFFFF
     public static let blue              = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1).color // 007AFF
     public static let brown         = #colorLiteral(red: 0.9725490196, green: 0.5215686275, blue: 0.01176470588, alpha: 1).color //F88503
     public static let yellow       = #colorLiteral(red: 0.9960784314, green: 0.7843137255, blue: 0.3019607843, alpha: 1).color //FEC84D
+    
     
 }
 
@@ -73,11 +76,11 @@ public struct UploadImageView: View {
                         Spacer()
                     }
                 }
-                Colors.pureBlack.opacity(0.4)
+                PackageColors.pureBlack.opacity(0.4)
                     .ignoresSafeArea()
                 if (startCountDown == false && viewModel.showSuccessAlert == false && callStartCountDownOnceOnly == true)  {
                     VStack(spacing: 0) {
-                        CustomText(name: "Photos", textColor: Colors.pureWhite, alignment: .center, font: Fonts.mediumFont16)
+                        PackageCustomText(name: "Photos", textColor: PackageColors.pureWhite, alignment: .center, font: PackageFonts.mediumFont16)
                         Spacer().frame(height: 40)
                         HStack {
                             Spacer()
@@ -85,17 +88,17 @@ public struct UploadImageView: View {
                         .frame(height: 60)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Colors.yellow, lineWidth: 2)
+                                .stroke(PackageColors.yellow, lineWidth: 2)
                         )
                         Spacer().frame(height: 12)
-                        CustomText(name: "Center the rectangle on the inarix card",textColor: Colors.yellow, alignment: .center, font: Fonts.regularFont12)
+                        PackageCustomText(name: "Center the rectangle on the inarix card",textColor: PackageColors.yellow, alignment: .center, font: PackageFonts.regularFont12)
                         Spacer().frame(height: 60)
-                        CustomText(name: "Get ready for the \( numberOfAdditionalClick == 2 ? "first" : "second") photo\n (\(2 - numberOfAdditionalClick)/2)", textColor: Colors.pureWhite,alignment: .center, font: Fonts.mediumFont20, multilineTextAlignment: .center)  .lineSpacing(4)
+                        PackageCustomText(name: "Get ready for the \( numberOfAdditionalClick == 2 ? "first" : "second") photo\n (\(2 - numberOfAdditionalClick)/2)", textColor: PackageColors.pureWhite,alignment: .center, font: PackageFonts.mediumFont20, multilineTextAlignment: .center)  .lineSpacing(4)
                         
-                        CustomText(name: "• Check if your sensor is clean\n• Adjust frame & focus \n• Show / hide interface", textColor: Colors.pureWhite, alignment: .center, font: Fonts.regularFont16, multilineTextAlignment: .center).lineSpacing(4)
+                        PackageCustomText(name: "• Check if your sensor is clean\n• Adjust frame & focus \n• Show / hide interface", textColor: PackageColors.pureWhite, alignment: .center, font: PackageFonts.regularFont16, multilineTextAlignment: .center).lineSpacing(4)
                         Spacer()
                         if !startButtonPressed {
-                            PrimaryButton(text: "Start") {
+                            PackagePrimaryButton(text: "Start") {
                                 startButtonPressed = true
                                 startCountDown = true
                             }

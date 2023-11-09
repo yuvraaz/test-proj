@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public class ImageModel: Codable {
+public class PackageImageModel: Codable {
     public let imageData: Data
     public var x: String?
     public var y: String?

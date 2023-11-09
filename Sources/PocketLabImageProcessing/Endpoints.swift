@@ -1,6 +1,6 @@
 import Foundation
 
-public struct APIRequest {
+public struct PackageAPIRequest {
     public let request: URLRequest
     public let endPoint: EndPoint
     
@@ -103,7 +103,7 @@ public enum EndPoint {
         }
     }
 
-    public func request(urlString: String, body: [String: Any]? = nil) -> APIRequest {
+    public func request(urlString: String, body: [String: Any]? = nil) -> PackageAPIRequest {
         let url = URL(string: urlString.replacingOccurrences(of: " ", with: "%20"))!
         debugPrint(url)
         var request = URLRequest(url: url)
@@ -126,10 +126,10 @@ public enum EndPoint {
         
         CurrentHeaderBodyParameter.body    = body
         CurrentHeaderBodyParameter.request = request
-        return APIRequest(request: request, endPoint: self)
+        return PackageAPIRequest(request: request, endPoint: self)
     }
 
-    public func request(body: [String: Any]? = nil) -> APIRequest {
+    public func request(body: [String: Any]? = nil) -> PackageAPIRequest {
         var urlString = GlobalConstants.baseUrl + "/" + path
         switch self {
         case .uploadImage: urlString = path

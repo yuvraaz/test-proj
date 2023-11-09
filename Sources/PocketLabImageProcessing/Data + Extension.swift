@@ -2,7 +2,7 @@
 //  Data + Extension.swift
 //
 //  Created by Amrit Duwal on 12/23/21.
-//  Copyright © 2021 View9. All rights reserved.
+//  Copyright © 2021 . All rights reserved.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 extension Data {
     
     /// convert data to json string
-    var jsonString: String? { //prettyPrintedBody
+    var packageJsonString: String? { //prettyPrintedBody
         guard
             let object = try? JSONSerialization.jsonObject(with: self, options: []),
             let prettyPrintedData = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),

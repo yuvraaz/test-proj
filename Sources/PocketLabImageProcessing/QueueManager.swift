@@ -7,7 +7,7 @@ public class QueueManager:  UploadImagesAPI {
     public static var shared = QueueManager()
     var currentScenarioStatus: ScenarioStatus = .notStarted
     
-    public func startScenario(imageModel: ImageModel?) {
+    public func startScenario(imageModel: PackageImageModel?) {
         currentScenarioStatus = .inProgress
         if let imageModelData = imageModel {
             GlobalConstants.KeyValues.activeImageUpload.append(imageModelData)
@@ -18,7 +18,7 @@ public class QueueManager:  UploadImagesAPI {
         processImageQueue()
     }
     
-    public func addImageToQueue(_ image: ImageModel) {
+    public func addImageToQueue(_ image: PackageImageModel) {
         if currentScenarioStatus == .inProgress {
             GlobalConstants.KeyValues.activeImageUpload.append(image)
         } else {
@@ -53,7 +53,7 @@ public class QueueManager:  UploadImagesAPI {
 // MARK : Network
 public extension QueueManager {
     
-    public func uploadImage(image: ImageModel) {
+    public func uploadImage(image: PackageImageModel) {
         uploadImage(image: image) { [weak self] imageInfo in
             self?.processImageUploadQueue()
         } failure: { [weak self] error in

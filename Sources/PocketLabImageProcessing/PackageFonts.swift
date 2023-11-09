@@ -2,35 +2,35 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public struct Fonts {
-    public static let regularFont10  = "regularFont10".font
-    public static let regularFont12  = "regularFont12".font
-    public static let regularFont14  = "regularFont14".font
-    public static let regularFont16  = "regularFont16".font
+public struct PackageFonts {
+    public static let regularFont10  = "regularFont10".packageFont
+    public static let regularFont12  = "regularFont12".packageFont
+    public static let regularFont14  = "regularFont14".packageFont
+    public static let regularFont16  = "regularFont16".packageFont
 
-    public static let mediumFont10   = "mediumFont10".font
-    public static let mediumFont12   = "mediumFont12".font
-    public static let mediumFont14   = "mediumFont14".font
-    public static let mediumFont16   = "mediumFont16".font
-    public static let mediumFont20   = "mediumFont20".font
+    public static let mediumFont10   = "mediumFont10".packageFont
+    public static let mediumFont12   = "mediumFont12".packageFont
+    public static let mediumFont14   = "mediumFont14".packageFont
+    public static let mediumFont16   = "mediumFont16".packageFont
+    public static let mediumFont20   = "mediumFont20".packageFont
     
-    public static let semiBoldFont14 = "semiBoldFont14".font
-    public static let semiBoldFont16 = "semiBoldFont16".font
+    public static let semiBoldFont14 = "semiBoldFont14".packageFont
+    public static let semiBoldFont16 = "semiBoldFont16".packageFont
     
-    public static let boldFont10     = "boldFont10".font
-    public static let boldFont12     = "boldFont12".font
-    public static let boldFont14     = "boldFont14".font
-    public static let boldFont16     = "boldFont16".font
-    public static let boldFont18     = "boldFont18".font
-    public static let boldFont20     = "boldFont20".font
-    public static let boldFont22     = "boldFont22".font
-    public static let boldFont26     = "boldFont26".font
-    public static let boldFont32     = "boldFont32".font
+    public static let boldFont10     = "boldFont10".packageFont
+    public static let boldFont12     = "boldFont12".packageFont
+    public static let boldFont14     = "boldFont14".packageFont
+    public static let boldFont16     = "boldFont16".packageFont
+    public static let boldFont18     = "boldFont18".packageFont
+    public static let boldFont20     = "boldFont20".packageFont
+    public static let boldFont22     = "boldFont22".packageFont
+    public static let boldFont26     = "boldFont26".packageFont
+    public static let boldFont32     = "boldFont32".packageFont
 }
 
 public extension String {
     
-    var font: Font {
+    var packageFont: Font {
         let fontSize: CGFloat = self.removeAlphabets.toCGFLoatPackage
         var font: Font?
 //        switch self {

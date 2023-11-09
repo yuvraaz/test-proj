@@ -1,17 +1,18 @@
 
+
 import UIKit
 import CoreLocation
 
-public struct GlobalConstants {
-    public static var baseUrl = "https://api.staging.inarix.com"
+struct GlobalConstants {
+     static var baseUrl = "https://api.staging.inarix.com"
     
-    public  struct Image {
-        public  static let placeholder: UIImage = UIImage(named: "logo") ?? UIImage()
+    struct Image {
+        static let placeholder: UIImage = UIImage(named: "logo") ?? UIImage()
     }
     
-    public  struct KeyValues {
+    struct KeyValues {
         
-        public static var remainingImageUpload: [ImageModel] {
+        static var remainingImageUpload: [PackageImageModel] {
             get {
                 return decode(key: "remainingImageUpload") ?? []
             }
@@ -20,7 +21,7 @@ public struct GlobalConstants {
             }
         }
         
-        public static var activeImageUpload: [ImageModel] {
+        static var activeImageUpload: [PackageImageModel] {
             get {
                 return decode(key: "remainingImageUpload") ?? []
             }
@@ -29,7 +30,7 @@ public struct GlobalConstants {
             }
         }
         
-        public static var token: Token? {
+        static var token: PackageToken? {
             get {
                 return decode(key: "token")
             }
@@ -39,7 +40,7 @@ public struct GlobalConstants {
         }
         
         
-        public  static func apiCache<T: Codable>(key: String) -> T? {
+        static func apiCache<T: Codable>(key: String) -> T? {
             let cache = UserDefaults.standard.dictionary(forKey: "URLCache") as? [String: Data]
             guard let data = cache?[key] else {return nil}
             do {
@@ -50,20 +51,20 @@ public struct GlobalConstants {
             }
         }
         
-        public  static func apiCache<T: Codable>(key: String, data: T) {
+        static func apiCache<T: Codable>(key: String, data: T) {
             var cache = (UserDefaults.standard.dictionary(forKey: "URLCache") as? [String: Data]) ?? [:]
             cache[key] = try? JSONEncoder().encode(data)
             UserDefaults.standard.set(cache, forKey: "URLCache")
         }
         
-        public  static  func encodeAndSave<T: Encodable>(key: String, value: T) {
+        static private func encodeAndSave<T: Encodable>(key: String, value: T) {
             if let encoded = try? JSONEncoder().encode(value) {
                 UserDefaults.standard.set(encoded, forKey: key)
             }
         }
         
         
-        public  static  func decode<T: Decodable>(key: String) -> T? {
+        static private func decode<T: Decodable>(key: String) -> T? {
             if let data = UserDefaults.standard.object(forKey: key) as? Data {
                 return try? JSONDecoder().decode(T.self, from: data)
             }
@@ -71,8 +72,8 @@ public struct GlobalConstants {
         }
     }
     
-    public  struct Error {
-        public static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
+    struct Error {
+        static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
 
         
         static var emptyData: NSError { NSError(domain: "Data Empty", code: 205, userInfo: [NSLocalizedDescriptionKey: "Data is Empty."])}
@@ -81,13 +82,13 @@ public struct GlobalConstants {
         static var tokenExpired: NSError { NSError(domain: "Unauthorized user", code: 500, userInfo: [NSLocalizedDescriptionKey: "Your session has expired"])}
     }
     
-    public struct Strings {
+    struct Strings {
         static var checkinSuccess: String = "CheckIn successful"
         static var bookSuccess: String = "Successful booked"
         static var supportMessageSuccess: String = "Your message was sent successfully. You will receive response on the email provided on your profile"
     }
     
-    public struct version {
+    struct version {
         static var appStoreVersion = ""
         static var apiAppVersion = 0.0
         static var majorUpdate = false
@@ -95,34 +96,32 @@ public struct GlobalConstants {
     }
 }
 
-public func appName() -> String {
-     let appName = Bundle.main.displayName ?? ""
+func appName() -> String {
+    let appName = Bundle.main.displayName ?? ""
     return "iOS\(appName.removeWhiteSpace)"
 }
 
-public func displayName() -> String {
+func displayName() -> String {
     return Bundle.main.displayName ?? ""
 }
 
-
-
-public struct UserLocation: Codable {
-    public  var lat: Double?
-    public  var Long: Double?
-    public  var annotation : String?
+struct UserLocation: Codable {
+    var lat: Double?
+    var Long: Double?
+    var annotation : String?
 }
 
-public struct CurrentHeaderBodyParameter {
+struct CurrentHeaderBodyParameter {
     static var request: URLRequest?
     static var body: [String: Any]?
 }
 
 
 
-public class SharedData {
+class SharedData {
     static var shared = SharedData()
      init() { }
-    public var token : Token?
-      var error : ErrorResponse?
+     var token : PackageToken?
+    var error : ErrorResponse?
     
 }

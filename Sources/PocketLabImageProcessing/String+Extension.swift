@@ -33,7 +33,7 @@ public extension String {
 //    func capitalizingFirstLetter() -> String {
 //        return prefix(1).capitalized + dropFirst()
 //    }
- public   var capitalizeFirstLetter : String {
+ public   var packageCapitalizeFirstLetter : String {
         return prefix(1).capitalized + dropFirst()
     }
     

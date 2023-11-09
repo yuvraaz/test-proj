@@ -10,17 +10,17 @@ import SwiftUI
 import AVFoundation
 
 
-public enum PocketLablEnvironment: String {
+public enum PackagePocketLabEnvironment: String {
     case development = "Development"
     case production  = "Production"
     case none        = "None"
 }
 
-public var environment: PocketLablEnvironment = .development
+public var environment: PackagePocketLabEnvironment = .development
 
 public class UploadImageViewModel: BaseViewModel, ObservableObject, UploadImagesAPI {
     
-    @Published public var data: ScenarioResponseParent?
+    @Published public var data: PackageScenarioResponseParent?
     @Published public var isBusy = false
     @Published public var error: Error?
     @Published public var tokenExpired = false
@@ -28,7 +28,7 @@ public class UploadImageViewModel: BaseViewModel, ObservableObject, UploadImages
     public let status = AVCaptureDevice.authorizationStatus(for: .video)
     public var showAlert: Bool?
     public var showSuccessAlert: Bool = false
-    public var imageInfo: ImageInfo?
+    public var imageInfo: PackageImageInfo?
     
     public func getData() {
         isBusy = true
@@ -40,7 +40,7 @@ public class UploadImageViewModel: BaseViewModel, ObservableObject, UploadImages
     }
     
     public func uploadImage(x: String, y: String, z: String, yaw: String, site: String, image: UIImage) {
-        let imageInfo = ImageModel(imageData: convertUIImageToDataWithCompression(image: image, compressionQuality: 1), x: x, y: y, z: z, yaw: yaw, site: site)
+        let imageInfo = PackageImageModel(imageData: convertUIImageToDataWithCompression(image: image, compressionQuality: 1), x: x, y: y, z: z, yaw: yaw, site: site)
         QueueManager.shared.startScenario(imageModel: imageInfo)
     }
     

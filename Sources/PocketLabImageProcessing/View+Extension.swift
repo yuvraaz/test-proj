@@ -30,17 +30,17 @@ struct ActivityIndicatorPackage: ViewModifier {
 
 public extension View {
     
-    public func activityIndicator(isLoading: Binding<Bool>) -> some View {
+    public func packageActivityIndicator(isLoading: Binding<Bool>) -> some View {
         modifier(ActivityIndicatorPackage(isLoading: isLoading))
     }
     
-    public func dismissKeyboard() {
+    public func PackageDismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
 public extension View {
-    public func placeholder<Content: View>(
+    public func packagePlaceholder<Content: View>(
         when shouldShow: Bool,
         alignment: Alignment = .leading,
         @ViewBuilder placeholder: () -> Content) -> some View {
@@ -58,7 +58,7 @@ extension View {
     /// - Parameters:
     ///   - view: View to navigate to.
     ///   - binding: Only navigates when this condition is `true`.
-    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>) -> some View {
+    func packageNavigate<NewView: View>(to view: NewView, when binding: Binding<Bool>) -> some View {
         NavigationView {
             ZStack {
                 self
@@ -82,13 +82,13 @@ extension View {
 }
 
 extension View {
-    func eraseToAnyView() -> AnyView {
+    func packageEraseToAnyView() -> AnyView {
         AnyView(self)
     }
 }
 
 extension RandomAccessCollection {
-    func indexed() -> Array<(offset: Int, element: Element)> {
+    func packageIndexed() -> Array<(offset: Int, element: Element)> {
         Array(enumerated())
     }
 }
@@ -96,7 +96,7 @@ extension RandomAccessCollection {
 
 // MARK: - Debugging -
 extension View {
-    public func _printingChanges() -> Self {
+    public func _packagePrintingChanges() -> Self {
         if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
             Self._printChanges()
             return self
@@ -107,7 +107,7 @@ extension View {
 }
 
 
-struct PrimaryLabel: ViewModifier {
+struct PackagePrimaryLabel: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
@@ -125,10 +125,10 @@ struct PrimaryLabel: ViewModifier {
 
 extension UIView {
     
-    func allSubviews() -> [UIView] {
+    func packageAllSubviews() -> [UIView] {
         var res = self.subviews
         for subview in self.subviews {
-            let riz = subview.allSubviews()
+            let riz = subview.packageAllSubviews()
             res.append(contentsOf: riz)
         }
         return res
@@ -136,32 +136,32 @@ extension UIView {
 }
 
 struct Tool {
-    static func hideNavigationBar() {
-        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.allSubviews().forEach({ (v) in
+    static func packageHideNavigationBar() {
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.packageAllSubviews().forEach({ (v) in
             if let view = v as? UINavigationBar {
                 view.isHidden = true
             }
         })
     }
     
-    static func showNavigationBar() {
-        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.allSubviews().forEach({ (v) in
+    static func packageShowNavigationBar() {
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.packageAllSubviews().forEach({ (v) in
             if let view = v as? UINavigationBar {
                 view.isHidden = false
             }
         })
     }
     
-    static func showTabBar() {
-        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.allSubviews().forEach({ (v) in
+    static func packageShowTabBar() {
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.packageAllSubviews().forEach({ (v) in
             if let view = v as? UITabBar {
                 view.isHidden = false
             }
         })
     }
     
-    static func hiddenTabBar() {
-        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.allSubviews().forEach({ (v) in
+    static func packageHiddenTabBar() {
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.packageAllSubviews().forEach({ (v) in
             if let view = v as? UITabBar {
                 view.isHidden = true
             }
@@ -169,38 +169,38 @@ struct Tool {
     }
 }
 
-struct ShowTabBar: ViewModifier {
+struct PackageShowTabBar: ViewModifier {
     func body(content: Content) -> some View {
         return content.padding(.zero).onAppear {
-            Tool.showTabBar()
+            Tool.packageShowTabBar()
         }
     }
 }
-struct HiddenTabBar: ViewModifier {
+struct PackageHiddenTabBar: ViewModifier {
     func body(content: Content) -> some View {
         return content.padding(.zero).onAppear {
-            Tool.hiddenTabBar()
+            Tool.packageHiddenTabBar()
         }
     }
 }
 
 
 extension View {
-    func showTabBar() -> some View {
-        return self.modifier(ShowTabBar())
+    func packageShowTabBar() -> some View {
+        return self.modifier(PackageShowTabBar())
     }
-    func hiddenTabBar() -> some View {
-        return self.modifier(HiddenTabBar())
+    func packageHiddenTabBar() -> some View {
+        return self.modifier(PackageHiddenTabBar())
     }
 }
 
 extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    func packageCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( PackageRoundedCorner(radius: radius, corners: corners) )
     }
 }
 
-struct RoundedCorner: Shape {
+struct PackageRoundedCorner: Shape {
     
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -223,21 +223,21 @@ extension View {
 }
 
 public extension View {
-    func hideKeyboard() {
+    func packageHideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
 extension View {
-    func countdownTimer(from startValue: Int, to endValue: Int, interval: TimeInterval = 1, completion: @escaping () -> Void = {}) -> some View {
+    func packageCountdownTimer(from startValue: Int, to endValue: Int, interval: TimeInterval = 1, completion: @escaping () -> Void = {}) -> some View {
         @State  var countdown = startValue
         
-        return self.modifier(CountdownModifier(countdown: $countdown, endValue: endValue, interval: interval, completion: completion))
+        return self.modifier(PackageCountdownModifier(countdown: $countdown, endValue: endValue, interval: interval, completion: completion))
     }
 }
 
 
-struct CountdownModifier: ViewModifier {
+struct PackageCountdownModifier: ViewModifier {
     @Binding var countdown: Int
     let endValue: Int
     let interval: TimeInterval
@@ -261,3 +261,4 @@ struct CountdownModifier: ViewModifier {
         }
     }
 }
+
