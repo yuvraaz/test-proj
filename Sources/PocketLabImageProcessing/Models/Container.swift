@@ -1,10 +1,5 @@
 //
 //  Container.swift
-//  Retail Pro
-//
-//  Created by Amrit Duwal 2018 on 2/13/20.
-//  Copyright © 2020 ekbana. All rights reserved.
-//
 
 import Foundation
 

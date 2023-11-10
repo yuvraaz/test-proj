@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct VarietyAnalysisOverView: View {
     var body: some View {
         NavigationView {
             ZStack {
@@ -108,7 +108,7 @@ struct SwiftUIView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIView()
+        VarietyAnalysisOverView()
     }
 }
 

@@ -18,9 +18,6 @@ struct PackagePrimaryButtonText: View {
                 alignment: .center,
                 font: font)
         .frame(maxWidth: .infinity, maxHeight: maxHeight)
-//        .if(!setGradient) { content in
-//            content.background(backgroundColor)
-//        }
         .if(setGradient) { content in
             content.background(
                 LinearGradient(

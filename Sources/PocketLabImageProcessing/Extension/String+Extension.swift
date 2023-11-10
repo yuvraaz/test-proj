@@ -1,11 +1,6 @@
 import UIKit
 
 public extension String {
-        //    var isEmail: Bool {
-        //        let emailTest = NSPredicate(format:"SELF MATCHES %@",  "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
-        //        return emailTest.evaluate(with: self)
-        //    }
-    
     var trimmed: String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
@@ -30,16 +25,10 @@ public extension String {
         return newstr
     }
     
-//    func capitalizingFirstLetter() -> String {
-//        return prefix(1).capitalized + dropFirst()
-//    }
  public   var packageCapitalizeFirstLetter : String {
         return prefix(1).capitalized + dropFirst()
     }
     
-//    mutating func capitalizeFirstLetter() {
-//        self = self.capitalizingFirstLetter()
-//    }
 }
 
 public extension String {

@@ -1,9 +1,6 @@
 //
 //  ImageDetail.swift
 //  PocketLab-iOS
-//
-//  Created by Amrit Duwal on 9/22/23.
-//
 
 import Foundation
 

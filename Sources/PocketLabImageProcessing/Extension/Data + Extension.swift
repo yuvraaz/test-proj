@@ -1,7 +1,6 @@
 //
 //  Data + Extension.swift
 //
-//  Created by Amrit Duwal on 12/23/21.
 //  Copyright © 2021 . All rights reserved.
 //
 

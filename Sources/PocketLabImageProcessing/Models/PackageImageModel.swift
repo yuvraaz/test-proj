@@ -1,9 +1,6 @@
 //
 //  ImageModel.swift
 //  PocketLab-iOS
-//
-//  Created by Amrit Duwal on 9/25/23.
-//
 
 import Foundation
 import UIKit
