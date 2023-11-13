@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-struct VarietyAnalysisOverView: View {
-    var body: some View {
-        NavigationView {
+public struct VarietyAnalysisOverView: View {
+    public init() {}
+    @State private var isUploadImageViewShown: Bool = false
+    public var body: some View {
+           NavigationView {
             ZStack {
                 if false {
                     ProgressView()
@@ -58,7 +60,11 @@ struct VarietyAnalysisOverView: View {
                                     }.frame(maxWidth: .infinity)
                                     VStack {
                                         PackageImageTextView(title: "Identification")
-                                        PackageImageTextView(title: "2 photos")
+                                        NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
+                                            PackageImageTextView(title: "2 photos")
+                                            
+                                        }
+                                     
                                         PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio")
                                         VStack {
                                             VStack(alignment: .leading) {
@@ -106,16 +112,16 @@ struct VarietyAnalysisOverView: View {
         }
     }
 
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        VarietyAnalysisOverView()
+public struct SwiftUIView_Previews: PreviewProvider {
+    public static var previews: some View {
+         VarietyAnalysisOverView()
     }
 }
 
-struct PackageImageTextView: View {
-    var title: String
-    var secondaryTitle: String?
-    var body: some View {
+public struct PackageImageTextView: View {
+    public var title: String
+    public var secondaryTitle: String?
+    public var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack {
@@ -143,10 +149,10 @@ struct PackageImageTextView: View {
 }
 
 
-struct TopCornerRadiusShape: Shape {
-    var radius: CGFloat
+public struct TopCornerRadiusShape: Shape {
+    public var radius: CGFloat
     
-    func path(in rect: CGRect) -> Path {
+    public func path(in rect: CGRect) -> Path {
         var path = Path()
         path.move(to: CGPoint(x: rect.minX, y: rect.minY + radius))
         path.addArc(center: CGPoint(x: rect.minX + radius, y: rect.minY + radius), radius: radius, startAngle: .degrees(180), endAngle: .degrees(90), clockwise: false)
