@@ -30,11 +30,11 @@ struct ActivityIndicatorPackage: ViewModifier {
 
 public extension View {
     
-    public func packageActivityIndicator(isLoading: Binding<Bool>) -> some View {
+     func packageActivityIndicator(isLoading: Binding<Bool>) -> some View {
         modifier(ActivityIndicatorPackage(isLoading: isLoading))
     }
     
-    public func PackageDismissKeyboard() {
+     func PackageDismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

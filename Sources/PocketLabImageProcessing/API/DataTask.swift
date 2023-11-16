@@ -1,8 +1,6 @@
 import Foundation
 
-class RefreshImplemenation: PackageRefreshTokenAPI {
-    
-}
+class RefreshImplemenation: PackageRefreshTokenAPI {}
 
 public class DataTaskAPICall: Equatable {
      let id = UUID()
@@ -72,6 +70,8 @@ public extension URLSession {
             }
         })
         
+//            MARK: uncomment to handle refresh token later
+        /*
         let currentDate = Date()
         
         // Create a Calendar instance
@@ -81,7 +81,8 @@ public extension URLSession {
         let fiveMinutes: TimeInterval = 30
         
         let userAccessTokenExpiryDate = currentDate.addingTimeInterval(fiveMinutes)
-      
+        
+        */
         
         if request.endPoint.needsAuthorization {
             if GlobalConstants.KeyValues.token?.token == nil {
@@ -92,6 +93,7 @@ public extension URLSession {
                 timerRunCount += 1
                 NotificationCenter.default.addObserver(self, selector: #selector(timerUpdate(_:)), name: .timer, object: nil)
             }
+//            MARK: uncomment to handle refresh token later
             //                        if userAccessTokenExpiryDate < Date() {
             //                            apiQueue.append(apiCall)
             //                            RefreshImplemenation().refreshToken(token: GlobalConstants.KeyValues.token?.token ?? "",success: { newToken in
@@ -104,14 +106,12 @@ public extension URLSession {
             
         }
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + (refreshApiIsLoading == true ? 3 : 0)) {
-            // This will be executed on the background queue after a 3.0 second delay
             apiCall.execute()
         }
         return apiCall
     }
 
     @objc func timerUpdate(_ notification: Notification) {
-         //        if let notification = notification.object as? Bool {
          timer?.invalidate()
      }
     
@@ -119,8 +119,6 @@ public extension URLSession {
         refreshApiIsLoading = true
         RefreshImplemenation().refreshToken(token: GlobalConstants.KeyValues.token?.token ?? "",success: { newToken in
             refreshApiIsLoading = false
-            print("refresh finished...\(String(describing: newToken.token))")
-            
             GlobalConstants.KeyValues.token?.token = newToken.access
             GlobalConstants.KeyValues.token?.access = newToken.access
             GlobalConstants.KeyValues.token?.latestRefreshedDate = Date()
@@ -129,8 +127,6 @@ public extension URLSession {
     
     @discardableResult
     func upload<T: Codable>(request: PackageAPIRequest, params: [String: Any], files: [PackageFile], success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> URLSessionUploadTask {
-        //        let url = URL(string: "http://api-host-name/v1/api/uploadfile/single")
-        
         let boundary = UUID().uuidString
         var urlRequest = request.request
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -209,7 +205,6 @@ public extension URLSession {
                         NotificationCenter.default.post(name: .logout, object: true)
                            }
                     return send(error: errorMessage(errorResponse: container))
-                    break
                 case 300...500 :
                     let container = try decoder.decode(ErrorResponse.self, from: data)
                     return send(error: errorMessage(errorResponse: container))

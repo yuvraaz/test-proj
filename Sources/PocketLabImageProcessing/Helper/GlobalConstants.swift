@@ -125,3 +125,10 @@ class SharedData {
     var error : ErrorResponse?
     
 }
+
+public enum AnnotationType {
+    case remoteId,
+    sampleId,
+    variety,
+    proteinRate
+}
