@@ -137,7 +137,7 @@ public struct PackageImageTextView: View {
                             .foregroundColor(PackageColors.pureBlack)
                         Image("plus", bundle: .module)
                     }
-                    if getHeight() == 30 {
+                    if getHeight() == 40 {
                         TickMarkView()
                     }
                 }
@@ -157,12 +157,12 @@ public struct PackageImageTextView: View {
         switch annotationType {
         case .remoteId, .variety, .proteinRate: return 58
         case .customRemoteId(_):
-            if varietyAnalysisCellType == .identification { return 30 }
+            if varietyAnalysisCellType == .identification { return 40 }
         case .customVariety(_):
-            if varietyAnalysisCellType == .exptectedVariety { return 30 }
+            if varietyAnalysisCellType == .exptectedVariety { return 40 }
         case .customRemoteIdAndVariety(_, _):
             switch varietyAnalysisCellType {
-            case .identification, .exptectedVariety: return 30
+            case .identification, .exptectedVariety: return 40
             default: return 58
             }
         default: return 58

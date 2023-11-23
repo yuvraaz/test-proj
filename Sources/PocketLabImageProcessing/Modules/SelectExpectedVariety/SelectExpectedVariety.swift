@@ -26,6 +26,20 @@ struct ContentView: View {
                     .onMove { from, to in
                         contacts.move(fromOffsets: from, toOffset: to)
                     }
+                    .swipeActions(edge: .leading) {
+                        Button(role: .destructive) {
+//                            onSwipeToPin()
+//                            pinnedContacts.remove(pinnedContact)
+                        } label: {
+                            Label("Pin", systemImage: "pin.slash.fill")
+                                     .font(.title)
+                                     .padding()
+                                     .foregroundColor(.white)
+                                     .background(Color.blue)
+                                     .cornerRadius(10)
+                        }
+
+                                     }
 //                    .onMove { from, to in
 ////                                        contacts.move(fromOffsets: from, toOffset: to)
 //                                    }
@@ -82,19 +96,20 @@ struct SwipeToPinCell<Content: View>: View {
             content
             
                 .swipeActions(edge: .leading) {
-                    Button(role: .destructive) {
+                    Button {
                         onSwipeToPin()
                     } label: {
-                        Label("Pin", systemImage: "pin")
-                                 .font(.title)
-                                 .padding()
-                                 .foregroundColor(.white)
-                                 .background(Color.blue)
-                                 .cornerRadius(10)
+                        Label("Pin", systemImage: "pin.fill")
+                            .foregroundColor(.white)
+                            .background(Color.blue)
+                            .font(.title)
+                            .padding()
+                            .cornerRadius(10)
                     }
-
-                                 }
-
+                    .tint(.blue)
+                    
+                }
+            
 
             HStack {
                 Spacer()
