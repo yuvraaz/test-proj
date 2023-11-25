@@ -63,10 +63,13 @@ public struct VarietyAnalysisOverView: View {
                                         PackageImageTextView(title: "Identification", annotationType: annotationType, varietyAnalysisCellType: .identification)
                                         NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
                                             PackageImageTextView(title: "2 photos", annotationType: annotationType, varietyAnalysisCellType: .photo)
-                                            
                                         }
-                                        
-                                        PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: annotationType, varietyAnalysisCellType: .exptectedVariety)
+                                        NavigationLink {
+                                            SelectExpectedVariety()
+                                        } label: {
+                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: annotationType, varietyAnalysisCellType: .exptectedVariety)
+                                        }
+                             
                                         VStack {
                                             VStack(alignment: .leading) {
                                                 HStack(alignment: .center) {
