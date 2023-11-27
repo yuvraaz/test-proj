@@ -7,7 +7,13 @@
 
 import SwiftUI
 
-
+// public enum SDKAnnotationType {
+//    case remoteId,variety,proteinRate,
+//         customRemoteId(id: String),
+//         customVariety(name: String),
+//         customProteinRate(percent: Double),
+//         customRemoteIdAndVariety(id: String,name: String)
+//}
 
 public enum VarietyAnalysisCellType {
     case identification,photo,exptectedVariety, analysis, note
@@ -15,15 +21,16 @@ public enum VarietyAnalysisCellType {
 
 
 public struct VarietyAnalysisOverView: View {
+
+    @State private var isUploadImageViewShown: Bool = false
+    public var scenarioId: Int
+    public var player: ScenarioPlayerComponent
     
-    public init(annotationType: AnnotationType, scenarioId: String) {
-        self.annotationType = annotationType
+    public init(player: ScenarioPlayerComponent, scenarioId: Int) {
+        self.player = player
         self.scenarioId = scenarioId
     }
     
-    @State private var isUploadImageViewShown: Bool = false
-    public var annotationType: AnnotationType
-    public var scenarioId: String
     public var body: some View {
         NavigationView {
             ZStack {
@@ -60,14 +67,14 @@ public struct VarietyAnalysisOverView: View {
                                         Spacer().frame(height: 12)
                                     }.frame(maxWidth: .infinity)
                                     VStack {
-                                        PackageImageTextView(title: "Identification", annotationType: annotationType, varietyAnalysisCellType: .identification)
+                                        PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification)
                                         NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
-                                            PackageImageTextView(title: "2 photos", annotationType: annotationType, varietyAnalysisCellType: .photo)
+                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo)
                                         }
                                         NavigationLink {
                                             SelectExpectedVariety()
                                         } label: {
-                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: annotationType, varietyAnalysisCellType: .exptectedVariety)
+                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety)
                                         }
                              
                                         VStack {
@@ -90,7 +97,7 @@ public struct VarietyAnalysisOverView: View {
                                             .cornerRadius(10)
                                             
                                         }
-                                        PackageImageTextView(title: "Notes", annotationType: annotationType, varietyAnalysisCellType: .note)
+                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note)
                                     }
                                     .padding(.horizontal, 16)
                                 }
@@ -118,14 +125,14 @@ public struct VarietyAnalysisOverView: View {
 
 public struct SwiftUIView_Previews: PreviewProvider {
     public static var previews: some View {
-        VarietyAnalysisOverView(annotationType: .customRemoteIdAndVariety(id: "test", name: "test"), scenarioId: "")
+        VarietyAnalysisOverView(player: ScenarioPlayerComponent(), scenarioId: 0)
     }
 }
 
 public struct PackageImageTextView: View {
     public var title: String
     public var secondaryTitle: String?
-    public var annotationType: AnnotationType
+    public var annotationType: AnnotationType?
     public var varietyAnalysisCellType: VarietyAnalysisCellType
     public var body: some View {
         VStack {

@@ -2,7 +2,7 @@ import Foundation
 
 public struct PackageAPIRequest {
     public let request: URLRequest
-    public let endPoint: EndPoint
+    public let endPoint: PackageEndPoint
     
     public func cache<T: Codable>(data: T) {
         if endPoint.shouldCache {
@@ -17,7 +17,7 @@ public struct PackageAPIRequest {
         return nil
     }
     
-    init(request: URLRequest, endPoint: EndPoint) {
+    init(request: URLRequest, endPoint: PackageEndPoint) {
         self.request = request
         self.endPoint = endPoint
     }
@@ -37,18 +37,20 @@ public struct PackageAPIRequest {
     
 }
 
-public enum EndPoint {
+public enum PackageEndPoint {
     case login
     case refresh
     case scenario
     case uploadImage
     case uploadImageStatus(fieldId: String)
     case getImageDetail(imageId: String)
-    case pastaction
     case sample
     case targetsample(pastActionId: String)
     case identification(sampleId: String)
     case acquisition
+    case pastAction
+    case createAquisition
+    case sampleRemoteId(id: String)
 
     public var path: String {
         switch self {
@@ -59,12 +61,13 @@ public enum EndPoint {
         case .uploadImageStatus(let fieldId): return "/samples/file-location/\(fieldId)"
         case .getImageDetail(let imageId): return "/samples/image/\(imageId)"
         case .scenario: return  "core/scenario?$eager=[latestScenarioInstance.[scenarioInstanceSteps.[labelTemplate,userFacingShortNameText.[localizedTexts.[locale]],predictionPostProcessingRule.[userFacingName.[localizedTexts.[locale]],userFacingIcon],userFacingInstructionText.[localizedTexts.[locale]]]],cerealType.[names]]&statusConstantId=35&isSystemScenario=false&lastScenarioInstanceId[$ne]=null&virtual=true"
-        case .pastaction: return "samples/past-action"
         case .sample: return "samples/sample"
         case .targetsample(let pastActionId): return "samples/past-action/\(pastActionId)"
         case .identification(let sampleId): return "samples/\(sampleId)"
         case .acquisition: return "samples/acquisition"
- 
+        case .pastAction: return "/samples/past-action"
+        case .createAquisition: return "/samples/acquisition"
+        case .sampleRemoteId(let id): return "/samples/sample/\(id)"
         }
     }
 
@@ -74,11 +77,11 @@ public enum EndPoint {
         case .scenario, .getImageDetail: return "GET"
         case .refresh: return "PUT"
         case .uploadImageStatus: return "PATCH"
-        case .pastaction: return "POST"
         case .sample: return "POST"
         case .targetsample: return "PATCH"
         case .identification: return "PATCH"
         case .acquisition: return "POST"
+        case .createAquisition, .sampleRemoteId: return "POST"
         default: return "GET"
         }
     }
@@ -94,11 +97,10 @@ public enum EndPoint {
         switch self {
         case .scenario, .getImageDetail, .uploadImage: return true
         case .refresh: return true
-        case .pastaction: return true
         case .sample: return true
         case .targetsample: return true
         case .identification: return true
-        case .acquisition: return true
+        case .acquisition, .pastAction: return true
          default: return false
         }
     }

@@ -1,0 +1,27 @@
+{
+    "id": "96256146-6a47-4bb2-81c6-7b6b9c59b4bb",
+    "originScenarioInstanceId": 747,
+    "creatorId": "06b2b44c-66d4-4506-8a63-ecdc032c675e",
+    "ownerOrgId": 2,
+    "userNotes": null,
+    "taintedAt": null,
+    "taintedBy": null,
+    "createdAt": "2023-08-29T22:06:35.675Z",
+    "updatedAt": "2023-08-29T22:11:22.329Z",
+    "running": true,
+    "abortedAt": null,
+    "endedAt": null,
+    "metadata": {
+        "osName": "",
+        "osVersion": "",
+        "appVersion": "3.3.1",
+        "manufacturer": ""
+    },
+    "orgGeoPointId": null,
+    "deviceId": null,
+    "targetSampleId": "f1dc7d78-c1bb-44aa-ba33-12c0f88a87d3",
+    "userFacingDeletion": false,
+    "userFacingNonValidated": false,
+    "userHiddenSuspiciousData": false,
+    "isNotAtDefaultLocation": null
+}

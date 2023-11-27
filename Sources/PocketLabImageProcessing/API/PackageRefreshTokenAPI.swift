@@ -10,7 +10,7 @@ public extension PackageRefreshTokenAPI {
         let data = [
             "token": token
         ]
-        let request = EndPoint.refresh.request(body: data)
+        let request = PackageEndPoint.refresh.request(body: data)
         urlSession.dataTask(request: request, success:success, failure: failure)
     }
 }

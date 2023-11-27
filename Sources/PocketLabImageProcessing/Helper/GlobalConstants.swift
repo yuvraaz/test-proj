@@ -126,10 +126,10 @@ class SharedData {
     
 }
 
-public enum AnnotationType {
-    case remoteId,variety,proteinRate,
-         customRemoteId(id: String),
-         customVariety(name: String),
-         customProteinRate(percent: Double),
-         customRemoteIdAndVariety(id: String,name: String)
-}
+//public enum AnnotationType {
+//    case remoteId,variety,proteinRate,
+//         customRemoteId(id: String),
+//         customVariety(name: String),
+//         customProteinRate(percent: Double),
+//         customRemoteIdAndVariety(id: String,name: String)
+//}

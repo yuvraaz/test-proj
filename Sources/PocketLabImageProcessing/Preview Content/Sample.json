@@ -1,0 +1,15 @@
+{
+    "id": "a1d62e07-1243-46ec-b6a0-c7a0c19a9305",
+    "remoteId": null,
+    "creatorId": "06b2b44c-66d4-4506-8a63-ecdc032c675e",
+    "ownerOrgId": 2,
+    "description": null,
+    "createdAt": "2023-08-28T14:08:16.206Z",
+    "updatedAt": "2023-08-28T14:08:16.206Z",
+    "taintedAt": null,
+    "originScenarioInstanceId": 747,
+    "originPastActionId": "b7ec764e-732a-4630-8b5d-f2df7c1345b8",
+    "userFacingDeletion": false,
+    "userFacingNonValidated": false,
+    "userHiddenSuspiciousData": false
+}

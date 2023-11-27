@@ -33,7 +33,7 @@ public extension UploadImagesAPI {
         params["yaw"] =  image.yaw
         params["captured_device"] = paramsOfCaptureDevice
         
-        let request = EndPoint.uploadImage.request(body: params)
+        let request = PackageEndPoint.uploadImage.request(body: params)
         let file = [URLSession.PackageFile(name: "image", fileName: "image.jpg", data: image.imageData, contentType: "image/jpeg")]
         urlSession.upload(request: request, params: params, files: file, success: success, failure: failure)
     }
@@ -43,7 +43,7 @@ public extension UploadImagesAPI {
         let data = [
             "isUploaded": true
         ]
-        let request = EndPoint.uploadImageStatus(fieldId: fieldId).request(body: data)
+        let request = PackageEndPoint.uploadImageStatus(fieldId: fieldId).request(body: data)
         urlSession.dataTask(request: request, success:success, failure: failure)
     }
     

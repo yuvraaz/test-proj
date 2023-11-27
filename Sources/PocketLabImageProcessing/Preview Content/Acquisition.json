@@ -1,0 +1,20 @@
+{
+    "id": "f9492018-f43b-4384-bbcb-1722ab240e73",
+    "sampleId": "2fd960f2-16f9-4fa7-b486-79ac1338e915",
+    "creatorId": "06b2b44c-66d4-4506-8a63-ecdc032c675e",
+    "ownerOrgId": 2,
+    "description": null,
+    "notifiedAt": null,
+    "createdAt": "2023-08-29T21:03:38.973Z",
+    "updatedAt": "2023-08-29T21:03:38.973Z",
+    "location": null,
+    "taintedAt": null,
+    "originScenarioInstanceId": 747,
+    "originPastActionId": "4910ddba-c701-4fed-a6a9-4fc7430020b0",
+    "taintedBy": null,
+    "orgGeoPointId": null,
+    "deviceId": null,
+    "userFacingDeletion": false,
+    "userFacingNonValidated": false,
+    "userHiddenSuspiciousData": false
+}
