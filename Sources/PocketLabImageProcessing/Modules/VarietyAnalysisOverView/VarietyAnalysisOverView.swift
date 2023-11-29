@@ -25,6 +25,8 @@ public struct VarietyAnalysisOverView: View {
     @State private var isUploadImageViewShown: Bool = false
     public var scenarioId: Int
     public var player: ScenarioPlayerComponent
+    @State private var indentificationCompleted = false
+    @State private var indentificationisCompleted = false
     
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
         self.player = player
@@ -67,14 +69,21 @@ public struct VarietyAnalysisOverView: View {
                                         Spacer().frame(height: 12)
                                     }.frame(maxWidth: .infinity)
                                     VStack {
-                                        PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification)
+                                        NavigationLink(destination: BannerScannerView(clicked: { code in
+//
+                                            self.updateData(sampleId: code)
+                                            
+                                        }), isActive: $indentificationCompleted) {
+                                            PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: $indentificationisCompleted)
+                                        }
+                        
                                         NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
-                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo)
+                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: .constant(false))
                                         }
                                         NavigationLink {
                                             SelectExpectedVariety()
                                         } label: {
-                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety)
+                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
                                         }
                              
                                         VStack {
@@ -97,7 +106,7 @@ public struct VarietyAnalysisOverView: View {
                                             .cornerRadius(10)
                                             
                                         }
-                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note)
+                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note, isCompleted: .constant(false))
                                     }
                                     .padding(.horizontal, 16)
                                 }
@@ -121,6 +130,10 @@ public struct VarietyAnalysisOverView: View {
             }
         }
     }
+    
+    func updateData(sampleId: String) {
+        indentificationisCompleted = true
+    }
 }
 
 public struct SwiftUIView_Previews: PreviewProvider {
@@ -134,6 +147,7 @@ public struct PackageImageTextView: View {
     public var secondaryTitle: String?
     public var annotationType: AnnotationType?
     public var varietyAnalysisCellType: VarietyAnalysisCellType
+    @Binding public var isCompleted: Bool
     public var body: some View {
         VStack {
             VStack(alignment: .leading) {
@@ -147,7 +161,8 @@ public struct PackageImageTextView: View {
                             .foregroundColor(PackageColors.pureBlack)
                         Image("plus", bundle: .module)
                     }
-                    if getHeight() == 40 {
+//                    if getHeight() == 40 {
+                    if isCompleted == true {
                         TickMarkView()
                     }
                 }
@@ -155,7 +170,7 @@ public struct PackageImageTextView: View {
             }
             .padding(10)
             .frame(maxWidth: .infinity)
-            .frame(height: getHeight())
+            .frame(height: isCompleted ? 40 : 58)
             .background(PackageColors.pureWhite)
             .cornerRadius(10)
             
