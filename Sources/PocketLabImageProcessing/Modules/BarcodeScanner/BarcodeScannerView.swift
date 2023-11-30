@@ -58,8 +58,10 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
         previewLayer.frame = viewController.view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
         viewController.view.layer.addSublayer(previewLayer)
-
-        session.startRunning()
+        DispatchQueue.global(qos: .userInitiated).async {
+            session.startRunning()
+              }
+        
 
         return viewController
     }
@@ -76,16 +78,13 @@ struct BannerScannerView: View {
     var clicked: ((String) -> Void)
     var body: some View {
         VStack {
-//            if let scannedCode = scannedCode {
-//                Text("Scanned Code: \(scannedCode)")
-//            } else {
+            GeometryReader { geometry in
                 ZStack {
                     BarcodeScannerView { code in
                     self.scannedCode = code
                         userInput = code
                         self.showAlert = true
                     }
-                    
                     // Dark overlay
                     Color.black.opacity(0.5)
                         .edgesIgnoringSafeArea(.all)
@@ -93,105 +92,90 @@ struct BannerScannerView: View {
                             // Handle tap gesture if needed
                         }
                     
-                    Color.black
-                                    .opacity(0.4)
+                    Color.black.opacity(0.4)
 
                     VStack {
-                        Spacer()
-                        Image(systemName: "qrcode.viewfinder")
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                            .foregroundColor(.white)
-                        Spacer().frame(height: 40)
-                        VStack {
-                            RoundedRectangle(cornerRadius: 12)
-                                     .stroke(Color.white, lineWidth: 2)
-                                     .frame(width: 250, height: 250)
-                                     .background(Color.clear)
-                              }
-                        Spacer().frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-                        HStack {
-                            Image(systemName: "keyboard.fill")
+                     
+                        if !isLandScape(geometry: geometry){
+                            Spacer()
+                            Image(systemName: "qrcode.viewfinder")
                                 .resizable()
-                                .frame(width: 60, height: 40)
+                                .frame(width: 60, height: 60)
                                 .foregroundColor(.white)
-                            Spacer().frame(width: 80)
-                            Image(systemName: "flashlight.off.fill")
-                                .resizable()
-                                .frame(width: 20, height: 40)
-                                .foregroundColor(.white)
+                            Spacer().frame(height: 40)
                         }
-                        Spacer()
-                        Button(action: {
-                            showAlert = true
-                        }, label: {
-                            Text("Generate identifier")
-                                .font(.headline)
-                                .frame(maxWidth: .infinity, minHeight: 45)
-                                .foregroundColor(PackageColors.blue)
-                                .background(PackageColors.darkGreyColor.opacity(0.6))
-                                .cornerRadius(6)
-                        })
-                        .padding()
+                        if isLandScape(geometry: geometry){
+                            Spacer()
+                        }
+                        
+                    
+                        HStack {
+                            if isLandScape(geometry: geometry){
+                                Spacer()
+                                VStack {
+                                    Image(systemName: "qrcode.viewfinder")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.white)
+                                    Spacer().frame(height: 40)
+                                    GenerateButtonView(showAlert: $showAlert)
+                                        .frame(width: 220)
+                                }
+                                Spacer().frame(width: 20)
+                            }
+                            
+                            VStack {
+                                RoundedRectangle(cornerRadius: 12)
+                                         .stroke(Color.white, lineWidth: 2)
+                                         .frame(width: isLandScape(geometry: geometry) ? 300 : 250, height:  isLandScape(geometry: geometry) ? 250 : 250)
+                                         .background(Color.clear)
+                                  }
+                            if isLandScape(geometry: geometry){
+                                KeyboardAndFlashView(geometry: geometry)
+                                    .frame(width: 220)
+                                Spacer()
+                            }
+                            
+                            
+                        }
+                        if isLandScape(geometry: geometry){
+                            Spacer()
+                        }
+                        
+                        if !isLandScape(geometry: geometry){
+                            Spacer().frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                            KeyboardAndFlashView(geometry: geometry)
+                            Spacer()
+                            GenerateButtonView(showAlert: $showAlert)
+                            Spacer().frame(height: 30)
+                        }
                       
-
                     }
-                    .ignoresSafeArea(.all)
-                 
-//                    Image(systemName: "flashlight.off.fill")
-                
-                 
-//                }
-          
-//                .alert(isPresented: $showAlert) {
-//                    Alert(
-//                        title: Text("QR Code Scanned"),
-//                        message: Text("Enter a value:"),
-//                        primaryButton: .default(Text("OK")) {
-//                            // Handle OK button tap
-//                            print("User input: \(userInput)")
-//                        },
-//                        secondaryButton: .cancel()
-//                    )
-//                    // Text field in the alert
-//                    {
-//                        TextField("Enter value", text: $userInput)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                    }
-//                }
-                
-//                .alert(isPresented: $showAlert, content: {
-//                        Alert(
-//                            title: Text("Enter Text"),
-//                            message: Text(""),
-//                            primaryButton: .default(Text("OK")) {
-//                                // Handle the text input here
-////                                print("Entered text: \($userInput)")
-//                            },
-//                            secondaryButton: .cancel()
-//                        )
-//                    
-//                    })
-                
-                .alert("Enter your name", isPresented: $showAlert) {
+                    .alert("Enter your name", isPresented: $showAlert) {
                          TextField("Sample ID", text: $userInput)
                          Button("OK", action: submit)
                      } message: {
                          Text("A unique identifier was generated for your sample.")
                      }
-       
-               
-//                .edgesIgnoringSafeArea(.all)
             }
+                }
+
         }
+        .ignoresSafeArea()
     }
     
+
     
     func submit() {
         clicked(userInput)
         presentationMode.wrappedValue.dismiss()
     }
 }
+
+func isLandScape(geometry: GeometryProxy) -> Bool {
+    return geometry.size.width > geometry.size.height
+}
+
 
 struct BannerScannerView_Previews: PreviewProvider {
     static var previews: some View {
@@ -210,5 +194,67 @@ struct BorderedView: View {
                      RoundedRectangle(cornerRadius: 12)
                          .stroke(Color.clear, lineWidth: 1)
                  )
+    }
+}
+
+struct KeyboardAndFlashView: View {
+   var geometry: GeometryProxy
+    var body: some View {
+        HStack {
+//            Image(systemName: "keyboard.fill")
+//                .resizable()
+//                .frame(width: 60, height: 40)
+//                .foregroundColor(.white)
+//            Spacer().frame(width: isLandScape(geometry: geometry) ? 60 : 80)
+//            Image(systemName: "flashlight.off.fill")
+//                .resizable()
+//                .frame(width: 20, height: 40)
+//                .foregroundColor(.white)
+            
+            let keyboardImage = Image(systemName: "keyboard.fill")
+                    .resizable()
+                    .frame(width: 60, height: 40)
+                    .foregroundColor(.white)
+                
+                let flashImage = Image(systemName: "flashlight.off.fill")
+                    .resizable()
+                    .frame(width: 20, height: 40)
+                    .foregroundColor(.white)
+                
+                if isLandScape(geometry: geometry) {
+                    VStack {
+                        keyboardImage
+                        
+                        Spacer().frame(height: 60)
+                        
+                        flashImage
+                    }
+                } else {
+                    HStack {
+                        keyboardImage
+                        
+                        Spacer().frame(width: 80)
+                        
+                        flashImage
+                    }
+                }
+        }
+    }
+}
+
+struct GenerateButtonView: View {
+    @Binding var showAlert: Bool
+    var body: some View {
+        Button(action: {
+            showAlert = true
+        }, label: {
+            Text("Generate identifier")
+                .font(.headline)
+                .frame(maxWidth: .infinity, minHeight: 45)
+                .foregroundColor(PackageColors.blue)
+                .background(PackageColors.darkGreyColor.opacity(0.2))
+                .cornerRadius(6)
+        })
+        .padding()
     }
 }
