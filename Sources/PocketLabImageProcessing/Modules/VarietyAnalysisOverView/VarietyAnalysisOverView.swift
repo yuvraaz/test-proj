@@ -28,6 +28,8 @@ public struct VarietyAnalysisOverView: View {
     @State private var indentificationCompleted = false
     @State private var indentificationisCompleted = false
     
+    @State private var isPopoverPresented = false
+    
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
         self.player = player
         self.scenarioId = scenarioId
@@ -80,11 +82,19 @@ public struct VarietyAnalysisOverView: View {
                                         NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
                                             PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: .constant(false))
                                         }
-                                        NavigationLink {
-                                            SelectExpectedVariety()
+                                        Button {
+                                            isPopoverPresented = true
                                         } label: {
                                             PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
+
                                         }
+
+                                        
+//                                        NavigationLink {
+//                                            SelectExpectedVariety()
+//                                        } label: {
+//                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
+//                                        }
                              
                                         VStack {
                                             VStack(alignment: .leading) {
@@ -129,6 +139,10 @@ public struct VarietyAnalysisOverView: View {
                 }
             }
         }
+        .popover(isPresented: $isPopoverPresented, content: {
+            // Content of the popover
+            SelectExpectedVariety()
+        })
     }
     
     func updateData(sampleId: String) {

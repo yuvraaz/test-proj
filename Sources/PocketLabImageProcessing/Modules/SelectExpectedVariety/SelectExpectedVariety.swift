@@ -62,6 +62,7 @@ struct SelectExpectedVariety: View {
                    
                 }
             }
+            .navigationBarTitle("Select Expected Variety", displayMode: .inline)
             .toolbar {
                         // 1
                         EditButton()
