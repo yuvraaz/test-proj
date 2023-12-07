@@ -13,8 +13,6 @@ var contacts = [
 struct SelectExpectedVariety: View {
     @State private var pinnedContacts: [Contact] = []
 
-   
-
     var body: some View {
         NavigationView {
             List {
@@ -47,7 +45,6 @@ struct SelectExpectedVariety: View {
 //                    .onMove(perform: movePinnedContact)
                 }
                 
-
                 Section(header: Text("All Varieties")) {
                     ForEach(contacts.filter { !pinnedContacts.contains($0) }) { contact in
                         SwipeToPinCell(content: {
