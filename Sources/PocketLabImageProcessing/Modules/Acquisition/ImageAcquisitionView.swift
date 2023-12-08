@@ -1,5 +1,5 @@
 //
-//  UploadImageView.swift
+//  ImageAcquisitionView.swift
 //  PocketLab-iOS
 //
 //  Created by Amrit Duwal on 9/19/23.
@@ -30,10 +30,10 @@ public struct PackageColors {
     
 }
 
-public struct UploadImageView: View {
+public struct ImageAcquisitionView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @StateObject public var viewModel = UploadImageViewModel()
+    @StateObject public var viewModel = ImageAcquisitionViewModel()
     
     @State public var distance : Float = 0.0
     @State public var capturePhoto : Bool = false
@@ -182,7 +182,7 @@ public struct UploadImageView_Previews: PreviewProvider {
         @State private var isVisible: Bool = true
 
         public var body: some View {
-            UploadImageView(isVisible: $isVisible)
+            ImageAcquisitionView(isVisible: $isVisible)
         }
     }
 }

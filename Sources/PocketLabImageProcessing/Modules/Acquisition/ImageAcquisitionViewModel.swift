@@ -18,7 +18,7 @@ public enum PackagePocketLabEnvironment: String {
 
 public var environment: PackagePocketLabEnvironment = .development
 
-public class UploadImageViewModel: BaseViewModel, ObservableObject, UploadImagesAPI {
+public class ImageAcquisitionViewModel: BaseViewModel, ObservableObject, UploadImagesAPI {
     
     @Published public var data: PackageScenarioResponseParent?
     @Published public var isBusy = false

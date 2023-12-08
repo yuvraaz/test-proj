@@ -79,7 +79,7 @@ public struct VarietyAnalysisOverView: View {
                                             PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: $indentificationisCompleted)
                                         }
                         
-                                        NavigationLink(destination: UploadImageView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
+                                        NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
                                             PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: .constant(false))
                                         }
                                         Button {
@@ -141,7 +141,7 @@ public struct VarietyAnalysisOverView: View {
         }
         .popover(isPresented: $isPopoverPresented, content: {
             // Content of the popover
-            SelectExpectedVariety()
+            DeclarationView()
         })
     }
     

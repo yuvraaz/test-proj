@@ -1,10 +1,10 @@
 import SwiftUI
 import AVFoundation
 
-struct BarcodeScannerView: UIViewControllerRepresentable {
+struct IdentificationView: UIViewControllerRepresentable {
     class Coordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-        var parent: BarcodeScannerView
-        init(parent: BarcodeScannerView) {
+        var parent: IdentificationView
+        init(parent: IdentificationView) {
             self.parent = parent
         }
 
@@ -49,7 +49,8 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
             session.addOutput(metadataOutput)
 
             metadataOutput.setMetadataObjectsDelegate(context.coordinator, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
+//            metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
+            metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417, .upce, .code128]
         } else {
             return viewController
         }
@@ -80,7 +81,7 @@ struct BannerScannerView: View {
         VStack {
             GeometryReader { geometry in
                 ZStack {
-                    BarcodeScannerView { code in
+                    IdentificationView { code in
                     self.scannedCode = code
                         userInput = code
                         self.showAlert = true
@@ -182,8 +183,6 @@ struct BannerScannerView_Previews: PreviewProvider {
         BannerScannerView( clicked: {_ in })
     }
 }
-
-
 
 struct BorderedView: View {
     var body: some View {

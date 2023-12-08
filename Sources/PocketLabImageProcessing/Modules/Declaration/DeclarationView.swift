@@ -10,7 +10,7 @@ var contacts = [
     // Add more contacts as needed
 ]
 
-struct SelectExpectedVariety: View {
+struct DeclarationView: View {
     @State private var pinnedContacts: [Contact] = []
 
     var body: some View {
@@ -180,7 +180,7 @@ struct ContactDetail: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectExpectedVariety()
+        DeclarationView()
     }
 }
 
