@@ -1,19 +1,11 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Amrit Duwal on 11/9/23.
 //
 
 import SwiftUI
-
-// public enum SDKAnnotationType {
-//    case remoteId,variety,proteinRate,
-//         customRemoteId(id: String),
-//         customVariety(name: String),
-//         customProteinRate(percent: Double),
-//         customRemoteIdAndVariety(id: String,name: String)
-//}
 
 public enum VarietyAnalysisCellType {
     case identification,photo,exptectedVariety, analysis, note
@@ -21,7 +13,7 @@ public enum VarietyAnalysisCellType {
 
 
 public struct VarietyAnalysisOverView: View {
-
+    
     @State private var isUploadImageViewShown: Bool = false
     public var scenarioId: Int
     public var player: ScenarioPlayerComponent
@@ -71,14 +63,14 @@ public struct VarietyAnalysisOverView: View {
                                         Spacer().frame(height: 12)
                                     }.frame(maxWidth: .infinity)
                                     VStack {
-                                        NavigationLink(destination: BannerScannerView(clicked: { code in
-//
+                                        NavigationLink(destination: IdentificationView(clicked: { code in
+                                            //
                                             self.updateData(sampleId: code)
                                             
                                         }), isActive: $indentificationCompleted) {
                                             PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: $indentificationisCompleted)
                                         }
-                        
+                                        
                                         NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
                                             PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: .constant(false))
                                         }
@@ -86,16 +78,8 @@ public struct VarietyAnalysisOverView: View {
                                             isPopoverPresented = true
                                         } label: {
                                             PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
-
+                                            
                                         }
-
-                                        
-//                                        NavigationLink {
-//                                            SelectExpectedVariety()
-//                                        } label: {
-//                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
-//                                        }
-                             
                                         VStack {
                                             VStack(alignment: .leading) {
                                                 HStack(alignment: .center) {
@@ -175,7 +159,6 @@ public struct PackageImageTextView: View {
                             .foregroundColor(PackageColors.pureBlack)
                         Image("plus", bundle: .module)
                     }
-//                    if getHeight() == 40 {
                     if isCompleted == true {
                         TickMarkView()
                     }
@@ -190,7 +173,7 @@ public struct PackageImageTextView: View {
             
         }
     }
-
+    
     
     func getHeight() -> (CGFloat) {
         switch annotationType {
@@ -210,11 +193,10 @@ public struct PackageImageTextView: View {
     }
 }
 
-
 public struct TickMarkView: View {
     public var defaultColor: Color = .green
     public var defaultSize: CGFloat = 24
-
+    
     public var body: some View {
         Image(systemName: "checkmark")
             .foregroundColor(defaultColor)
