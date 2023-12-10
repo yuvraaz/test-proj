@@ -1,10 +1,10 @@
 import SwiftUI
 import AVFoundation
 
-struct IdentificationView: UIViewControllerRepresentable {
+struct IdentificationRepresentableView: UIViewControllerRepresentable {
     class Coordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-        var parent: IdentificationView
-        init(parent: IdentificationView) {
+        var parent: IdentificationRepresentableView
+        init(parent: IdentificationRepresentableView) {
             self.parent = parent
         }
 
@@ -70,7 +70,7 @@ struct IdentificationView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
-struct BannerScannerView: View {
+struct IdentificationView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var scannedCode: String?
     @State private var showAlert = false
@@ -81,7 +81,7 @@ struct BannerScannerView: View {
         VStack {
             GeometryReader { geometry in
                 ZStack {
-                    IdentificationView { code in
+                    IdentificationRepresentableView { code in
                     self.scannedCode = code
                         userInput = code
                         self.showAlert = true
@@ -180,7 +180,7 @@ func isLandScape(geometry: GeometryProxy) -> Bool {
 
 struct BannerScannerView_Previews: PreviewProvider {
     static var previews: some View {
-        BannerScannerView( clicked: {_ in })
+        IdentificationView( clicked: {_ in })
     }
 }
 
