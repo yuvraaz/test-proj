@@ -2,77 +2,68 @@
 
 import SwiftUI
 
-var contacts = [
-    Contact(name: "Aprilio", jobTitle: "", profileImage: "", isOnline: true),
-    Contact(name: "Arezzo", jobTitle: "", profileImage: "", isOnline: false),
-    Contact(name: "Cprilio", jobTitle: "", profileImage: "", isOnline: true),
-    Contact(name: "Drezzo", jobTitle: "", profileImage: "", isOnline: false),
-    // Add more contacts as needed
-]
-
 struct DeclarationView: View {
-    @State private var pinnedContacts: [Contact] = []
-
+    @State private var pinnedContacts: [OptionalArray] = []
+    @StateObject private var viewModel = DeclarationViewModel()
+    
     var body: some View {
-        NavigationView {
+        Self._printChanges()
+        return NavigationView {
             List {
                 Section(header: Text("Pinned")) {
                     ForEach(pinnedContacts) { pinnedContact in
-                        ContactCard(contact: pinnedContact)
+                        varietyCard(optionalArray: pinnedContact)
                     }
                     .onDelete(perform: deletePinnedContact)
                     .onMove { from, to in
-                        contacts.move(fromOffsets: from, toOffset: to)
+                        viewModel.optionalArray.move(fromOffsets: from, toOffset: to)
                     }
                     .swipeActions(edge: .leading) {
                         Button(role: .destructive) {
-//                            onSwipeToPin()
-//                            pinnedContacts.remove(pinnedContact)
                         } label: {
                             Label("Pin", systemImage: "pin.slash.fill")
-                                     .font(.title)
-                                     .padding()
-                                     .foregroundColor(.white)
-                                     .background(Color.blue)
-                                     .cornerRadius(10)
+                                .font(.title)
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                                .cornerRadius(10)
                         }
-
-                                     }
-//                    .onMove { from, to in
-////                                        contacts.move(fromOffsets: from, toOffset: to)
-//                                    }
-
-//                    .onMove(perform: movePinnedContact)
+                    }
                 }
-                
                 Section(header: Text("All Varieties")) {
-                    ForEach(contacts.filter { !pinnedContacts.contains($0) }) { contact in
+                    ForEach(viewModel.optionalArray.filter { contact in
+                        !pinnedContacts.contains { pinnedContact in
+//                            pinnedContact.id == contact.id
+                            return pinnedContact.id == contact.id && pinnedContact.id != nil && contact.id != nil
+
+                        }
+                    }) { contact in
                         SwipeToPinCell(content: {
-//                            NavigationLink(destination: ContactDetail(contact: contact)) {
-                                ContactCard(contact: contact)
-//                            }
+                            varietyCard(optionalArray: contact)
                         }, onSwipeToPin: {
                             pinnedContacts.append(contact)
                         })
-                   
                     }
-                   
                 }
+                
+
+                
             }
             .navigationBarTitle("Select Expected Variety", displayMode: .inline)
             .toolbar {
-                        // 1
-                        EditButton()
-                    }
-//            .navigationBarItems(trailing: EditButton())
+                EditButton()
+            }
             .navigationTitle("")
         }
+        .onAppear() {
+            viewModel.getData()
+        }
     }
-
+    
     func deletePinnedContact(at offsets: IndexSet) {
         pinnedContacts.remove(atOffsets: offsets)
     }
-
+    
     func movePinnedContact(from source: IndexSet, to destination: Int) {
         pinnedContacts.move(fromOffsets: source, toOffset: destination)
     }
@@ -88,7 +79,7 @@ struct SwipeToPinCell<Content: View>: View {
         self.content = content()
         self.onSwipeToPin = onSwipeToPin
     }
-
+    
     var body: some View {
         ZStack {
             content
@@ -105,10 +96,7 @@ struct SwipeToPinCell<Content: View>: View {
                             .cornerRadius(10)
                     }
                     .tint(.blue)
-                    
                 }
-            
-
             HStack {
                 Spacer()
                 Image(systemName: "checkmark")
@@ -124,28 +112,28 @@ struct SwipeToPinCell<Content: View>: View {
                     }
             }
             .frame(height: 30)
-//            .offset(x: -20)
+            //            .offset(x: -20)
             .opacity(0.8)
         }
     }
 }
 
 struct PinnedContactCard: View {
-    var contact: Contact
-
+    var optionalArray: OptionalArray
+    
     var body: some View {
         HStack {
-            Image(contact.profileImage)
+            Image("")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
-
+            
             VStack(alignment: .leading) {
-                Text(contact.name)
+                Text(optionalArray.userValue ?? "")
                     .font(.headline)
             }
-
+            
             Spacer()
         }
         .padding(8)
@@ -154,27 +142,28 @@ struct PinnedContactCard: View {
 }
 
 struct ContactDetail: View {
-    var contact: Contact
-
+    var optionalArray: OptionalArray
+    
     var body: some View {
         VStack {
-            Image(contact.profileImage)
+            //            Image(contact.profileImage)
+            Image("")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(Circle())
                 .frame(width: 150, height: 150)
-
-            Text(contact.name)
+            
+            Text(optionalArray.userValue ?? "")
                 .font(.title)
-
-            Text(contact.jobTitle)
+            
+            Text(optionalArray.userValue ?? "")
                 .font(.headline)
                 .foregroundColor(.gray)
-
+            
             Spacer()
         }
         .padding()
-        .navigationTitle(contact.name)
+        .navigationTitle(optionalArray.userValue ?? "")
     }
 }
 
@@ -184,26 +173,18 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct Contact: Identifiable, Equatable {
-    var id = UUID()
-    var name: String
-    var jobTitle: String
-    var profileImage: String
-    var isOnline: Bool
-}
 
-struct ContactCard: View {
-    var contact: Contact
-
+struct varietyCard: View {
+    var optionalArray: OptionalArray
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text(contact.name)
+                    Text(optionalArray.userValue ?? "")
                         .font(.headline)
-
+                    
                 }
-
                 Spacer()
             }
             .padding(8)

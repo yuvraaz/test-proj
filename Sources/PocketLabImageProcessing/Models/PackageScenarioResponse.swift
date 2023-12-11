@@ -82,6 +82,8 @@ public struct PackageScenarioResponse: Codable {
 //    public let createdAt, updatedAt: String?
 //}
 
+
+
 // MARK: - LatestScenarioInstance
 public struct PackageLatestScenarioInstance: Codable {
     public let id: Int?
@@ -90,6 +92,7 @@ public struct PackageLatestScenarioInstance: Codable {
     public let createdAt, updatedAt: String?
     public let lastEditByUserID: Int?
     public let orgID: Int?
+    public let scenarioInstanceSteps: [ScenarioInstanceStep]?
 
     public enum CodingKeys: String, CodingKey {
         case id, status
@@ -97,6 +100,7 @@ public struct PackageLatestScenarioInstance: Codable {
         case createdAt, updatedAt
         case lastEditByUserID = "lastEditByUserId"
         case orgID = "orgId"
+        case scenarioInstanceSteps
     }
 }
 
@@ -171,7 +175,7 @@ public struct DeviceSpecificOverride: Codable {
 
 // MARK: - ConfigReplace
 public struct ConfigReplace: Codable {
-    public let crop: SubstitutionDictV2?
+//    public let crop: SubstitutionDictV2?
     public let nbImages: Int?
     public let imageQuality: Double?
     public let logToImageMetadata: ConfigReplaceLogToImageMetadata?
@@ -181,7 +185,8 @@ public struct ConfigReplace: Codable {
     public let flashMode: String?
 
     public enum CodingKeys: String, CodingKey {
-        case crop, nbImages, imageQuality
+//        case crop
+        case nbImages, imageQuality
         case logToImageMetadata = "log_to.image.metadata"
         case drawGuide = "draw-guide"
         case imageInterval
@@ -197,7 +202,25 @@ public struct AddUserGuideline: Codable {
 
 // MARK: - SubstitutionDictV2
 public struct SubstitutionDictV2: Codable {
+    public let optionalArray: [OptionalArray]?
 }
+
+// MARK: - OptionalArray
+//public struct OptionalArray: Codable, Identifiable {
+//    public let dataValue, userValue: String?
+//}
+
+public struct OptionalArray: Codable, Identifiable {
+    public var id: UUID? = UUID()
+    public let dataValue, userValue: String?
+
+    public init(id: UUID = UUID(), dataValue: String?, userValue: String?) {
+        self.id = id
+        self.dataValue = dataValue
+        self.userValue = userValue
+    }
+}
+
 
 // MARK: - DrawGuide
 public struct DrawGuide: Codable {
