@@ -21,7 +21,13 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
         
         if environment == .development {
             scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
-            optionalArray =   scenarioResponse?.data?.first?.latestScenarioInstance?.scenarioInstanceSteps?.first?.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray ?? []
+            optionalArray =   scenarioResponse?.data?.first(where: { packageScenarioResponse in
+                packageScenarioResponse.id == 600
+            })?
+                .latestScenarioInstance?.scenarioInstanceSteps?.first(where: { packageScenarioResponse in
+                    packageScenarioResponse.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray?.count != 0
+//                    packageScenarioResponse.id == 600
+                })?.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray ?? []
             optionalArray = optionalArray.map { element in
                 var mutableElement = element
                 mutableElement.id = UUID()

@@ -182,7 +182,19 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                    {
+                                        "dataValue" : "faro",
+                                        "userValue" : "Faro"
+                                    },
+                                    {
+                                        "dataValue" : "tosca",
+                                        "userValue" : "Tosca"
+                                    }
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -908,7 +920,19 @@
                                 "updatedAt": "2023-03-23T16:37:13.226Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                    {
+                                        "dataValue" : "faro",
+                                        "userValue" : "Faro"
+                                    },
+                                    {
+                                        "dataValue" : "tosca",
+                                        "userValue" : "Tosca"
+                                    }
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 510,
                                     "slug": "default-text-label-soft-wheat-variety-declared",
@@ -1779,7 +1803,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -2493,7 +2530,20 @@
                                 "updatedAt": "2023-03-23T16:37:13.226Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 510,
                                     "slug": "default-text-label-soft-wheat-variety-declared",
@@ -3365,7 +3415,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -3852,7 +3915,20 @@
                                 "updatedAt": "2023-03-02T16:56:27.256Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 530,
                                     "slug": "default-text-label-barley-dockage-category-a-b-mass-percentage",
@@ -3999,7 +4075,7 @@
             "id": 605,
             "name": "Enrichissement Variété d'orge",
             "description": "Help ramp-up varieties faster",
-            "status": 1,
+            "status": 1,4f277d90-1d99-4df8-874d-267b39483cc1
             "creatorId": "a84b7812-a4f9-4e08-b3ff-249f66c37f8e",
             "ownerOrgId": 32,
             "archivedAt": null,
@@ -4190,7 +4266,20 @@
                                 "updatedAt": "2023-03-08T16:24:25.590Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 500,
                                     "slug": "crop-origin",
@@ -4459,7 +4548,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -5327,7 +5429,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",
@@ -5779,7 +5894,7 @@
                             "mandatory": false
                         },
                         "hidden": false,
-                        "labelTemplateId": 102,
+                        "labelTemplateId": 102anie
                         "predictionPostProcessingRuleId": null,
                         "createdAt": "2020-12-02T16:28:18.196Z",
                         "updatedAt": "2023-02-24T09:53:19.457Z",
@@ -5926,7 +6041,20 @@
                                 "updatedAt": "2023-03-08T16:24:25.590Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 500,
                                     "slug": "crop-origin",
@@ -6682,7 +6810,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",
@@ -7269,7 +7410,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -8386,7 +8540,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",
@@ -9575,7 +9742,20 @@
                                 "updatedAt": "2023-03-08T16:24:25.590Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 500,
                                     "slug": "crop-origin",
@@ -9844,7 +10024,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -10712,7 +10905,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",
@@ -11298,7 +11504,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -12133,7 +12352,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",
@@ -13294,7 +13526,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -13530,7 +13775,20 @@
                                 "updatedAt": "2023-03-02T16:57:01.172Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 665,
                                     "slug": "default-text-label-sample-country-name",
@@ -13710,7 +13968,20 @@
                                 "updatedAt": "2023-05-02T21:47:40.255Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 693,
                                     "slug": "default-text-sample-id",
@@ -14033,7 +14304,20 @@
                                 "updatedAt": "2023-03-02T16:56:23.299Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 516,
                                     "slug": "default-text-label-barley-variety-lab",
@@ -14713,7 +14997,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -15367,7 +15664,20 @@
                                 "updatedAt": "2023-03-02T16:56:52.578Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 629,
                                     "slug": "default-text-label-seed-generation",
@@ -15599,7 +15909,20 @@
                                 "updatedAt": "2023-03-28T14:24:45.520Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 583,
                                     "slug": "default-text-label-img-reception-document",
@@ -15990,7 +16313,20 @@
                                 "updatedAt": "2023-03-02T16:56:22.682Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 513,
                                     "slug": "default-text-label-soft-wheat-variety-seed",
@@ -16403,7 +16739,20 @@
                                 "updatedAt": "2023-02-24T13:26:57.138Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 500,
                                     "slug": "crop-origin",
@@ -16672,7 +17021,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -17273,7 +17635,20 @@
                                 "updatedAt": "2023-03-14T16:35:44.715Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 645,
                                     "slug": "default-text-label-is-organic-culture",
@@ -18594,7 +18969,20 @@
                                 "updatedAt": "2023-04-18T15:09:52.536Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 539,
                                     "slug": "default-text-label-infrared-protein",
@@ -18808,7 +19196,20 @@
                                 "updatedAt": "2023-02-24T09:33:11.607Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 258,
                                     "slug": "sample-comment",
@@ -19490,7 +19891,20 @@
                                 "updatedAt": "2023-03-23T16:37:13.226Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 510,
                                     "slug": "default-text-label-soft-wheat-variety-declared",
@@ -20986,7 +21400,20 @@
                                 "updatedAt": "2023-06-17T08:26:51.546Z",
                                 "archivedAt": null,
                                 "labelInstanceMetadataSeed": null,
-                                "substitutionDictV2": {},
+                                "substitutionDictV2": {
+                                    "optionalArray" : [
+                                        {
+                                            "dataValue" : "faro",
+                                            "userValue" : "Faro"
+                                        },
+                                        {
+                                            "dataValue" : "tosca",
+                                            "userValue" : "Tosca"
+                                        }
+                                      
+                                    ]
+                                    
+                                },
                                 "userFacingName": {
                                     "id": 532,
                                     "slug": "default-text-label-barley-variety-declared",

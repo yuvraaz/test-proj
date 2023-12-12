@@ -45,9 +45,6 @@ struct DeclarationView: View {
                         })
                     }
                 }
-                
-
-                
             }
             .navigationBarTitle("Select Expected Variety", displayMode: .inline)
             .toolbar {
