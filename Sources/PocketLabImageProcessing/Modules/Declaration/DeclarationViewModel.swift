@@ -22,7 +22,7 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
         if environment == .development {
             scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
             optionalArray =   scenarioResponse?.data?.first(where: { packageScenarioResponse in
-                packageScenarioResponse.id == 600
+                packageScenarioResponse.id == 600  // 600 is scenarioId  
             })?
                 .latestScenarioInstance?.scenarioInstanceSteps?.first(where: { packageScenarioResponse in
                     packageScenarioResponse.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray?.count != 0
