@@ -15,6 +15,7 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
     public var showSuccessAlert: Bool = false
     @Published var optionalArray: [OptionalArray] = []
     @Published var scenarioResponse: PackageScenarioResponseParent?
+    @Published var selectedOptionalValue: OptionalArray?
     
     public func getData() {
         isBusy = true
@@ -22,11 +23,10 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
         if environment == .development {
             scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
             optionalArray =   scenarioResponse?.data?.first(where: { packageScenarioResponse in
-                packageScenarioResponse.id == 600  // 600 is scenarioId  
+                packageScenarioResponse.id == 600  // 600 is scenarioId
             })?
                 .latestScenarioInstance?.scenarioInstanceSteps?.first(where: { packageScenarioResponse in
                     packageScenarioResponse.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray?.count != 0
-//                    packageScenarioResponse.id == 600
                 })?.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray ?? []
             optionalArray = optionalArray.map { element in
                 var mutableElement = element
@@ -34,6 +34,10 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
                 return mutableElement
             }
             print(optionalArray)
+            if optionalArray.count == 0 {
+                optionalArray = [OptionalArray(dataValue: "tesco", userValue: "Tesco"), OptionalArray(dataValue: "faro", userValue: "Faro")]
+                
+            }
             self.isBusy = false
             return
         }

@@ -21,6 +21,7 @@ public struct VarietyAnalysisOverView: View {
     @State private var indentificationisCompleted = false
     
     @State private var isPopoverPresented = false
+    @State private var selectedVariety: OptionalArray? = nil
     
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
         self.player = player
@@ -68,16 +69,16 @@ public struct VarietyAnalysisOverView: View {
                                             self.updateData(sampleId: code)
                                             
                                         }), isActive: $indentificationCompleted) {
-                                            PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: $indentificationisCompleted)
+                                            PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
                                         }
                                         
                                         NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
-                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: .constant(false))
+                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
                                         }
                                         Button {
                                             isPopoverPresented = true
                                         } label: {
-                                            PackageImageTextView(title: "Expected variety", secondaryTitle: "Apprilio", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: .constant(false))
+                                            PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
                                             
                                         }
                                         VStack {
@@ -90,7 +91,6 @@ public struct VarietyAnalysisOverView: View {
                                                         PackageCustomText(name: "Please complete all steps above", textColor: PackageColors.pureBlack.opacity(0.4) , font: PackageFonts.regularFont12)
                                                     }
                                                     Spacer()
-                                                    
                                                 }
                                                 .frame(maxWidth: .infinity)
                                             }
@@ -100,7 +100,7 @@ public struct VarietyAnalysisOverView: View {
                                             .cornerRadius(10)
                                             
                                         }
-                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note, isCompleted: .constant(false))
+                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
                                     }
                                     .padding(.horizontal, 16)
                                 }
@@ -125,7 +125,9 @@ public struct VarietyAnalysisOverView: View {
         }
         .popover(isPresented: $isPopoverPresented, content: {
             // Content of the popover
-            DeclarationView()
+            DeclarationView(isPopoverPresented: $isPopoverPresented, dismissAction: { selectedVariety in
+                self.selectedVariety = selectedVariety
+            })
         })
     }
     
@@ -145,7 +147,7 @@ public struct PackageImageTextView: View {
     public var secondaryTitle: String?
     public var annotationType: AnnotationType?
     public var varietyAnalysisCellType: VarietyAnalysisCellType
-    @Binding public var isCompleted: Bool
+    public var isCompleted: Bool
     public var body: some View {
         VStack {
             VStack(alignment: .leading) {
@@ -154,10 +156,13 @@ public struct PackageImageTextView: View {
                     Text(title)
                         .foregroundColor(PackageColors.pureBlack)
                     Spacer()
-                    if let secondaryTitle = secondaryTitle {
+                    if let secondaryTitle = secondaryTitle, secondaryTitle != "" {
                         Text(secondaryTitle)
                             .foregroundColor(PackageColors.pureBlack)
-                        Image("plus", bundle: .module)
+                        if !isCompleted {
+                            Image("plus", bundle: .module)
+                        }
+                        
                     }
                     if isCompleted == true {
                         TickMarkView()
