@@ -22,7 +22,7 @@ public struct PackageCerealType: Codable {
         case names
     }
     
-    public var dictionaryRepresentation: [String: Any] {
+     var dictionaryRepresentation: [String: Any] {
         return [
             "id": id ?? 0,
             "generalName": generalName ?? "",
@@ -43,7 +43,7 @@ public struct PackageName: Codable {
     public let id, cerealTypeID: Int?
     public let name, locale: String?
     public let ownerOrgID: Int?
-    public  var createdAt, updatedAt: String?
+    public var createdAt, updatedAt: String?
 
     public enum CodingKeys: String, CodingKey {
         case id
@@ -127,8 +127,8 @@ public struct PackageScenarioResponse: Codable {
               "iconSalt": iconSalt ?? 0,
               "isSystemScenario": isSystemScenario ?? false,
               "statusConstantId": statusConstantID ?? 0,
-              "cerealType": PackageCerealType?.dictionaryRepresentation ?? [:],
-              "latestScenarioInstance": PackageLatestScenarioInstance?.dictionaryRepresentation ?? [:]
+//              "cerealType": PackageCerealType?.dictionaryRepresentation ?? [:],
+//              "latestScenarioInstance": PackageLatestScenarioInstance?.dictionaryRepresentation ?? [:]
           ]
       }
 }
@@ -357,10 +357,13 @@ public struct AddUserGuideline: Codable {
 
 // MARK: - SubstitutionDictV2
 public struct SubstitutionDictV2: Codable {
-    public var dictionaryRepresentation: [String: Any] {
-        // You can customize this based on the actual properties of SubstitutionDictV2
-        return [:]
-    }
+    public let optionalArray: [OptionalArray]?
+    
+    var dictionaryRepresentation: [String: Any] {
+           return [
+               "optionalArray": optionalArray?.map { $0.dictionaryRepresentation } ?? []
+           ]
+       }
 }
 
 // MARK: - DrawGuide
@@ -798,7 +801,7 @@ public struct V2LabelTemplate: Codable {
 
 // MARK: - GeneratedByLabelTemplateConfig
 public struct GeneratedByLabelTemplateConfig: Codable {
-    public  let id, slug, labelTemplateID: String?
+    public  var id, slug, labelTemplateID: String?
     public  let scopeOrgID: Int?
 //public    let scopeScenarioID, scopeScenarioStepID: JSONNull?
     public  let userFacingNameTextID: Int?
@@ -866,4 +869,23 @@ public struct GeneratedByLabelTemplateConfigSubstitutionDict: Codable {
             // Add more properties as needed
         ]
     }
+}
+
+public struct OptionalArray: Codable, Identifiable {
+    public var id: UUID? = UUID()
+    public let dataValue, userValue: String?
+
+    public init(id: UUID = UUID(), dataValue: String?, userValue: String?) {
+        self.id = id
+        self.dataValue = dataValue
+        self.userValue = userValue
+    }
+    
+    var dictionaryRepresentation: [String: Any] {
+           return [
+               "id": id?.uuidString ?? "",
+               "dataValue": dataValue ?? "",
+               "userValue": userValue ?? ""
+           ]
+       }
 }
