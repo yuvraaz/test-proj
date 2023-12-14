@@ -43,14 +43,14 @@ struct DeclarationView: View {
                     }) { variety in
                         SwipeToPinCell(content: {
                             varietyCard(optionalArray: variety)
-                                .onTapGesture {
-                                    print("viewModel.selectedOptionalValue")
-                                    viewModel.selectedOptionalValue = variety
-                                    refreshToggle.toggle()
-                                }
                         }, onSwipeToPin: {
                             pinnedContacts.append(variety)
                         }, isSelectedElement: isThisSelectedVariety(variety: variety))
+                        .onTapGesture {
+                            print("viewModel.selectedOptionalValue")
+                            viewModel.selectedOptionalValue = variety
+                            refreshToggle.toggle()
+                        }
                        
                     }
                 }
@@ -136,8 +136,6 @@ struct SwipeToPinCell<Content: View>: View {
                         .frame(width: 20, height: 20)
                         .padding(.horizontal, 0)
                 }
-  
-                   
             }
             .frame(height: 30)
             //            .offset(x: -20)
@@ -231,9 +229,11 @@ struct varietyCard: View {
                 VStack(alignment: .leading) {
                     Text(optionalArray.userValue ?? "")
                         .font(.headline)
+                    
                 }
                 Spacer()
             }
+            .background(Color.white)
             .padding(8)
             .frame(height: 20)
         }
