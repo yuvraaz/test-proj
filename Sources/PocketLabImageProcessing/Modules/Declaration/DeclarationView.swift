@@ -9,7 +9,6 @@ struct DeclarationView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Binding var isPopoverPresented: Bool
     var dismissAction: ((OptionalArray) -> Void)
-    
     var body: some View {
         Self._printChanges()
         return NavigationView {

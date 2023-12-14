@@ -22,6 +22,8 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
         
         if environment == .development {
             scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
+            
+            
             optionalArray =   scenarioResponse?.data?.first(where: { packageScenarioResponse in
                 packageScenarioResponse.id == 600  // 600 is scenarioId
             })?

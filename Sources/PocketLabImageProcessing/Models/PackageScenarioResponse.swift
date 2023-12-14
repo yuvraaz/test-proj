@@ -16,11 +16,26 @@ public struct PackageCerealType: Codable {
     public let textID: Int?
     public let names: [PackageName]?
 
-    enum CodingKeys: String, CodingKey {
+     enum CodingKeys: String, CodingKey {
         case id, generalName, slug, createdAt, updatedAt, iconForegroundHexColor, iconBackgroundHexColor
         case textID = "textId"
         case names
     }
+    
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id ?? 0,
+            "generalName": generalName ?? "",
+            "slug": slug ?? "",
+            "createdAt": createdAt ?? "",
+            "updatedAt": updatedAt ?? "",
+            "iconForegroundHexColor": iconForegroundHexColor ?? "",
+            "iconBackgroundHexColor": iconBackgroundHexColor ?? "",
+            "textId": textID ?? 0,
+            "names": names?.map { $0.dictionaryRepresentation } ?? []
+        ]
+    }
+    
 }
 //
 //// MARK: - Name
@@ -37,12 +52,33 @@ public struct PackageName: Codable {
         case ownerOrgID = "ownerOrgId"
         case createdAt, updatedAt
     }
+    
+    public var dictionaryRepresentation: [String: Any] {
+         return [
+             "id": id ?? 0,
+             "cerealTypeId": cerealTypeID ?? 0,
+             "name": name ?? "",
+             "locale": locale ?? "",
+             "ownerOrgId": ownerOrgID ?? 0,
+             "createdAt": createdAt ?? "",
+             "updatedAt": updatedAt ?? ""
+         ]
+     }
 }
 
 // MARK: - Welcome
 public struct PackageScenarioResponseParent: Codable {
     public let total, limit, skip: Int?
     public let data: [PackageScenarioResponse]?
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "total": total as Any,
+            "limit": limit as Any,
+            "skip": skip as Any,
+            "data": data?.map { $0.dictionaryRepresentation } ?? []
+        ]
+    }
 }
 
 // MARK: - Datum
@@ -72,6 +108,29 @@ public struct PackageScenarioResponse: Codable {
         case statusConstantID = "statusConstantId"
         case cerealType, latestScenarioInstance
     }
+    
+    
+    var dictionaryRepresentation: [String: Any] {
+          return [
+              "id": id ?? "",
+              "name": name ?? "",
+              "description": description ?? "",
+              "status": status ?? 0,
+              "creatorId": creatorID ?? "",
+              "ownerOrgId": ownerOrgID ?? 0,
+              "createdAt": createdAt ?? "",
+              "updatedAt": updatedAt ?? "",
+              "cerealTypeId": cerealTypeID ?? 0,
+              "lastScenarioInstanceId": lastScenarioInstanceID ?? 0,
+              "slug": slug ?? "",
+              "orderIndex": orderIndex ?? 0,
+              "iconSalt": iconSalt ?? 0,
+              "isSystemScenario": isSystemScenario ?? false,
+              "statusConstantId": statusConstantID ?? 0,
+              "cerealType": PackageCerealType?.dictionaryRepresentation ?? [:],
+              "latestScenarioInstance": PackageLatestScenarioInstance?.dictionaryRepresentation ?? [:]
+          ]
+      }
 }
 
 //// MARK: - CerealType
@@ -86,21 +145,36 @@ public struct PackageScenarioResponse: Codable {
 
 // MARK: - LatestScenarioInstance
 public struct PackageLatestScenarioInstance: Codable {
-    public let id: Int?
-    public let status: Int?
-    public let scenarioID: Int?
-    public let createdAt, updatedAt: String?
-    public let lastEditByUserID: Int?
-    public let orgID: Int?
-    public let scenarioInstanceSteps: [ScenarioInstanceStep]?
+  public let id, scenarioID: Int?
+    public  let creatorID: String?
+    public  let ownerOrgID: Int?
+//public    let deletedAt: JSONNull?
+    public  let createdAt, updatedAt: String?
+    public  let isArchived: Bool?
+    public  let steps: [String]?
+//public    let config: JSONNull?
+    public  let scenarioInstanceSteps: [ScenarioInstanceStep]?
 
-    public enum CodingKeys: String, CodingKey {
-        case id, status
+    enum CodingKeys: String, CodingKey {
+        case id
         case scenarioID = "scenarioId"
-        case createdAt, updatedAt
-        case lastEditByUserID = "lastEditByUserId"
-        case orgID = "orgId"
-        case scenarioInstanceSteps
+        case creatorID = "creatorId"
+        case ownerOrgID = "ownerOrgId"
+        case createdAt, updatedAt, isArchived, steps, scenarioInstanceSteps
+    }
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id ?? 0,
+            "scenarioId": scenarioID ?? 0,
+            "creatorId": creatorID ?? "",
+            "ownerOrgId": ownerOrgID ?? 0,
+            "createdAt": createdAt ?? "",
+            "updatedAt": updatedAt ?? "",
+            "isArchived": isArchived ?? false,
+            "steps": steps ?? [],
+            "scenarioInstanceSteps": scenarioInstanceSteps?.map { $0.dictionaryRepresentation } ?? []
+        ]
     }
 }
 
@@ -132,6 +206,30 @@ public struct ScenarioInstanceStep: Codable {
         case v2LabelTemplateID = "v2LabelTemplateId"
         case userFacingShortNameText, labelTemplate, predictionPostProcessingRule, v2LabelTemplate
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id ?? 0,
+            "slug": slug ?? "",
+            "screenSlug": screenSlug ?? "",
+            "description": description ?? "",
+            "config": config?.dictionaryRepresentation ?? [:],
+            "hidden": hidden ?? false,
+            "labelTemplateId": labelTemplateID ?? 0,
+            "predictionPostProcessingRuleId": predictionPostProcessingRuleID ?? 0,
+            "createdAt": createdAt ?? "",
+            "updatedAt": updatedAt ?? "",
+            "userFacingShortName": userFacingShortName ?? "",
+            "userFacingInstruction": userFacingInstruction ?? "",
+            "userFacingShortNameTextId": userFacingShortNameTextID ?? 0,
+            "v2LabelTemplateId": v2LabelTemplateID ?? "",
+            "userFacingShortNameText": userFacingShortNameText?.dictionaryRepresentation ?? [:],
+            "labelTemplate": labelTemplate?.dictionaryRepresentation ?? [:],
+            "predictionPostProcessingRule": predictionPostProcessingRule?.dictionaryRepresentation ?? [:],
+            "v2LabelTemplate": v2LabelTemplate?.dictionaryRepresentation ?? [:]
+            
+        ]
+    }
 }
 
 // MARK: - Config
@@ -155,11 +253,39 @@ public struct Config: Codable {
         case configRequired = "required"
         case manual, barCode, preference, autoGenerate, jumpToScenario
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "mandatory": mandatory ?? false,
+            "crop": crop?.dictionaryRepresentation ?? [:],
+            "nbImages": nbImages ?? 0,
+            "imageQuality": imageQuality ?? 0.0,
+            "imageInterval": imageInterval ?? 0,
+            "logToImageMetadata": logToImageMetadata?.dictionaryRepresentation ?? [:],
+            "deviceSpecificOverride": deviceSpecificOverride?.map { $0.dictionaryRepresentation } ?? [],
+            "configRequired": configRequired ?? false,
+            "manual": manual ?? false,
+            "barCode": barCode ?? false,
+            "preference": preference ?? "",
+            "autoGenerate": autoGenerate ?? false,
+            "jumpToScenario": jumpToScenario?.map { $0.dictionaryRepresentation } ?? []
+            
+        ]
+    }
 }
 
 // MARK: - Crop
 public struct Crop: Codable {
     public let width, height: Int?
+    
+    var dictionaryRepresentation: [String: Any] {
+          return [
+              "width": width as Any,
+              "height": height as Any
+              
+          ]
+      }
+    
 }
 
 // MARK: - DeviceSpecificOverride
@@ -167,15 +293,23 @@ public struct DeviceSpecificOverride: Codable {
     public let matching: Matching?
     public let configReplace: ConfigReplace?
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case matching
         case configReplace = "config-replace"
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+         return [
+             "matching": matching?.dictionaryRepresentation ?? [:],
+             "configReplace": configReplace?.dictionaryRepresentation ?? [:]
+             
+         ]
+     }
 }
 
 // MARK: - ConfigReplace
 public struct ConfigReplace: Codable {
-//    public let crop: SubstitutionDictV2?
+    public let crop: SubstitutionDictV2?
     public let nbImages: Int?
     public let imageQuality: Double?
     public let logToImageMetadata: ConfigReplaceLogToImageMetadata?
@@ -184,49 +318,65 @@ public struct ConfigReplace: Codable {
     public let addUserGuideline: AddUserGuideline?
     public let flashMode: String?
 
-    public enum CodingKeys: String, CodingKey {
-//        case crop
-        case nbImages, imageQuality
+    enum CodingKeys: String, CodingKey {
+        case crop, nbImages, imageQuality
         case logToImageMetadata = "log_to.image.metadata"
         case drawGuide = "draw-guide"
         case imageInterval
         case addUserGuideline = "add-user-guideline"
         case flashMode
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "crop": crop?.dictionaryRepresentation ?? [:],
+            "nbImages": nbImages as Any,
+            "imageQuality": imageQuality as Any,
+            "logToImageMetadata": logToImageMetadata?.dictionaryRepresentation ?? [:],
+            "drawGuide": drawGuide?.dictionaryRepresentation ?? [:],
+            "imageInterval": imageInterval as Any,
+            "addUserGuideline": addUserGuideline?.dictionaryRepresentation ?? [:],
+            "flashMode": flashMode as Any
+            
+        ]
+    }
 }
 
 // MARK: - AddUserGuideline
 public struct AddUserGuideline: Codable {
     public let de, en, fr: String?
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "de": de as Any,
+            "en": en as Any,
+            "fr": fr as Any
+        ]
+    }
 }
 
 // MARK: - SubstitutionDictV2
 public struct SubstitutionDictV2: Codable {
-    public let optionalArray: [OptionalArray]?
-}
-
-// MARK: - OptionalArray
-//public struct OptionalArray: Codable, Identifiable {
-//    public let dataValue, userValue: String?
-//}
-
-public struct OptionalArray: Codable, Identifiable {
-    public var id: UUID? = UUID()
-    public let dataValue, userValue: String?
-
-    public init(id: UUID = UUID(), dataValue: String?, userValue: String?) {
-        self.id = id
-        self.dataValue = dataValue
-        self.userValue = userValue
+    public var dictionaryRepresentation: [String: Any] {
+        // You can customize this based on the actual properties of SubstitutionDictV2
+        return [:]
     }
 }
-
 
 // MARK: - DrawGuide
 public struct DrawGuide: Codable {
     public let type: String?
     public let width, height: Int?
     public let position: String?
+    
+    var dictionaryRepresentation: [String: Any] {
+         return [
+             "type": type as Any,
+             "width": width as Any,
+             "height": height as Any,
+             "position": position as Any
+         ]
+     }
 }
 
 // MARK: - ConfigReplaceLogToImageMetadata
@@ -234,29 +384,44 @@ public struct ConfigReplaceLogToImageMetadata: Codable {
     public let deviceType, acquisitionType: String?
     public let expectedDistance: Double?
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case deviceType = "device_type"
         case acquisitionType = "acquisition_type"
         case expectedDistance = "expected_distance"
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+           return [
+               "deviceType": deviceType as Any,
+               "acquisitionType": acquisitionType as Any,
+               "expectedDistance": expectedDistance as Any
+           ]
+       }
 }
 
 // MARK: - Matching
 public struct Matching: Codable {
-    public  let deviceModelName: DeviceModelName?
-    public  let deviceManufacturer: String?
+    public let deviceModelName: DeviceModelName?
+    public let deviceManufacturer: String?
 
     enum CodingKeys: String, CodingKey {
         case deviceModelName = "Device.modelName"
         case deviceManufacturer = "Device.manufacturer"
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+         return [
+             "deviceModelName": deviceModelName?.dictionaryRepresentation ?? [:],
+             "deviceManufacturer": deviceManufacturer as Any
+         ]
+     }
 }
 
 public enum DeviceModelName: Codable {
     case string(String)
     case stringArray([String])
 
-    public init(from decoder: Decoder) throws {
+    public  init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let x = try? container.decode([String].self) {
             self = .stringArray(x)
@@ -278,6 +443,15 @@ public enum DeviceModelName: Codable {
             try container.encode(x)
         }
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+        switch self {
+        case .string(let value):
+            return ["value": value]
+        case .stringArray(let values):
+            return ["values": values]
+        }
+    }
 }
 
 // MARK: - JumpToScenario
@@ -290,25 +464,55 @@ public struct JumpToScenario: Codable {
     public let endOfRecursionCommentExplanation: EndOfRecursionCommentExplanation?
     public let scenarioID: Int?
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case jumpType, jumpTitle, jumpMessage, jumpButtonName, conditionPredValue, selfChainRetriesLimit, ignorePreviousDeclarations, endOfRecursionCommentExplanation
         case scenarioID = "scenarioId"
+    }
+    
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "jumpType": jumpType as Any,
+            "jumpTitle": jumpTitle?.dictionaryRepresentation ?? [:],
+            "jumpMessage": jumpMessage?.dictionaryRepresentation ?? [:],
+            "jumpButtonName": jumpButtonName?.dictionaryRepresentation ?? [:],
+            "conditionPredValue": conditionPredValue as Any,
+            "selfChainRetriesLimit": selfChainRetriesLimit as Any,
+            "ignorePreviousDeclarations": ignorePreviousDeclarations as Any,
+            "endOfRecursionCommentExplanation": endOfRecursionCommentExplanation?.dictionaryRepresentation ?? [:],
+            "scenarioID": scenarioID as Any
+        ]
     }
 }
 
 // MARK: - EndOfRecursionCommentExplanation
 public struct EndOfRecursionCommentExplanation: Codable {
     public let en, fr: String?
+    
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "en": en as Any,
+            "fr": fr as Any
+        ]
+    }
+
 }
 
 // MARK: - ConfigLogToImageMetadata
 public struct ConfigLogToImageMetadata: Codable {
-    public let deviceType, acquisitionType: String?
+    public  let deviceType, acquisitionType: String?
 
     public enum CodingKeys: String, CodingKey {
         case deviceType = "device_type"
         case acquisitionType = "acquisition_type"
     }
+    
+    public var dictionaryRepresentation: [String: Any] {
+         return [
+             "deviceType": deviceType as Any,
+             "acquisitionType": acquisitionType as Any
+         ]
+     }
 }
 
 // MARK: - LabelTemplate
@@ -318,9 +522,9 @@ public struct LabelTemplate: Codable {
     public let ownerOrgID: Int?
     public let property, description: String?
     public let typeID: Int?
-// public   let unit: JSONNull?
+//  public   let unit: JSONNull?
     public let possibleClasses: [String]?
-// public   let valueBounds: JSONNull?
+//  public   let valueBounds: JSONNull?
     public let createdAt, updatedAt, customerFacingName: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -331,6 +535,22 @@ public struct LabelTemplate: Codable {
         case typeID = "typeId"
         case possibleClasses, createdAt, updatedAt, customerFacingName
     }
+    
+    public var dictionaryRepresentation: [String: Any] {
+         return [
+             "id": id as Any,
+             "slug": slug as Any,
+             "creatorID": creatorID as Any,
+             "ownerOrgID": ownerOrgID as Any,
+             "property": property as Any,
+             "description": description as Any,
+             "typeID": typeID as Any,
+             "possibleClasses": possibleClasses as Any,
+             "createdAt": createdAt as Any,
+             "updatedAt": updatedAt as Any,
+             "customerFacingName": customerFacingName as Any
+         ]
+     }
 }
 
 // MARK: - PredictionPostProcessingRule
@@ -344,7 +564,7 @@ public struct PredictionPostProcessingRule: Codable {
     public let createdAt, updatedAt: String?
     public let advancedProcessingConfig: AdvancedProcessingConfig?
     public let userFacingNameTextID: Int?
-//   public   let shadowAdvProcessingConfig: JSONNull?
+     //    let shadowAdvProcessingConfig: JSONNull?
     public let userFacingIconConstantID: Int?
     public let userFacingName: UserFacing?
     public let userFacingIcon: UserFacingIcon?
@@ -360,6 +580,25 @@ public struct PredictionPostProcessingRule: Codable {
         case userFacingIconConstantID = "userFacingIconConstantId"
         case userFacingName, userFacingIcon
     }
+    
+    public var dictionaryRepresentation: [String: Any] {
+          return [
+              "id": id as Any,
+              "slug": slug as Any,
+              "customerFacingName": customerFacingName as Any,
+              "substitutionDict": substitutionDict?.dictionaryRepresentation ?? [:],
+              "advancedProcessingID": advancedProcessingID as Any,
+              "creatorID": creatorID as Any,
+              "ownerOrgID": ownerOrgID as Any,
+              "createdAt": createdAt as Any,
+              "updatedAt": updatedAt as Any,
+              "advancedProcessingConfig": advancedProcessingConfig?.dictionaryRepresentation ?? [:],
+              "userFacingNameTextID": userFacingNameTextID as Any,
+              "userFacingIconConstantID": userFacingIconConstantID as Any,
+              "userFacingName": userFacingName?.dictionaryRepresentation ?? [:],
+              "userFacingIcon": userFacingIcon?.dictionaryRepresentation ?? [:]
+          ]
+      }
 }
 
 // MARK: - AdvancedProcessingConfig
@@ -371,20 +610,42 @@ public struct AdvancedProcessingConfig: Codable {
     public let floatPrecision: Int?
     public let exportedMeasureName: String?
     public let minGrainCountPerImage: Int?
+
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "unit": unit as Any,
+            "thresholds": thresholds?.map { $0.dictionaryRepresentation } ?? [],
+            "useRounding": useRounding as Any,
+            "minConfidence": minConfidence as Any,
+            "floatPrecision": floatPrecision as Any,
+            "exportedMeasureName": exportedMeasureName as Any,
+            "minGrainCountPerImage": minGrainCountPerImage as Any
+            // Add more properties as needed
+        ]
+    }
 }
 
 // MARK: - Threshold
 public struct Threshold: Codable {
-    public  let lowerBound, upperBound: Double?
+    public let lowerBound, upperBound: Double?
     public let displayName: String?
 //    let exportedValue: JSONNull?
+    
+    public  var dictionaryRepresentation: [String: Any] {
+        return [
+            "lowerBound": lowerBound as Any,
+            "upperBound": upperBound as Any,
+            "displayName": displayName as Any
+            // Add more properties as needed
+        ]
+    }
 }
 
 // MARK: - PredictionPostProcessingRuleSubstitutionDict
 public struct PredictionPostProcessingRuleSubstitutionDict: Codable {
     public let notRecognised, substitutionDictNotRecognised, badAcquisition, substitutionDictBadAcquisition: String?
     public let badAcquisitionTooFar, substitutionDictBadAcquisitionTooFar, badAcquisitionTooClose, substitutionDictBadAcquisitionTooClose: String?
-    public let riskMix, substitutionDictRiskMix: String?
+    public  let riskMix, substitutionDictRiskMix: String?
 
     public enum CodingKeys: String, CodingKey {
         case notRecognised = "not-recognised"
@@ -398,6 +659,22 @@ public struct PredictionPostProcessingRuleSubstitutionDict: Codable {
         case riskMix = "risk-mix"
         case substitutionDictRiskMix = "risk_mix"
     }
+    
+    public  var dictionaryRepresentation: [String: Any] {
+        return [
+            "notRecognised": notRecognised as Any,
+            "substitutionDictNotRecognised": substitutionDictNotRecognised as Any,
+            "badAcquisition": badAcquisition as Any,
+            "substitutionDictBadAcquisition": substitutionDictBadAcquisition as Any,
+            "badAcquisitionTooFar": badAcquisitionTooFar as Any,
+            "substitutionDictBadAcquisitionTooFar": substitutionDictBadAcquisitionTooFar as Any,
+            "badAcquisitionTooClose": badAcquisitionTooClose as Any,
+            "substitutionDictBadAcquisitionTooClose": substitutionDictBadAcquisitionTooClose as Any,
+            "riskMix": riskMix as Any,
+            "substitutionDictRiskMix": substitutionDictRiskMix as Any
+            // Add more properties as needed
+        ]
+    }
 }
 
 // MARK: - UserFacingIcon
@@ -406,6 +683,18 @@ public struct UserFacingIcon: Codable {
     public let value: String?
     public let originTableName: UserFacingIconOriginTableName?
     public let createdBy, createdAt, updatedAt: String?
+    
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id as Any,
+            "value": value as Any,
+            "originTableName": originTableName?.rawValue as Any,
+            "createdBy": createdBy as Any,
+            "createdAt": createdAt as Any,
+            "updatedAt": updatedAt as Any
+            // Add more properties as needed
+        ]
+    }
 }
 
 public enum UserFacingIconOriginTableName: String, Codable {
@@ -421,6 +710,18 @@ public struct UserFacing: Codable {
     public let originTableName: UserFacingShortNameTextOriginTableName?
     public let createdAt, updatedAt: String?
     public let localizedTexts: [LocalizedText]?
+    
+    var dictionaryRepresentation: [String: Any] {
+         return [
+             "id": id as Any,
+             "slug": slug as Any,
+             "originTableName": originTableName?.rawValue as Any,
+             "createdAt": createdAt as Any,
+             "updatedAt": updatedAt as Any,
+             "localizedTexts": localizedTexts?.map { $0.dictionaryRepresentation } ?? []
+             // Add more properties as needed
+         ]
+     }
 }
 
 // MARK: - LocalizedText
@@ -430,11 +731,25 @@ public struct LocalizedText: Codable {
     public let translation, createdAt, updatedAt: String?
     public let locale: UserFacingIcon?
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case textID = "textId"
         case localeConstantID = "localeConstantId"
         case translation, createdAt, updatedAt, locale
+    }
+    
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id as Any,
+            "textID": textID as Any,
+            "localeConstantID": localeConstantID as Any,
+            "translation": translation as Any,
+            "createdAt": createdAt as Any,
+            "updatedAt": updatedAt as Any,
+            "locale": locale?.dictionaryRepresentation ?? [:]
+            // Add more properties as needed
+        ]
     }
 }
 
@@ -446,16 +761,16 @@ public enum UserFacingShortNameTextOriginTableName: String, Codable {
 
 // MARK: - V2LabelTemplate
 public struct V2LabelTemplate: Codable {
-    public let generatedByLabelTemplateConfig: GeneratedByLabelTemplateConfig?
-//  public   let labelInstanceMetadataSeed: JSONNull?
-    public let labelTemplateID, labelTemplateVersionID: String?
-    public let possibleClasses: [String]?
-//  public   let valueBounds: JSONNull?
-    public let typeConstantID, scopeConstantID: Int?
-    public let type, scope: UserFacingIcon?
-    public let unit: String?
+    public  let generatedByLabelTemplateConfig: GeneratedByLabelTemplateConfig?
+//public    let labelInstanceMetadataSeed: JSONNull?
+    public  let labelTemplateID, labelTemplateVersionID: String?
+    public  let possibleClasses: [String]?
+//public    let valueBounds: JSONNull?
+    public  let typeConstantID, scopeConstantID: Int?
+    public  let type, scope: UserFacingIcon?
+    public  let unit: String?
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case generatedByLabelTemplateConfig
         case labelTemplateID = "labelTemplateId"
         case labelTemplateVersionID = "labelTemplateVersionId"
@@ -464,29 +779,62 @@ public struct V2LabelTemplate: Codable {
         case scopeConstantID = "scopeConstantId"
         case type, scope, unit
     }
+    
+    var dictionaryRepresentation: [String: Any] {
+        return [
+            "generatedByLabelTemplateConfig": generatedByLabelTemplateConfig?.dictionaryRepresentation ?? [:],
+            "labelTemplateID": labelTemplateID as Any,
+            "labelTemplateVersionID": labelTemplateVersionID as Any,
+            "possibleClasses": possibleClasses as Any,
+            "typeConstantID": typeConstantID as Any,
+            "scopeConstantID": scopeConstantID as Any,
+            "type": type?.dictionaryRepresentation ?? [:],
+            "scope": scope?.dictionaryRepresentation ?? [:],
+            "unit": unit as Any
+            // Add more properties as needed
+        ]
+    }
 }
 
 // MARK: - GeneratedByLabelTemplateConfig
 public struct GeneratedByLabelTemplateConfig: Codable {
-    public let id, slug, labelTemplateID: String?
-    public let scopeOrgID: Int?
-//  public   let scopeScenarioID, scopeScenarioStepID: JSONNull?
-    public let userFacingNameTextID: Int?
-    public let substitutionDict: GeneratedByLabelTemplateConfigSubstitutionDict?
-//  public   let valueFormater: JSONNull?
-    public let createdBy, updatedBy: String?
-//  public   let archivedBy: JSONNull?
-    public let createdAt, updatedAt: String?
-//  public   let archivedAt, labelInstanceMetadataSeed: JSONNull?
-    public let substitutionDictV2: SubstitutionDictV2?
-    public let userFacingName: UserFacing?
+    public  let id, slug, labelTemplateID: String?
+    public  let scopeOrgID: Int?
+//public    let scopeScenarioID, scopeScenarioStepID: JSONNull?
+    public  let userFacingNameTextID: Int?
+    public  let substitutionDict: GeneratedByLabelTemplateConfigSubstitutionDict?
+//public    let valueFormater: JSONNull?
+    public  let createdBy, updatedBy: String?
+//public    let archivedBy: JSONNull?
+    public  let createdAt, updatedAt: String?
+//public    let archivedAt, labelInstanceMetadataSeed: JSONNull?
+    public  let substitutionDictV2: SubstitutionDictV2?
+    public  let userFacingName: UserFacing?
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id, slug
         case labelTemplateID = "labelTemplateId"
         case scopeOrgID = "scopeOrgId"
         case userFacingNameTextID = "userFacingNameTextId"
         case substitutionDict, createdBy, updatedBy, createdAt, updatedAt, substitutionDictV2, userFacingName
+    }
+    
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "id": id as Any,
+            "slug": slug as Any,
+            "labelTemplateID": labelTemplateID as Any,
+            "scopeOrgID": scopeOrgID as Any,
+            "userFacingNameTextID": userFacingNameTextID as Any,
+            "substitutionDict": substitutionDict?.dictionaryRepresentation ?? [:],
+            "createdBy": createdBy as Any,
+            "updatedBy": updatedBy as Any,
+            "createdAt": createdAt as Any,
+            "updatedAt": updatedAt as Any,
+            "substitutionDictV2": substitutionDictV2?.dictionaryRepresentation ?? [:],
+            "userFacingName": userFacingName?.dictionaryRepresentation ?? [:]
+            // Add more properties as needed
+        ]
     }
 }
 
@@ -503,5 +851,19 @@ public struct GeneratedByLabelTemplateConfigSubstitutionDict: Codable {
         case melange = "Melange"
         case dementiel = "Dementiel"
         case varieteAutre = "Variete autre"
+    }
+    
+    
+    public var dictionaryRepresentation: [String: Any] {
+        return [
+            "faro": faro as Any,
+            "tosca": tosca as Any,
+            "planet": planet as Any,
+            "amidala": amidala as Any,
+            "melange": melange as Any,
+            "dementiel": dementiel as Any,
+            "varieteAutre": varieteAutre as Any
+            // Add more properties as needed
+        ]
     }
 }
