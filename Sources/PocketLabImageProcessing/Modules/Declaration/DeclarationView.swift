@@ -36,9 +36,9 @@ struct DeclarationView: View {
                 Section(header: Text("All Varieties")) {
                     ForEach(viewModel.optionalArray.filter { contact in
                         !pinnedContacts.contains { pinnedVariety in
-//                            pinnedContact.id == contact.id
+                            //                            pinnedContact.id == contact.id
                             return pinnedVariety.id == contact.id && pinnedVariety.id != nil && contact.id != nil
-
+                            
                         }
                     }) { variety in
                         SwipeToPinCell(content: {
@@ -51,24 +51,24 @@ struct DeclarationView: View {
                             viewModel.selectedOptionalValue = variety
                             refreshToggle.toggle()
                         }
-                       
+                        
                     }
                 }
             }
             .navigationBarTitle("Select Expected Variety", displayMode: .inline)
             .toolbar {
-//                EditButton()
+                //                EditButton()
                 ToolbarItem(placement: .navigationBarTrailing) {
-                              Button("Done") {
-                                  if viewModel.selectedOptionalValue == nil {
-                                      return
-                                  } else {
-                                      dismissAction(viewModel.selectedOptionalValue!)
-                                      isPopoverPresented = false
-                                  }
-                                  
-                              }
-                          }
+                    Button("Done") {
+                        if viewModel.selectedOptionalValue == nil {
+                            return
+                        } else {
+                            dismissAction(viewModel.selectedOptionalValue!)
+                            isPopoverPresented = false
+                        }
+                        
+                    }
+                }
             }
             .navigationTitle("")
         }
@@ -102,7 +102,7 @@ struct SwipeToPinCell<Content: View>: View {
     let onSwipeToPin: () -> Void
     @State private var isPinning = false
     @State private var leadingOffset: CGFloat = 0
-     var isSelectedElement: Bool
+    var isSelectedElement: Bool
     
     init(@ViewBuilder content: @escaping () -> Content, onSwipeToPin: @escaping () -> Void, isSelectedElement: Bool ) {
         self.content = content()
@@ -163,7 +163,7 @@ struct PinnedContactCard: View {
             Spacer()
         }
         .padding(8)
-        .frame(height: 30) // Adjust the height as needed
+        .frame(height: 30)
     }
 }
 
@@ -172,7 +172,6 @@ struct ContactDetail: View {
     
     var body: some View {
         VStack {
-            //            Image(contact.profileImage)
             Image("")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -193,15 +192,9 @@ struct ContactDetail: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DeclarationView()
-//    }
-//}
-
 struct ContentView: View {
     @State private var isSheetPresented = true
-
+    
     var body: some View {
         Button("Show Declaration View") {
             isSheetPresented.toggle()
@@ -217,8 +210,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
 
 struct varietyCard: View {
     var optionalArray: OptionalArray

@@ -32,10 +32,7 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
                     
                 })?.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray ?? []
             
-            
-
-// MARK: - for generatedByLabelTemplateConfig json
-            
+            // MARK: - for generatedByLabelTemplateConfig json
             var generatedByLabelTemplateConfig = scenarioIdData?.latestScenarioInstance?.scenarioInstanceSteps?.first(where: { packageScenarioResponse in
                 packageScenarioResponse.v2LabelTemplate?.generatedByLabelTemplateConfig?.substitutionDictV2?.optionalArray?.count != 0
                 
@@ -94,12 +91,6 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
             self.isBusy = false
             return
         }
-//        if environment == .development {
-//            self.isBusy = false
-//            return
-//        }
-        
-    
     }
     
 }

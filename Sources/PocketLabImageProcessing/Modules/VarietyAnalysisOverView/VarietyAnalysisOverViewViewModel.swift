@@ -10,12 +10,8 @@ import Foundation
 
 class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
     
-    
-//    @Published var data: ScenarioResponseParent?
     @Published var isBusy = true
     @Published var error: Error?
-//    @Published var actionTemplateListItems: [ActionTemplateListItem] = []
-//    @Published var scenarioResponseGrouped: [String: [ScenarioResponse]] = [:]
  
     private var showAlert: Bool?
     private var player: ScenarioPlayerComponent
@@ -129,9 +125,6 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
             self.error  = error
             self.showAlert = true
         }
-
-    
     }
-    
     
 }
