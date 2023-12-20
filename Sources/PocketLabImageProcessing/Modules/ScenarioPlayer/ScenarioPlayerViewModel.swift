@@ -7,15 +7,17 @@
 
 import SwiftUI
 import Foundation
+import Reachability
 
-class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
+func isInternetAvailable() -> Bool {
+    let reachability = try? Reachability()
+    return reachability?.connection != .unavailable
+}
+
+class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
     
-    
-//    @Published var data: ScenarioResponseParent?
     @Published var isBusy = true
     @Published var error: Error?
-//    @Published var actionTemplateListItems: [ActionTemplateListItem] = []
-//    @Published var scenarioResponseGrouped: [String: [ScenarioResponse]] = [:]
  
     private var showAlert: Bool?
     private var player: ScenarioPlayerComponent
@@ -32,6 +34,8 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
         self.scenarioID = scenarioID
     }
     
+    // steps
+    
     func createPastAction() {
         isBusy = true
         if environment == .development {
@@ -39,11 +43,15 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
             self.isBusy = false
             return
         }
+        if !isInternetAvailable() {
+          
+        }
         
         createPastAction(scenarioID: scenarioID) { [weak self] pastAction in
             guard let self = self else { return }
             self.pastAction = pastAction
-            self.createSample()
+            self.createSample(success: { _ in
+            })
         } failure: { [weak self] error in
             guard let self = self else { return }
             self.isBusy = false
@@ -53,7 +61,7 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
 
     }
 
-    func createSample() {
+    func createSample(success: @escaping (PastAction) -> ()) {
         isBusy = true
         if environment == .development {
             sample = PackagePreviewData.load(name: "Sample")
@@ -65,6 +73,7 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
             guard let self = self else { return }
             self.pastAction = pastAction
             self.createTargetSample()
+            
         } failure: { [weak self] error in
             guard let self = self else { return }
             self.isBusy = false
@@ -113,6 +122,20 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
     
     }
     
+    
+    func createSampleIdIfNeeded(success: @escaping () -> ())  {
+        if player.sampleId == nil {
+            createSample(success: { sample in
+//                self.createRemoteID()
+                success()
+            })
+        } else {
+//            createRemoteID()
+            success()
+        }
+        
+    }
+    
     func createRemoteID() {
         isBusy = true
         if environment == .development {
@@ -120,17 +143,25 @@ class VarietyAnalysisOverViewViewModel: BaseViewModel, ObservableObject, PastAct
             self.isBusy = false
             return
         }
-        
-        createSampleRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
-            self.sampleRemoteId = sampleRemote
-        } failure: { [weak self] error in
-            guard let self = self else { return }
-            self.isBusy = false
-            self.error  = error
-            self.showAlert = true
-        }
 
+            createRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
+                self.sampleRemoteId = sampleRemote
+            } failure: { [weak self] error in
+                guard let self = self else { return }
+                self.isBusy = false
+                self.error  = error
+                self.showAlert = true
+            }
+    }
     
+    func createVariety() {
+        createSampleIdIfNeeded {
+            self.createRemoteID()
+        }
+    }
+    
+    func uploadImage() {
+        
     }
     
     

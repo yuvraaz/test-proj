@@ -3,7 +3,8 @@
 //  PocketLab-iOS
 
 import Foundation
-import UIKit
+//import UIKit
+import SwiftUI
 
 public class PackageImageModel: Codable {
     public let imageData: Data

@@ -1,4 +1,5 @@
-import UIKit
+//import UIKit
+import SwiftUI
 
 public extension String {
     var trimmed: String {

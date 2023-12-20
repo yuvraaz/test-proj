@@ -1,10 +1,11 @@
 
 
-import UIKit
+//import UIKit
+import SwiftUI
 import CoreLocation
 
 struct GlobalConstants {
-     static var baseUrl = "https://api.staging.inarix.com"
+    static var baseUrl = "https://api.staging.inarix.com"
     
     struct Image {
         static let placeholder: UIImage = UIImage(named: "logo") ?? UIImage()
@@ -39,6 +40,15 @@ struct GlobalConstants {
             }
         }
         
+//        static var scenarioPlayerList: [] {
+//            get {
+//                return decode(key: "scenarioPlayerList")
+//            }
+//            set {
+//                encodeAndSave(key: "scenarioPlayerList", value: newValue)
+//            }
+//        }
+//        
         
         static func apiCache<T: Codable>(key: String) -> T? {
             let cache = UserDefaults.standard.dictionary(forKey: "URLCache") as? [String: Data]
@@ -74,7 +84,7 @@ struct GlobalConstants {
     
     struct Error {
         static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
-
+        
         
         static var emptyData: NSError { NSError(domain: "Data Empty", code: 205, userInfo: [NSLocalizedDescriptionKey: "Data is Empty."])}
         
@@ -116,20 +126,10 @@ struct CurrentHeaderBodyParameter {
     static var body: [String: Any]?
 }
 
-
-
 class SharedData {
     static var shared = SharedData()
-     init() { }
-     var token : PackageToken?
+    init() { }
+    var token : PackageToken?
     var error : ErrorResponse?
     
 }
-
-//public enum AnnotationType {
-//    case remoteId,variety,proteinRate,
-//         customRemoteId(id: String),
-//         customVariety(name: String),
-//         customProteinRate(percent: Double),
-//         customRemoteIdAndVariety(id: String,name: String)
-//}
