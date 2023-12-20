@@ -39,6 +39,15 @@ struct GlobalConstants {
             }
         }
         
+//        static var scenarioPlayerList: [] {
+//            get {
+//                return decode(key: "scenarioPlayerList")
+//            }
+//            set {
+//                encodeAndSave(key: "scenarioPlayerList", value: newValue)
+//            }
+//        }
+//        
         
         static func apiCache<T: Codable>(key: String) -> T? {
             let cache = UserDefaults.standard.dictionary(forKey: "URLCache") as? [String: Data]

@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol SampleRemoteIdAPI {
-     func createSampleRemoteId(remoteId: String, sampleId: String, success: @escaping (SampleRemoteId) -> (), failure: @escaping (Error) -> ())
+     func createRemoteId(remoteId: String, sampleId: String, success: @escaping (SampleRemoteId) -> (), failure: @escaping (Error) -> ())
 }
 
  extension SampleRemoteIdAPI {
-     public func createSampleRemoteId(remoteId: String, sampleId: String, success: @escaping (SampleRemoteId) -> (), failure: @escaping (Error) -> ()){
+     public func createRemoteId(remoteId: String, sampleId: String, success: @escaping (SampleRemoteId) -> (), failure: @escaping (Error) -> ()){
         let urlSession = URLSession.shared
         let data = [
             "remoteId":remoteId

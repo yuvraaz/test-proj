@@ -12,7 +12,7 @@ public enum VarietyAnalysisCellType {
 }
 
 
-public struct VarietyAnalysisOverView: View {
+public struct ScenarioPlayerView: View {
     
     @State private var isUploadImageViewShown: Bool = false
     public var scenarioId: Int
@@ -129,6 +129,14 @@ public struct VarietyAnalysisOverView: View {
                 self.selectedVariety = selectedVariety
             })
         })
+        .onAppear {
+            if let data = GlobalConstants.KeyValues.dataStored {
+                
+            } else {
+                GlobalConstants.KeyValues.dataStored = true
+            }
+            
+        }
     }
     
     func updateData(sampleId: String) {
@@ -138,7 +146,7 @@ public struct VarietyAnalysisOverView: View {
 
 public struct SwiftUIView_Previews: PreviewProvider {
     public static var previews: some View {
-        VarietyAnalysisOverView(player: ScenarioPlayerComponent(), scenarioId: 0)
+        ScenarioPlayerView(player: ScenarioPlayerComponent(), scenarioId: 0)
     }
 }
 
