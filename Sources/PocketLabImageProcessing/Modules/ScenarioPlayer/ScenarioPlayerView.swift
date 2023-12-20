@@ -129,14 +129,6 @@ public struct ScenarioPlayerView: View {
                 self.selectedVariety = selectedVariety
             })
         })
-        .onAppear {
-            if let data = GlobalConstants.KeyValues.dataStored {
-                
-            } else {
-                GlobalConstants.KeyValues.dataStored = true
-            }
-            
-        }
     }
     
     func updateData(sampleId: String) {

@@ -43,7 +43,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.isBusy = false
             return
         }
-        if !isInternetAvailable {
+        if !isInternetAvailable() {
           
         }
         

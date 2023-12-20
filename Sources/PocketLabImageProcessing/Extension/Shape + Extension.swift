@@ -5,7 +5,7 @@
 //  Created by Amrit Duwal on 11/16/23.
 //
 
-import UIKit
+
 import SwiftUI
 
 public struct TopCornerRadiusShape: Shape {

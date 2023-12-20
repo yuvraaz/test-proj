@@ -1,6 +1,7 @@
 
 
-import UIKit
+//import UIKit
+import SwiftUI
 import CoreLocation
 
 struct GlobalConstants {
