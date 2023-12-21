@@ -16,16 +16,19 @@ public struct ScenarioPlayerView: View {
     
     @State private var isUploadImageViewShown: Bool = false
     public var scenarioId: Int
-    public var player: ScenarioPlayerComponent
+//    public var player: ScenarioPlayerComponent
     @State private var indentificationCompleted = false
     @State private var indentificationisCompleted = false
     
     @State private var isPopoverPresented = false
     @State private var selectedVariety: OptionalArray? = nil
+    @ObservedObject private var viewModel: ScenarioPlayerViewModel
     
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
-        self.player = player
+//        self.player = player
         self.scenarioId = scenarioId
+        _viewModel = ObservedObject(initialValue: ScenarioPlayerViewModel(player: player, scenarioID: scenarioId))
+
     }
     
     public var body: some View {
@@ -69,16 +72,16 @@ public struct ScenarioPlayerView: View {
                                             self.updateData(sampleId: code)
                                             
                                         }), isActive: $indentificationCompleted) {
-                                            PackageImageTextView(title: "Identification", annotationType: player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
+                                            PackageImageTextView(title: "Identification", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
                                         }
                                         
                                         NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
-                                            PackageImageTextView(title: "2 photos", annotationType: player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
+                                            PackageImageTextView(title: "2 photos", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
                                         }
                                         Button {
                                             isPopoverPresented = true
                                         } label: {
-                                            PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
+                                            PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
                                             
                                         }
                                         VStack {
@@ -100,7 +103,7 @@ public struct ScenarioPlayerView: View {
                                             .cornerRadius(10)
                                             
                                         }
-                                        PackageImageTextView(title: "Notes", annotationType: player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
+                                        PackageImageTextView(title: "Notes", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
                                     }
                                     .padding(.horizontal, 16)
                                 }
@@ -127,12 +130,14 @@ public struct ScenarioPlayerView: View {
             // Content of the popover
             DeclarationView(isPopoverPresented: $isPopoverPresented, dismissAction: { selectedVariety in
                 self.selectedVariety = selectedVariety
+                self.viewModel.player.scenarioPlayerRetrievedData.selectedVariety = selectedVariety
             })
         })
     }
     
     func updateData(sampleId: String) {
         indentificationisCompleted = true
+        viewModel.player.scenarioPlayerRetrievedData.identificationcode = sampleId
     }
 }
 
