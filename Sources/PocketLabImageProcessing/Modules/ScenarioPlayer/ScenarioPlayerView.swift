@@ -23,7 +23,8 @@ public struct ScenarioPlayerView: View {
     @State private var isPopoverPresented = false
     @State private var selectedVariety: OptionalArray? = nil
     @ObservedObject private var viewModel: ScenarioPlayerViewModel
-    
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
 //        self.player = player
         self.scenarioId = scenarioId
@@ -126,6 +127,18 @@ public struct ScenarioPlayerView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: backButton)
+            .alert(isPresented: $showAlert) {
+                       Alert(
+                           title: Text("Exist"),
+                           message: Text("Are you sure you want to terminate."),
+                           primaryButton: .default(Text("OK")) {
+                               presentationMode.wrappedValue.dismiss()
+                           },
+                           secondaryButton: .cancel()
+                       )
+                   }
         .popover(isPresented: $isPopoverPresented, content: {
             // Content of the popover
             DeclarationView(isPopoverPresented: $isPopoverPresented, dismissAction: { selectedVariety in
@@ -139,6 +152,17 @@ public struct ScenarioPlayerView: View {
         indentificationisCompleted = true
         viewModel.player.scenarioPlayerRetrievedData.identificationcode = sampleId
     }
+    
+    private var backButton: some View {
+          Button(action: {
+              
+              showAlert = true
+          }) {
+              Image(systemName: "chevron.left")
+                  .imageScale(.large)
+                  .foregroundColor(.blue) // Customize the color if needed
+          }
+      }
 }
 
 public struct SwiftUIView_Previews: PreviewProvider {
