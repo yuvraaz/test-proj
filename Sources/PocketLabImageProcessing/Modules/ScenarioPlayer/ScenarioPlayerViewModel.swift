@@ -39,10 +39,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     // steps
     
     func createPastAction() {
-        if !isInternetAvailable() {
-            self.isBusy = false
-            return
-        }
+        if !checkInternetAndSetBusyIfFalse() { return }
         
         isBusy = true
         if environment == .development {
@@ -66,10 +63,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
 
     func createSample(success: @escaping (PastAction) -> ()) {
-        if !isInternetAvailable() {
-            self.isBusy = false
-            return
-        }
+        if !checkInternetAndSetBusyIfFalse() { return }
         
         isBusy = true
         if environment == .development {
@@ -93,18 +87,13 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createTargetSample() {
-        if !isInternetAvailable() {
-            self.isBusy = false
-            return
-        }
-        
-        isBusy = true
+        if !checkInternetAndSetBusyIfFalse() { return }
         if environment == .development {
             targetSample = PackagePreviewData.load(name: "TargetSample")
             self.isBusy = false
             return
         }
-        
+        isBusy = true
         createTargetSample(originPastActionId: pastAction?.originScenarioInstanceID ?? 0, sampleId: player.sampleId ?? "") { targetSample in
             self.targetSample = targetSample
             self.createAndAuisition()
@@ -117,11 +106,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createAndAuisition() {
-        if !isInternetAvailable() {
-            self.isBusy = false
-            return
-        }
-        
+        if checkExecutingOfflineDataAndColdUpload() {  return }
+        if !checkInternetAndSetBusyIfFalse() { return }
         isBusy = true
         if environment == .development {
             acquisition = PackagePreviewData.load(name: "Acquisition")
@@ -144,10 +130,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     func createSampleIdIfNeeded(success: @escaping () -> ())  {
         if player.sampleId == nil {
-            if !isInternetAvailable() {
-                self.isBusy = false
-                return
-            }
+            if !checkInternetAndSetBusyIfFalse() { return }
             
             createSample(success: { sample in
 //                self.createRemoteID()
@@ -162,10 +145,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createRemoteID() {
-        if !isInternetAvailable() {
-            self.isBusy = false
-            return
-        }
+        if checkExecutingOfflineDataAndColdUpload() { return }
+        if !checkInternetAndSetBusyIfFalse() { return }
         
         isBusy = true
         if environment == .development {
@@ -196,6 +177,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     
     func finalAPICall() {
+        if checkExecutingOfflineDataAndColdUpload() { return }
+
         if !isInternetAvailable() {
             PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.append(player.scenarioPlayerRetrievedData)
         }
@@ -219,7 +202,17 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             executingOfflineData = true
             createPastAction()
         }
-        
+    }
+    
+    func checkExecutingOfflineDataAndColdUpload() -> Bool {
+        return executingOfflineData == true &&  PackageGlobalConstants.KeyValues.pauseColdUpload == true
+    }
+    
+    func checkInternetAndSetBusyIfFalse() -> Bool {
+        if !isInternetAvailable() {
+            self.isBusy = false
+        }
+        return isInternetAvailable()
     }
     
 }
