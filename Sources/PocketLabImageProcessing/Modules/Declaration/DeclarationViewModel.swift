@@ -19,7 +19,6 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
     
     public func getData() {
         isBusy = true
-        
         if environment == .development {
             scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
             
@@ -40,7 +39,6 @@ public class DeclarationViewModel: BaseViewModel, ObservableObject {
             
             
             print(generatedByLabelTemplateConfig?.dictionaryRepresentation ?? [:]);
-            // let say you need to modify generatedByLabelTemplateConfig id then
             generatedByLabelTemplateConfig?.id = "234"
             
             let cords = [

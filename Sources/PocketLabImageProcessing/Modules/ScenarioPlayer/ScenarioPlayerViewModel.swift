@@ -2,7 +2,6 @@
 //  VarietyAnalysisOverViewViewModel.swift
 //
 //
-//  Created by Amrit Duwal on 11/27/23.
 //
 
 import SwiftUI
@@ -18,10 +17,10 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     @Published var isBusy = true
     @Published var error: Error?
- 
+    
     private var showAlert: Bool?
-     var player: ScenarioPlayerComponent
-     var scenarioID: Int
+    var player: ScenarioPlayerComponent
+    private var scenarioID: Int
     
     private var pastAction: PastAction?
     private var sample: Sample?
@@ -36,8 +35,6 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         self.scenarioID = scenarioID
     }
     
-    // steps
-    
     func createPastAction() {
         if !checkInternetAndSetBusyIfFalse() { return }
         
@@ -47,7 +44,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.isBusy = false
             return
         }
-
+        
         createPastAction(scenarioID: scenarioID) { [weak self] pastAction in
             guard let self = self else { return }
             self.pastAction = pastAction
@@ -59,12 +56,11 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.error  = error
             self.showAlert = true
         }
-
+        
     }
-
+    
     func createSample(success: @escaping (PastAction) -> ()) {
         if !checkInternetAndSetBusyIfFalse() { return }
-        
         isBusy = true
         if environment == .development {
             sample = PackagePreviewData.load(name: "Sample")
@@ -83,7 +79,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.error  = error
             self.showAlert = true
         }
-
+        
     }
     
     func createTargetSample() {
@@ -124,21 +120,20 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.error  = error
             self.showAlert = true
         }
-    
+        
     }
-    
     
     func createSampleIdIfNeeded(success: @escaping () -> ())  {
         if player.sampleId == nil {
             if !checkInternetAndSetBusyIfFalse() { return }
             
             createSample(success: { sample in
-//                self.createRemoteID()
+                //                self.createRemoteID()
                 self.player.scenarioPlayerRetrievedData.sampleId = sample.id
                 success()
             })
         } else {
-//            createRemoteID()
+            //            createRemoteID()
             success()
         }
         
@@ -154,15 +149,15 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.isBusy = false
             return
         }
-
-            createRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
-                self.sampleRemoteId = sampleRemote
-            } failure: { [weak self] error in
-                guard let self = self else { return }
-                self.isBusy = false
-                self.error  = error
-                self.showAlert = true
-            }
+        
+        createRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
+            self.sampleRemoteId = sampleRemote
+        } failure: { [weak self] error in
+            guard let self = self else { return }
+            self.isBusy = false
+            self.error  = error
+            self.showAlert = true
+        }
     }
     
     func createVariety() {
@@ -178,11 +173,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     func finalAPICall() {
         if checkExecutingOfflineDataAndColdUpload() { return }
-
         if !isInternetAvailable() {
             PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.append(player.scenarioPlayerRetrievedData)
         }
-        
         var apiResponseSucceeded: Bool = true
         
         // MARK: - API CALLS
@@ -194,7 +187,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
                 executeUploadOfflineData()
             }
         }
-       
+        
     }
     
     func executeUploadOfflineData() {

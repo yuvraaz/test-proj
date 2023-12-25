@@ -16,7 +16,6 @@ public struct ScenarioPlayerView: View {
     
     @State private var isUploadImageViewShown: Bool = false
     public var scenarioId: Int
-//    public var player: ScenarioPlayerComponent
     @State private var indentificationCompleted = false
     @State private var indentificationisCompleted = false
     
@@ -26,10 +25,9 @@ public struct ScenarioPlayerView: View {
     @State private var showAlert = false
     @Environment(\.presentationMode) var presentationMode
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
-//        self.player = player
         self.scenarioId = scenarioId
         _viewModel = ObservedObject(initialValue: ScenarioPlayerViewModel(player: player, scenarioID: scenarioId))
-
+        
     }
     
     public var body: some View {
@@ -69,13 +67,10 @@ public struct ScenarioPlayerView: View {
                                     }.frame(maxWidth: .infinity)
                                     VStack {
                                         NavigationLink(destination: IdentificationView(clicked: { code in
-                                            //
                                             self.updateData(sampleId: code)
-                                            
                                         }), isActive: $indentificationCompleted) {
                                             PackageImageTextView(title: "Identification", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
                                         }
-                                        
                                         NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
                                             PackageImageTextView(title: "2 photos", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
                                         }
@@ -83,7 +78,6 @@ public struct ScenarioPlayerView: View {
                                             isPopoverPresented = true
                                         } label: {
                                             PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
-                                            
                                         }
                                         VStack {
                                             VStack(alignment: .leading) {
@@ -102,7 +96,6 @@ public struct ScenarioPlayerView: View {
                                             .frame(maxWidth: .infinity)
                                             .frame(height: 58)
                                             .cornerRadius(10)
-                                            
                                         }
                                         PackageImageTextView(title: "Notes", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
                                     }
@@ -111,7 +104,6 @@ public struct ScenarioPlayerView: View {
                                 .background(PackageColors.darkGray)
                                 .packageCornerRadius(20, corners: [.topLeft, .topRight])
                                 .cornerRadius(20)
-                                
                             }
                         }
                     }
@@ -122,25 +114,23 @@ public struct ScenarioPlayerView: View {
                         }
                     )
                     .background(PackageColors.darkGray)
-                    
                     .edgesIgnoringSafeArea(.top)
                 }
             }
         }
         .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: backButton)
-            .alert(isPresented: $showAlert) {
-                       Alert(
-                           title: Text("Exist"),
-                           message: Text("Are you sure you want to terminate."),
-                           primaryButton: .default(Text("OK")) {
-                               presentationMode.wrappedValue.dismiss()
-                           },
-                           secondaryButton: .cancel()
-                       )
-                   }
+        .navigationBarItems(leading: backButton)
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Exist"),
+                message: Text("Are you sure you want to terminate."),
+                primaryButton: .default(Text("OK")) {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                secondaryButton: .cancel()
+            )
+        }
         .popover(isPresented: $isPopoverPresented, content: {
-            // Content of the popover
             DeclarationView(isPopoverPresented: $isPopoverPresented, dismissAction: { selectedVariety in
                 self.selectedVariety = selectedVariety
                 self.viewModel.player.scenarioPlayerRetrievedData.selectedVariety = selectedVariety
@@ -154,15 +144,15 @@ public struct ScenarioPlayerView: View {
     }
     
     private var backButton: some View {
-          Button(action: {
-              
-              showAlert = true
-          }) {
-              Image(systemName: "chevron.left")
-                  .imageScale(.large)
-                  .foregroundColor(.blue) // Customize the color if needed
-          }
-      }
+        Button(action: {
+            
+            showAlert = true
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(.blue)
+        }
+    }
 }
 
 public struct SwiftUIView_Previews: PreviewProvider {
@@ -188,14 +178,9 @@ public struct PackageImageTextView: View {
                     if let secondaryTitle = secondaryTitle, secondaryTitle != "" {
                         Text(secondaryTitle)
                             .foregroundColor(PackageColors.pureBlack)
-                        if !isCompleted {
-                            Image("plus", bundle: .module)
-                        }
-                        
+                        if !isCompleted { Image("plus", bundle: .module) }
                     }
-                    if isCompleted == true {
-                        TickMarkView()
-                    }
+                    if isCompleted == true {  TickMarkView() }
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -208,14 +193,11 @@ public struct PackageImageTextView: View {
         }
     }
     
-    
     func getHeight() -> (CGFloat) {
         switch annotationType {
         case .remoteId, .variety, .proteinRate: return 58
-        case .customRemoteId(_):
-            if varietyAnalysisCellType == .identification { return 40 }
-        case .customVariety(_):
-            if varietyAnalysisCellType == .exptectedVariety { return 40 }
+        case .customRemoteId(_): if varietyAnalysisCellType == .identification { return 40 }
+        case .customVariety(_): if varietyAnalysisCellType == .exptectedVariety { return 40 }
         case .customRemoteIdAndVariety(_, _):
             switch varietyAnalysisCellType {
             case .identification, .exptectedVariety: return 40
