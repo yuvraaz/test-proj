@@ -22,7 +22,8 @@ public struct ScenarioPlayerView: View {
     @State private var isPopoverPresented = false
     @State private var selectedVariety: OptionalArray? = nil
     @ObservedObject private var viewModel: ScenarioPlayerViewModel
-    @State private var showAlert = false
+    @State private var showTerminationAlert = false
+    //    @State private var showAlertWithRetry = false
     @Environment(\.presentationMode) var presentationMode
     public init(player: ScenarioPlayerComponent, scenarioId: Int) {
         self.scenarioId = scenarioId
@@ -120,7 +121,7 @@ public struct ScenarioPlayerView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $showTerminationAlert) {
             Alert(
                 title: Text("Exist"),
                 message: Text("Are you sure you want to terminate."),
@@ -128,6 +129,35 @@ public struct ScenarioPlayerView: View {
                     presentationMode.wrappedValue.dismiss()
                 },
                 secondaryButton: .cancel()
+            )
+        }
+//        .alert(isPresented: Binding<Bool>(
+//            get: { viewModel.showAlert ?? false },
+//            set: { viewModel.showAlert = $0 }
+//        )
+//        ) {
+//            Alert(
+//                title: Text(""),
+//                message: Text(viewModel.error?.localizedDescription ?? ""),
+//                primaryButton: .default(Text("OK")) {
+//                    presentationMode.wrappedValue.dismiss()
+//                },
+//                secondaryButton: .cancel()
+//            )
+//        }
+        .alert(isPresented: Binding<Bool>(
+            get: { viewModel.showAlertWithRetry ?? false },
+            set: { viewModel.showAlertWithRetry = $0 })
+        ) {
+            Alert(
+                title: Text(""),
+                message: Text(viewModel.error?.localizedDescription ?? ""),
+                primaryButton: .destructive(Text("OK")) {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                secondaryButton: .default(Text("Retry")) {
+                    viewModel.retryAPI()
+                }
             )
         }
         .popover(isPresented: $isPopoverPresented, content: {
@@ -146,7 +176,7 @@ public struct ScenarioPlayerView: View {
     private var backButton: some View {
         Button(action: {
             
-            showAlert = true
+            showTerminationAlert = true
         }) {
             Image(systemName: "chevron.left")
                 .imageScale(.large)
