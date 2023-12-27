@@ -6,13 +6,13 @@ public struct PackageAPIRequest {
     
     public func cache<T: Codable>(data: T) {
         if endPoint.shouldCache {
-            GlobalConstants.KeyValues.apiCache(key: getKey(url: request.url!), data: data)
+            PackageGlobalConstants.KeyValues.apiCache(key: getKey(url: request.url!), data: data)
         }
     }
     
     public func cached<T: Codable>() -> T? {
         if endPoint.shouldCache {
-            return GlobalConstants.KeyValues.apiCache(key: getKey(url: request.url!))
+            return PackageGlobalConstants.KeyValues.apiCache(key: getKey(url: request.url!))
         }
         return nil
     }
@@ -120,7 +120,7 @@ public enum PackageEndPoint {
         
         
         if  needsAuthorization {
-            if let token = GlobalConstants.KeyValues.token {
+            if let token = PackageGlobalConstants.KeyValues.token {
                 print(token.token)
                 request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
             } 
@@ -132,7 +132,7 @@ public enum PackageEndPoint {
     }
 
     public func request(body: [String: Any]? = nil) -> PackageAPIRequest {
-        var urlString = GlobalConstants.baseUrl + "/" + path
+        var urlString = PackageGlobalConstants.baseUrl + "/" + path
         switch self {
         case .uploadImage: urlString = path
         default: break

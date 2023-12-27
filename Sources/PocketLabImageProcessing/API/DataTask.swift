@@ -85,8 +85,8 @@ public extension URLSession {
         */
         
         if request.endPoint.needsAuthorization {
-            if GlobalConstants.KeyValues.token?.token == nil {
-                apiCall.execute(explicitError: GlobalConstants.Error.oops)
+            if PackageGlobalConstants.KeyValues.token?.token == nil {
+                apiCall.execute(explicitError: PackageGlobalConstants.Error.oops)
             }
             if timerRunCount == 0 {
                 timer = Timer.scheduledTimer(timeInterval: 25 * 60, target: self, selector: #selector(tokenRefresh), userInfo: nil, repeats: true)
@@ -117,11 +117,11 @@ public extension URLSession {
     
     @objc func tokenRefresh() {
         refreshApiIsLoading = true
-        RefreshImplemenation().refreshToken(token: GlobalConstants.KeyValues.token?.token ?? "",success: { newToken in
+        RefreshImplemenation().refreshToken(token: PackageGlobalConstants.KeyValues.token?.token ?? "",success: { newToken in
             refreshApiIsLoading = false
-            GlobalConstants.KeyValues.token?.token = newToken.access
-            GlobalConstants.KeyValues.token?.access = newToken.access
-            GlobalConstants.KeyValues.token?.latestRefreshedDate = Date()
+            PackageGlobalConstants.KeyValues.token?.token = newToken.access
+            PackageGlobalConstants.KeyValues.token?.access = newToken.access
+            PackageGlobalConstants.KeyValues.token?.latestRefreshedDate = Date()
         }, failure: failureRefreshingToken)
     }
     
@@ -219,7 +219,7 @@ public extension URLSession {
             }
         }
         
-        return send(error: GlobalConstants.Error.oops)
+        return send(error: PackageGlobalConstants.Error.oops)
     }
     
     func successRefreshingToken() {

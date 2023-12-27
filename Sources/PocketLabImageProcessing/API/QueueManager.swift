@@ -10,35 +10,35 @@ public class QueueManager:  UploadImagesAPI {
     public func startScenario(imageModel: PackageImageModel?) {
         currentScenarioStatus = .inProgress
         if let imageModelData = imageModel {
-            GlobalConstants.KeyValues.activeImageUpload.append(imageModelData)
+            PackageGlobalConstants.KeyValues.activeImageUpload.append(imageModelData)
         }
-        if GlobalConstants.KeyValues.activeImageUpload.count == 0 {
-            GlobalConstants.KeyValues.remainingImageUpload =  GlobalConstants.KeyValues.remainingImageUpload + GlobalConstants.KeyValues.activeImageUpload
+        if PackageGlobalConstants.KeyValues.activeImageUpload.count == 0 {
+            PackageGlobalConstants.KeyValues.remainingImageUpload =  PackageGlobalConstants.KeyValues.remainingImageUpload + PackageGlobalConstants.KeyValues.activeImageUpload
         }
         processImageQueue()
     }
     
     public func addImageToQueue(_ image: PackageImageModel) {
         if currentScenarioStatus == .inProgress {
-            GlobalConstants.KeyValues.activeImageUpload.append(image)
+            PackageGlobalConstants.KeyValues.activeImageUpload.append(image)
         } else {
             // Start processing the queue if it's not busy
-            if GlobalConstants.KeyValues.activeImageUpload.isEmpty {
+            if PackageGlobalConstants.KeyValues.activeImageUpload.isEmpty {
                 processImageQueue()
             }
         }
     }
     
     public func processImageQueue() {
-        guard !GlobalConstants.KeyValues.activeImageUpload.isEmpty else {
-            if GlobalConstants.KeyValues.remainingImageUpload.count > 0 {
-                GlobalConstants.KeyValues.activeImageUpload = GlobalConstants.KeyValues.remainingImageUpload
-                GlobalConstants.KeyValues.remainingImageUpload = []
+        guard !PackageGlobalConstants.KeyValues.activeImageUpload.isEmpty else {
+            if PackageGlobalConstants.KeyValues.remainingImageUpload.count > 0 {
+                PackageGlobalConstants.KeyValues.activeImageUpload = PackageGlobalConstants.KeyValues.remainingImageUpload
+                PackageGlobalConstants.KeyValues.remainingImageUpload = []
                 processImageQueue()
             }
             return
         }
-        let imageToProcess = GlobalConstants.KeyValues.activeImageUpload.removeFirst()
+        let imageToProcess = PackageGlobalConstants.KeyValues.activeImageUpload.removeFirst()
         uploadImage(image: imageToProcess)
     }
     

@@ -22,6 +22,15 @@ public enum AnnotationType {
     case customRemoteIdAndVariety(id: String,name: String)
 }
 
+
+public struct ScenarioPlayerAllRequiredData: Codable {
+    var sampleId: String?
+    var identificationcode: String?
+    var images: [Data] = []
+    var selectedVariety: OptionalArray?
+    var Note: String?
+}
+
 public class ScenarioPlayerComponent: ObservableObject {
     @Published public var displayResults: Bool = false
     @Published public var remoteId: String?
@@ -29,7 +38,11 @@ public class ScenarioPlayerComponent: ObservableObject {
     @Published public var sampleId: String?
     @Published public var annotationType: AnnotationType?
     
+    public var scenarioPlayerRetrievedData: ScenarioPlayerAllRequiredData = ScenarioPlayerAllRequiredData(identificationcode: nil, images: [], selectedVariety: nil, Note: nil)
+    
     public init() {}
+    
+    private var scenarioPlayerViewModel: ScenarioPlayerViewModel?
 
     public func setAnnotation(type: AnnotationType, value: Any) {
         annotationType = type
@@ -71,10 +84,17 @@ public class ScenarioPlayerComponent: ObservableObject {
         remoteId = nil
         proteinRate = nil
         sampleId = nil
+        scenarioPlayerRetrievedData  = ScenarioPlayerAllRequiredData(identificationcode: nil, images: [], selectedVariety: nil, Note: nil)
     }
 
     public func clearAnnotations() {
         // Implement clearing annotations
+    }
+    
+    
+    public func executeUploadOfflineData() {
+    scenarioPlayerViewModel = ScenarioPlayerViewModel(player: self, scenarioID: 0)
+        scenarioPlayerViewModel?.executeUploadOfflineData()
     }
     
 }
