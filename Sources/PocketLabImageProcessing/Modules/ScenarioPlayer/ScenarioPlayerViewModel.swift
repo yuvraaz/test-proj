@@ -15,10 +15,18 @@ public func isInternetAvailable() -> Bool {
 
 class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
     
+    
+    enum ScenarioPlayerAPI {
+        case createPastAction,createSample,createTargetSample, createAndAuisition, createSampleIdIfNeeded, createRemoteID, finalAPICall, None
+    }
+    
+    private var stuckAPI: ScenarioPlayerAPI = .None
+    
     @Published var isBusy = true
     @Published var error: Error?
     
-    private var showAlert: Bool?
+    @Published var showAlert: Bool?
+    @Published var showAlertWithRetry: Bool?
     var player: ScenarioPlayerComponent
     private var scenarioID: Int
     
@@ -54,7 +62,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createPastAction
         }
         
     }
@@ -77,7 +87,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createSample
         }
         
     }
@@ -97,7 +109,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createTargetSample
         }
     }
     
@@ -118,7 +132,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createAndAuisition
         }
         
     }
@@ -156,7 +172,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createRemoteID
         }
     }
     
@@ -207,5 +225,28 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         }
         return isInternetAvailable()
     }
+    
+    func retryAPI() {
+        showAlertWithRetry = false
+        switch stuckAPI {
+        case .createPastAction:
+            createPastAction()
+        case .createSample:
+            createSample(success: {_ in })
+        case .createTargetSample:
+            createTargetSample()
+        case .createAndAuisition:
+            createAndAuisition()
+        case .createSampleIdIfNeeded:
+            createSampleIdIfNeeded(success: {})
+        case .createRemoteID:
+            createRemoteID()
+        case .finalAPICall:
+            finalAPICall()
+        case .None: break
+        }
+
+    }
+
     
 }
