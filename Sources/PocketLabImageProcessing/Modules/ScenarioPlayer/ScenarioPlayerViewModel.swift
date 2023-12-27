@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 import Reachability
 
-func isInternetAvailable() -> Bool {
+public func isInternetAvailable() -> Bool {
     let reachability = try? Reachability()
     return reachability?.connection != .unavailable
 }
@@ -20,14 +20,16 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     @Published var error: Error?
  
     private var showAlert: Bool?
-    private var player: ScenarioPlayerComponent
-    private var scenarioID: Int
+     var player: ScenarioPlayerComponent
+     var scenarioID: Int
     
     private var pastAction: PastAction?
     private var sample: Sample?
     private var targetSample: TargetSample?
     private var acquisition: Acquisition?
     private var sampleRemoteId: SampleRemoteId?
+    
+    private var executingOfflineData: Bool = false
     
     init(player: ScenarioPlayerComponent, scenarioID: Int) {
         self.player = player
@@ -37,16 +39,15 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     // steps
     
     func createPastAction() {
+        if !checkInternetAndSetBusyIfFalse() { return }
+        
         isBusy = true
         if environment == .development {
             pastAction = PackagePreviewData.load(name: "PastAction")
             self.isBusy = false
             return
         }
-        if !isInternetAvailable() {
-          
-        }
-        
+
         createPastAction(scenarioID: scenarioID) { [weak self] pastAction in
             guard let self = self else { return }
             self.pastAction = pastAction
@@ -62,6 +63,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
 
     func createSample(success: @escaping (PastAction) -> ()) {
+        if !checkInternetAndSetBusyIfFalse() { return }
+        
         isBusy = true
         if environment == .development {
             sample = PackagePreviewData.load(name: "Sample")
@@ -84,13 +87,13 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createTargetSample() {
-        isBusy = true
+        if !checkInternetAndSetBusyIfFalse() { return }
         if environment == .development {
             targetSample = PackagePreviewData.load(name: "TargetSample")
             self.isBusy = false
             return
         }
-        
+        isBusy = true
         createTargetSample(originPastActionId: pastAction?.originScenarioInstanceID ?? 0, sampleId: player.sampleId ?? "") { targetSample in
             self.targetSample = targetSample
             self.createAndAuisition()
@@ -103,6 +106,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createAndAuisition() {
+        if checkExecutingOfflineDataAndColdUpload() {  return }
+        if !checkInternetAndSetBusyIfFalse() { return }
         isBusy = true
         if environment == .development {
             acquisition = PackagePreviewData.load(name: "Acquisition")
@@ -125,8 +130,11 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     func createSampleIdIfNeeded(success: @escaping () -> ())  {
         if player.sampleId == nil {
+            if !checkInternetAndSetBusyIfFalse() { return }
+            
             createSample(success: { sample in
 //                self.createRemoteID()
+                self.player.scenarioPlayerRetrievedData.sampleId = sample.id
                 success()
             })
         } else {
@@ -137,6 +145,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     }
     
     func createRemoteID() {
+        if checkExecutingOfflineDataAndColdUpload() { return }
+        if !checkInternetAndSetBusyIfFalse() { return }
+        
         isBusy = true
         if environment == .development {
             self.sampleRemoteId = PackagePreviewData.load(name: "SampleRemoteId")
@@ -164,5 +175,44 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         
     }
     
+    
+    func finalAPICall() {
+        if checkExecutingOfflineDataAndColdUpload() { return }
+
+        if !isInternetAvailable() {
+            PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.append(player.scenarioPlayerRetrievedData)
+        }
+        
+        var apiResponseSucceeded: Bool = true
+        
+        // MARK: - API CALLS
+        if executingOfflineData {
+            var apiResponseSucceeded: Bool = true
+            
+            if apiResponseSucceeded {
+                PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.removeFirst()
+                executeUploadOfflineData()
+            }
+        }
+       
+    }
+    
+    func executeUploadOfflineData() {
+        if let  scenariPlayerOfflineData = PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.first {
+            executingOfflineData = true
+            createPastAction()
+        }
+    }
+    
+    func checkExecutingOfflineDataAndColdUpload() -> Bool {
+        return executingOfflineData == true &&  PackageGlobalConstants.KeyValues.pauseColdUpload == true
+    }
+    
+    func checkInternetAndSetBusyIfFalse() -> Bool {
+        if !isInternetAvailable() {
+            self.isBusy = false
+        }
+        return isInternetAvailable()
+    }
     
 }

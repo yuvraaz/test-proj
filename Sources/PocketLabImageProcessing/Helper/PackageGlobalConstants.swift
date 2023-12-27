@@ -4,14 +4,33 @@
 import SwiftUI
 import CoreLocation
 
-struct GlobalConstants {
+public struct PackageGlobalConstants {
     static var baseUrl = "https://api.staging.inarix.com"
     
-    struct Image {
+    public  struct Image {
         static let placeholder: UIImage = UIImage(named: "logo") ?? UIImage()
     }
     
-    struct KeyValues {
+    public struct KeyValues {
+        
+        static var scenarioPlayerRemainingUploads: [ScenarioPlayerAllRequiredData] {
+            get {
+                return decode(key: "scenarioPlayerRemainingUploads") ?? []
+            }
+            set {
+                encodeAndSave(key: "scenarioPlayerRemainingUploads", value: newValue)
+            }
+        }
+        
+        
+        public static var pauseColdUpload: Bool {
+            get {
+                return decode(key: "remainingImageUpload") ?? false
+            }
+            set {
+                encodeAndSave(key: "remainingImageUpload", value: newValue)
+            }
+        }
         
         static var remainingImageUpload: [PackageImageModel] {
             get {
