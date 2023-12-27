@@ -111,7 +111,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.error  = error
 //            self.showAlert = true
             self.showAlertWithRetry = true
-            stuckAPI =.createTargetSample
+            stuckAPI = .createTargetSample
         }
     }
     
@@ -134,7 +134,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.error  = error
 //            self.showAlert = true
             self.showAlertWithRetry = true
-            stuckAPI = .createAquisition
+            stuckAPI = .createAndAuisition
         }
         
     }
