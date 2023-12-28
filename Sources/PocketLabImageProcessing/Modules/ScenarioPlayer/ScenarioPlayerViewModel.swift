@@ -2,7 +2,6 @@
 //  VarietyAnalysisOverViewViewModel.swift
 //
 //
-//  Created by Amrit Duwal on 11/27/23.
 //
 
 import SwiftUI
@@ -16,12 +15,20 @@ public func isInternetAvailable() -> Bool {
 
 class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
     
+    
+    enum ScenarioPlayerAPI {
+        case createPastAction,createSample,createTargetSample, createAndAuisition, createSampleIdIfNeeded, createRemoteID, finalAPICall, None
+    }
+    
+    private var stuckAPI: ScenarioPlayerAPI = .None
+    
     @Published var isBusy = true
     @Published var error: Error?
- 
-    private var showAlert: Bool?
-     var player: ScenarioPlayerComponent
-     var scenarioID: Int
+    
+    @Published var showAlert: Bool?
+    @Published var showAlertWithRetry: Bool?
+    var player: ScenarioPlayerComponent
+    private var scenarioID: Int
     
     private var pastAction: PastAction?
     private var sample: Sample?
@@ -36,8 +43,6 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         self.scenarioID = scenarioID
     }
     
-    // steps
-    
     func createPastAction() {
         if !checkInternetAndSetBusyIfFalse() { return }
         
@@ -47,7 +52,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.isBusy = false
             return
         }
-
+        
         createPastAction(scenarioID: scenarioID) { [weak self] pastAction in
             guard let self = self else { return }
             self.pastAction = pastAction
@@ -57,14 +62,15 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createPastAction
         }
-
+        
     }
-
+    
     func createSample(success: @escaping (PastAction) -> ()) {
         if !checkInternetAndSetBusyIfFalse() { return }
-        
         isBusy = true
         if environment == .development {
             sample = PackagePreviewData.load(name: "Sample")
@@ -81,9 +87,11 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createSample
         }
-
+        
     }
     
     func createTargetSample() {
@@ -101,7 +109,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createTargetSample
         }
     }
     
@@ -122,23 +132,24 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             guard let self = self else { return }
             self.isBusy = false
             self.error  = error
-            self.showAlert = true
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createAndAuisition
         }
-    
+        
     }
-    
     
     func createSampleIdIfNeeded(success: @escaping () -> ())  {
         if player.sampleId == nil {
             if !checkInternetAndSetBusyIfFalse() { return }
             
             createSample(success: { sample in
-//                self.createRemoteID()
+                //                self.createRemoteID()
                 self.player.scenarioPlayerRetrievedData.sampleId = sample.id
                 success()
             })
         } else {
-//            createRemoteID()
+            //            createRemoteID()
             success()
         }
         
@@ -154,15 +165,17 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             self.isBusy = false
             return
         }
-
-            createRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
-                self.sampleRemoteId = sampleRemote
-            } failure: { [weak self] error in
-                guard let self = self else { return }
-                self.isBusy = false
-                self.error  = error
-                self.showAlert = true
-            }
+        
+        createRemoteId(remoteId: "", sampleId: player.sampleId ?? "") { sampleRemote in
+            self.sampleRemoteId = sampleRemote
+        } failure: { [weak self] error in
+            guard let self = self else { return }
+            self.isBusy = false
+            self.error  = error
+//            self.showAlert = true
+            self.showAlertWithRetry = true
+            stuckAPI = .createRemoteID
+        }
     }
     
     func createVariety() {
@@ -178,11 +191,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     
     func finalAPICall() {
         if checkExecutingOfflineDataAndColdUpload() { return }
-
         if !isInternetAvailable() {
             PackageGlobalConstants.KeyValues.scenarioPlayerRemainingUploads.append(player.scenarioPlayerRetrievedData)
         }
-        
         var apiResponseSucceeded: Bool = true
         
         // MARK: - API CALLS
@@ -194,7 +205,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
                 executeUploadOfflineData()
             }
         }
-       
+        
     }
     
     func executeUploadOfflineData() {
@@ -214,5 +225,28 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         }
         return isInternetAvailable()
     }
+    
+    func retryAPI() {
+        showAlertWithRetry = false
+        switch stuckAPI {
+        case .createPastAction:
+            createPastAction()
+        case .createSample:
+            createSample(success: {_ in })
+        case .createTargetSample:
+            createTargetSample()
+        case .createAndAuisition:
+            createAndAuisition()
+        case .createSampleIdIfNeeded:
+            createSampleIdIfNeeded(success: {})
+        case .createRemoteID:
+            createRemoteID()
+        case .finalAPICall:
+            finalAPICall()
+        case .None: break
+        }
+
+    }
+
     
 }
