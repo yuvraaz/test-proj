@@ -102,8 +102,9 @@ public struct PackageGlobalConstants {
     }
     
     struct Error {
-        static var oops: NSError { NSError(domain: "API_ERROR", code: 500, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
+        static var oops: NSError { NSError(domain: "API_ERROR", code: 1001, userInfo: [NSLocalizedDescriptionKey: "Something went wrong"])}
         
+        static var timeOut =  NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
         
         static var emptyData: NSError { NSError(domain: "Data Empty", code: 205, userInfo: [NSLocalizedDescriptionKey: "Data is Empty."])}
         
