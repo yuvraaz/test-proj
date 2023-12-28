@@ -161,6 +161,14 @@ public extension URLSession {
     }
     
     private func handle<T: Codable>(request: PackageAPIRequest, data: Data?, response: URLResponse?, error: Error?, success: @escaping (T)->(), failure: @escaping (Error) -> ()) {
+        
+        if let urlError = error as? URLError, urlError.code == .timedOut {
+             // Handle timeout error
+//             let timeoutError = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
+            return send(error: PackageGlobalConstants.Error.timeOut)
+         }
+         
+        
         func send(error: Error) {
             DispatchQueue.main.async {
                 failure(error)

@@ -112,7 +112,6 @@ public enum PackageEndPoint {
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         if method == "POST" || method == "DELETE" || method == "PUT" || method == "PUT" {
-           
             if let body = body {
                 request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
             }
