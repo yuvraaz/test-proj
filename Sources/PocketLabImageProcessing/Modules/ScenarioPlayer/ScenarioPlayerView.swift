@@ -145,21 +145,21 @@ public struct ScenarioPlayerView: View {
 //                secondaryButton: .cancel()
 //            )
 //        }
-        .alert(isPresented: Binding<Bool>(
-            get: { viewModel.showAlertWithRetry ?? false },
-            set: { viewModel.showAlertWithRetry = $0 })
-        ) {
-            Alert(
-                title: Text(""),
-                message: Text(viewModel.error?.localizedDescription ?? ""),
-                primaryButton: .destructive(Text("OK")) {
-                    presentationMode.wrappedValue.dismiss()
-                },
-                secondaryButton: .default(Text("Retry")) {
-                    viewModel.retryAPI()
-                }
-            )
-        }
+//        .alert(isPresented: Binding<Bool>(
+//            get: { viewModel.showAlertWithRetry ?? false },
+//            set: { viewModel.showAlertWithRetry = $0 })
+//        ) {
+//            Alert(
+//                title: Text(""),
+//                message: Text(viewModel.error?.localizedDescription ?? ""),
+//                primaryButton: .destructive(Text("OK")) {
+//                    presentationMode.wrappedValue.dismiss()
+//                },
+//                secondaryButton: .default(Text("Retry")) {
+//                    viewModel.retryAPI()
+//                }
+//            )
+//        }
         .popover(isPresented: $isPopoverPresented, content: {
             DeclarationView(isPopoverPresented: $isPopoverPresented, dismissAction: { selectedVariety in
                 self.selectedVariety = selectedVariety
