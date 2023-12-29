@@ -6,7 +6,8 @@ import Foundation
 import UIKit
 
 public protocol UploadImagesAPI {
-     func uploadImage(image: PackageImageModel, success: @escaping (PackageImageInfo) -> (), failure: @escaping (Error) -> ())
+//     func uploadImage(image: PackageImageModel, success: @escaping (PackageImageInfo) -> (), failure: @escaping (Error) -> ())
+    func uploadImage(image: PackageImageModel, success: @escaping (String) -> (), failure: @escaping (Error) -> ())
      func uploadImageStatus(fieldId: String, success: @escaping (PackageImageDetail) -> (), failure: @escaping (Error) -> ())
 }
 
@@ -15,7 +16,9 @@ public extension UploadImagesAPI {
     /// uploadImage
     /// - Parameters:
     ///   - image: image is Model
-     func uploadImage(image: PackageImageModel, success: @escaping (PackageImageInfo) -> (), failure: @escaping (Error) -> ()) {
+    
+//    MARK: for checking only status code for success
+     func uploadImage(image: PackageImageModel, success: @escaping (String) -> (), failure: @escaping (Error) -> ()) {
         let urlSession = URLSession.shared
         
         let paramsOfCaptureDevice = [
@@ -35,7 +38,13 @@ public extension UploadImagesAPI {
         
         let request = PackageEndPoint.uploadImage.request(body: params)
         let file = [URLSession.PackageFile(name: "image", fileName: "image.jpg", data: image.imageData, contentType: "image/jpeg")]
-        urlSession.upload(request: request, params: params, files: file, success: success, failure: failure)
+         urlSession.upload(request: request, params: params, files: file, success: success) { error in
+             if error as NSError == PackageGlobalConstants.Error.successful {
+                 success("Successfully Uploaded")
+             } else {
+                 failure(error)
+             }
+         }
     }
     
      func uploadImageStatus(fieldId: String, success: @escaping (PackageImageDetail) -> (), failure: @escaping (Error) -> ()){
