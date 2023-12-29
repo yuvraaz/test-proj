@@ -167,7 +167,14 @@ public extension URLSession {
 //             let timeoutError = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
             return send(error: PackageGlobalConstants.Error.timeOut)
          }
-         
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            // Handle non-HTTP responses or unexpected response types
+            return send(error: PackageGlobalConstants.Error.successful)
+        }
+        
+        let statusCode = httpResponse.statusCode
+        
         
         func send(error: Error) {
             DispatchQueue.main.async {
