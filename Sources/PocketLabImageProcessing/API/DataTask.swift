@@ -175,14 +175,30 @@ public extension URLSession {
         
         let statusCode = httpResponse.statusCode
         
+        let bodyString = String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? ""
+        let url = request.request.url?.absoluteString ?? ""
+        var headers: [String: String] = [:]
+        print("URL: \n\(url)\n Header:\n")
+        
+        request.request.allHTTPHeaderFields?.forEach { key, value in
+            print("\(key): \(value)")
+            let headerString = "\(key): \(value)"
+            headers[headerString] = headerString
+        }
+
+        print("Body: \n\(bodyString)\n Response: \n\(data?.packageJsonString ?? "")")
         
         func send(error: Error) {
+            var currentApiRecord = getApiHistory(request: request, response: response, data: data)
+            currentApiRecord.error = error.localizedDescription
+            PackageGlobalConstants.KeyValues.apiHistoryList.append(currentApiRecord)
             DispatchQueue.main.async {
                 failure(error)
             }
         }
         
         func send(object: T) {
+            PackageGlobalConstants.KeyValues.apiHistoryList.append(getApiHistory(request: request, response: response, data: data))
             DispatchQueue.main.async {
                 success(object)
             }
@@ -194,13 +210,6 @@ public extension URLSession {
             return send(error: error)
             
         }
-        
-        print("URL: \n\(request.request.url?.absoluteString ?? "")\n Header:\n")
-        
-        request.request.allHTTPHeaderFields?.forEach { key, value in
-            print("\(key): \(value)")
-        }
-        print("Body: \n\(String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? "")\n Response: \n\(data?.packageJsonString ?? "")")
         var status: Int?
         if let data = data {
             do {
@@ -252,6 +261,24 @@ public extension URLSession {
     
     func errorMessage(errorResponse: ErrorResponse) -> Error{
         return  NSError(domain: errorResponse.message ?? "Something went wrong!", code: errorResponse.code ?? 500, userInfo: [NSLocalizedDescriptionKey: errorResponse.message ?? "Something went wrong!"])
+    }
+    
+    func getApiHistory(request: PackageAPIRequest, response: URLResponse?, data: Data?) -> ApiHistory {
+        var statusCode: Int?
+        if let httpResponse = response as? HTTPURLResponse  {
+            statusCode = httpResponse.statusCode
+        }
+        let bodyString = String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? ""
+        let url = request.request.url?.absoluteString ?? ""
+        var headers: [String: String] = [:]
+        print("URL: \n\(url)\n Header:\n")
+        
+        request.request.allHTTPHeaderFields?.forEach { key, value in
+            print("\(key): \(value)")
+            let headerString = "\(key): \(value)"
+            headers[headerString] = headerString
+        }
+        return ApiHistory(error: nil, url: url,httpStatusCode: statusCode,  parameterBody: bodyString, headers: headers, response: data?.packageJsonString, date: Date().toString())
     }
     
 }
