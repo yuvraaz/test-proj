@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Public SDK
 public class ComponentsFactory {}
 
 public class ScenarioPlayerResults {}
@@ -21,7 +20,6 @@ public enum AnnotationType {
     case customProteinRate(percent: Double)
     case customRemoteIdAndVariety(id: String,name: String)
 }
-
 
 public struct ScenarioPlayerAllRequiredData: Codable {
     var sampleId: String?
@@ -38,21 +36,28 @@ public class ScenarioPlayerComponent: ObservableObject {
     @Published public var sampleId: String?
     @Published public var annotationType: AnnotationType?
     
+    public var onSuccess: ((String) -> ())?
+    public var onError: ((String) -> ())?
+    public var onCancel: (() -> ())?
+    
     public var scenarioPlayerRetrievedData: ScenarioPlayerAllRequiredData = ScenarioPlayerAllRequiredData(identificationcode: nil, images: [], selectedVariety: nil, Note: nil)
     
-    public init() {}
+    public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(apiResponse(_:)), name: .apiResponse, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     private var scenarioPlayerViewModel: ScenarioPlayerViewModel?
 
     public func setAnnotation(type: AnnotationType, value: Any) {
         annotationType = type
         switch type {
-        case .remoteId:
-            remoteId = value as? String
-        case .proteinRate:
-            proteinRate = value as? Double
-        default:
-            break
+        case .remoteId: remoteId = value as? String
+        case .proteinRate: proteinRate = value as? Double
+        default: break
         }
     }
     
@@ -60,24 +65,24 @@ public class ScenarioPlayerComponent: ObservableObject {
         sampleId = id
     }
 
-    public func start() {
-        // Implement start functionality
+//    public func start() {
+//        // Implement start functionality
+//    }
+
+    public func onSuccess(results: String) {
+        onSuccess?(results)
     }
 
-    public func onSuccess(results: Any?) {
-        // Implement success handling
-    }
-
-    public func onError(error: Error) {
-        // Implement error handling
+    public func onError(error: String) {
+        onError?(error)
     }
 
     public func cancel() {
-        // Implement cancellation
+        onCancel?()
     }
 
     public func finish() {
-        // Implement finishing
+        PackageGlobalConstants.KeyValues.apiHistoryList = []
     }
 
     public func reset() {
@@ -88,13 +93,23 @@ public class ScenarioPlayerComponent: ObservableObject {
     }
 
     public func clearAnnotations() {
-        // Implement clearing annotations
+        remoteId = nil
+        proteinRate = nil
+        sampleId = nil
     }
-    
     
     public func executeUploadOfflineData() {
     scenarioPlayerViewModel = ScenarioPlayerViewModel(player: self, scenarioID: 0)
         scenarioPlayerViewModel?.executeUploadOfflineData()
     }
+    
+    @objc func apiResponse(_ notification: Notification) {
+        if let notification = notification.object as? ResponseMetaData {
+            switch notification.error ?? nil {
+            case nil: onSuccess(results: notification.response ?? "")
+            default: onError(error: notification.error ?? "")
+            }
+        }
+     }
     
 }

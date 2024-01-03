@@ -67,19 +67,32 @@ public struct ScenarioPlayerView: View {
                                         Spacer().frame(height: 12)
                                     }.frame(maxWidth: .infinity)
                                     VStack {
-                                        NavigationLink(destination: IdentificationView(clicked: { code in
-                                            self.updateData(sampleId: code)
-                                        }), isActive: $indentificationCompleted) {
-                                            PackageImageTextView(title: "Identification", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
+                                        ForEach(viewModel.scenrioPlayerSteps, id: \.self) { step in
+                                            switch step {
+                                            case .identifySample:
+                                                NavigationLink(destination: IdentificationView(clicked: { code in
+                                                    self.updateData(sampleId: code)
+                                                }), isActive: $indentificationCompleted) {
+                                                    PackageImageTextView(title: "Identification", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .identification, isCompleted: indentificationisCompleted)
+                                                }
+                                            case .declareCategory:
+                                                Button {
+                                                    isPopoverPresented = true
+                                                } label: {
+                                                    PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
+                                                }
+                                            case .declareImage, .declareNumber:  EmptyView().frame(height: 0)
+                                            case .declareLabel:
+                                                PackageImageTextView(title: "Notes", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
+                                            case .pictureCollection:
+                                                NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
+                                                    PackageImageTextView(title: "2 photos", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
+                                                }
+                                            case .prediction:  EmptyView().frame(height: 0)
+                                            }
                                         }
-                                        NavigationLink(destination: ImageAcquisitionView(isVisible: $isUploadImageViewShown), isActive: $isUploadImageViewShown) {
-                                            PackageImageTextView(title: "2 photos", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .photo, isCompleted: false)
-                                        }
-                                        Button {
-                                            isPopoverPresented = true
-                                        } label: {
-                                            PackageImageTextView(title: "Expected variety", secondaryTitle: selectedVariety?.userValue ?? "", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .exptectedVariety, isCompleted: selectedVariety?.userValue != nil)
-                                        }
+
+                                
                                         VStack {
                                             VStack(alignment: .leading) {
                                                 HStack(alignment: .center) {
@@ -98,7 +111,7 @@ public struct ScenarioPlayerView: View {
                                             .frame(height: 58)
                                             .cornerRadius(10)
                                         }
-                                        PackageImageTextView(title: "Notes", annotationType: viewModel.player.annotationType, varietyAnalysisCellType: .note, isCompleted: false)
+                                      
                                     }
                                     .padding(.horizontal, 16)
                                 }
@@ -118,6 +131,9 @@ public struct ScenarioPlayerView: View {
                     .edgesIgnoringSafeArea(.top)
                 }
             }
+        }
+        .onAppear {
+            viewModel.getNumberOfSteps()
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
@@ -175,7 +191,6 @@ public struct ScenarioPlayerView: View {
     
     private var backButton: some View {
         Button(action: {
-            
             showTerminationAlert = true
         }) {
             Image(systemName: "chevron.left")

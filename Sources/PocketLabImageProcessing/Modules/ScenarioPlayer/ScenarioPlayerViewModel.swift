@@ -15,6 +15,28 @@ public func isInternetAvailable() -> Bool {
 
 class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, AquisitionAPI, SampleRemoteIdAPI, SampleAPI, TargetSampleAPI {
     
+    enum ScenrioPlayerStep: CaseIterable {
+        case identifySample,declareCategory, declareLabel, declareNumber, declareImage, pictureCollection, prediction
+        
+        var genericName: String {
+            switch self {
+            case .identifySample:
+                return "de-barcode-text-remote-id"
+            case .declareCategory:
+                return ""
+            case .declareLabel:
+                return "generic-freetext-sample-identifier"
+            case .declareNumber:
+                return ""
+            case .declareImage:
+                return ""
+            case .pictureCollection:
+                return "de-pictures-collection-precision-silo-multi"
+            case .prediction:
+                return "inarix-species-composition-seed"
+            }
+        }
+    }
     
     enum ScenarioPlayerAPI {
         case createPastAction,createSample,createTargetSample, createAndAuisition, createSampleIdIfNeeded, createRemoteID, finalAPICall, None
@@ -35,12 +57,42 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     private var targetSample: TargetSample?
     private var acquisition: Acquisition?
     private var sampleRemoteId: SampleRemoteId?
-    
+    @Published var scenarioResponse: PackageScenarioResponseParent?
     private var executingOfflineData: Bool = false
+     var scenrioPlayerSteps: [ScenrioPlayerStep] = []
     
     init(player: ScenarioPlayerComponent, scenarioID: Int) {
         self.player = player
         self.scenarioID = scenarioID
+    }
+    
+    func getNumberOfSteps() {
+        scenarioResponse = PackagePreviewData.load(name: "ScenarioResponse")
+        let scenarioIdData = scenarioResponse?.data?.first(where: { packageScenarioResponse in
+            packageScenarioResponse.id == 606  // 606 is scenarioId (make this dynamic)
+            
+        })
+        
+     scenrioPlayerSteps = scenarioIdData?.latestScenarioInstance?.steps?.compactMap({ genericName in
+            return getStep(forGenericName: genericName)
+        }) ?? []
+    
+        for instanceStep in scenarioIdData?.latestScenarioInstance?.scenarioInstanceSteps ?? [] {
+            if (instanceStep.v2LabelTemplate == nil || instanceStep.v2LabelTemplate?.labelTemplateID == nil) {
+            } else {
+                if !scenrioPlayerSteps.contains(.declareCategory) {
+                    scenrioPlayerSteps.append(.declareCategory)
+                }
+            }
+        }
+        
+    }
+    
+    func getStep(forGenericName genericName: String) -> ScenrioPlayerStep? {
+        for case let step in ScenrioPlayerStep.allCases where step.genericName == genericName {
+            return step
+        }
+        return nil
     }
     
     func createPastAction() {
@@ -247,6 +299,8 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         }
 
     }
+    
+    
 
     
 }

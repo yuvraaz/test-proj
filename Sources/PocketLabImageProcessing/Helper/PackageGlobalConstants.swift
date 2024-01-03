@@ -58,7 +58,7 @@ public struct PackageGlobalConstants {
             }
         }
         
-        static var apiHistoryList: [ApiHistory] {
+        static var apiHistoryList: [ResponseMetaData] {
             get {
                 return decode(key: "apiHistoryList") ?? []
             }

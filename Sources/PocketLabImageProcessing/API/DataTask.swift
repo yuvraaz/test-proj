@@ -173,7 +173,7 @@ public extension URLSession {
             return send(error: PackageGlobalConstants.Error.successful)
         }
         
-        let statusCode = httpResponse.statusCode
+        let _ = httpResponse.statusCode
         
         let bodyString = String(data: request.request.httpBody ?? Data(), encoding: .utf8) ?? ""
         let url = request.request.url?.absoluteString ?? ""
@@ -192,13 +192,16 @@ public extension URLSession {
             var currentApiRecord = getApiHistory(request: request, response: response, data: data)
             currentApiRecord.error = error.localizedDescription
             PackageGlobalConstants.KeyValues.apiHistoryList.append(currentApiRecord)
+            NotificationCenter.default.post(name: .apiResponse, object: currentApiRecord)
             DispatchQueue.main.async {
                 failure(error)
             }
         }
         
         func send(object: T) {
-            PackageGlobalConstants.KeyValues.apiHistoryList.append(getApiHistory(request: request, response: response, data: data))
+            var currentApiRecord = getApiHistory(request: request, response: response, data: data)
+            PackageGlobalConstants.KeyValues.apiHistoryList.append(currentApiRecord)
+            NotificationCenter.default.post(name: .apiResponse, object: currentApiRecord)
             DispatchQueue.main.async {
                 success(object)
             }
@@ -263,7 +266,7 @@ public extension URLSession {
         return  NSError(domain: errorResponse.message ?? "Something went wrong!", code: errorResponse.code ?? 500, userInfo: [NSLocalizedDescriptionKey: errorResponse.message ?? "Something went wrong!"])
     }
     
-    func getApiHistory(request: PackageAPIRequest, response: URLResponse?, data: Data?) -> ApiHistory {
+    func getApiHistory(request: PackageAPIRequest, response: URLResponse?, data: Data?) -> ResponseMetaData {
         var statusCode: Int?
         if let httpResponse = response as? HTTPURLResponse  {
             statusCode = httpResponse.statusCode
@@ -278,7 +281,7 @@ public extension URLSession {
             let headerString = "\(key): \(value)"
             headers[headerString] = headerString
         }
-        return ApiHistory(error: nil, url: url,httpStatusCode: statusCode,  parameterBody: bodyString, headers: headers, response: data?.packageJsonString, date: Date().toString())
+        return ResponseMetaData(error: nil, url: url,httpStatusCode: statusCode,  parameterBody: bodyString, headers: headers, response: data?.packageJsonString, date: Date().toString())
     }
     
 }
