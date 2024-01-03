@@ -22,7 +22,6 @@ public struct PackageGlobalConstants {
             }
         }
         
-        
         public static var pauseColdUpload: Bool {
             get {
                 return decode(key: "remainingImageUpload") ?? false
@@ -59,15 +58,14 @@ public struct PackageGlobalConstants {
             }
         }
         
-//        static var scenarioPlayerList: [] {
-//            get {
-//                return decode(key: "scenarioPlayerList")
-//            }
-//            set {
-//                encodeAndSave(key: "scenarioPlayerList", value: newValue)
-//            }
-//        }
-//        
+        static var apiHistoryList: [ApiHistory] {
+            get {
+                return decode(key: "apiHistoryList") ?? []
+            }
+            set {
+                encodeAndSave(key: "apiHistoryList", value: newValue)
+            }
+        }
         
         static func apiCache<T: Codable>(key: String) -> T? {
             let cache = UserDefaults.standard.dictionary(forKey: "URLCache") as? [String: Data]
