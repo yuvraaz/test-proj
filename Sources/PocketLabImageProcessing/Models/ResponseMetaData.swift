@@ -1,5 +1,5 @@
 //
-//  ApiHistory.swift
+//  ResponseMetaData.swift
 //
 //
 //  Created by Amrit Duwal on 1/1/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ApiHistory: Codable {
+public struct ResponseMetaData: Codable {
      var error: String?
      var url: String?
      var httpStatusCode: Int?
