@@ -245,6 +245,9 @@ public struct Config: Codable {
     public let preference: String?
     public let autoGenerate: Bool?
     public let jumpToScenario: [JumpToScenario]?
+    public let continueSampleDaysLimit: Int?
+    public let continueSampleIsEnabled: Bool?
+    public let onlyNumbers: Bool?
 
     public enum CodingKeys: String, CodingKey {
         case mandatory, crop, nbImages, imageQuality, imageInterval
@@ -252,6 +255,9 @@ public struct Config: Codable {
         case deviceSpecificOverride = "device-specific-override"
         case configRequired = "required"
         case manual, barCode, preference, autoGenerate, jumpToScenario
+        case continueSampleDaysLimit
+        case continueSampleIsEnabled
+        case onlyNumbers
     }
     
     var dictionaryRepresentation: [String: Any] {
