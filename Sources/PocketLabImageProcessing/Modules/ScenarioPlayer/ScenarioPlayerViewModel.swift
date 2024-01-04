@@ -18,22 +18,22 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     enum ScenrioPlayerStep: CaseIterable {
         case identifySample,declareCategory, declareLabel, declareNumber, declareImage, pictureCollection, prediction
         
-        var genericName: String {
+        var screenSlug: String {
             switch self {
             case .identifySample:
-                return "de-barcode-text-remote-id"
+                return "remote-id-input"
             case .declareCategory:
                 return ""
             case .declareLabel:
-                return "generic-freetext-sample-identifier"
+                return "declare-label"
             case .declareNumber:
                 return ""
             case .declareImage:
                 return ""
             case .pictureCollection:
-                return "de-pictures-collection-precision-silo-multi"
+                return "pictures-collection"
             case .prediction:
-                return "inarix-species-composition-seed"
+                return "prediction"
             }
         }
     }
@@ -61,6 +61,11 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
     private var executingOfflineData: Bool = false
      var scenrioPlayerSteps: [ScenrioPlayerStep] = []
     
+    var identification: Identification?
+    var analysis: Analysis?
+    var picturesCollection: PicturesCollection?
+    var  externalPictureCollection :ExternalPicturesCollection?
+    
     init(player: ScenarioPlayerComponent, scenarioID: Int) {
         self.player = player
         self.scenarioID = scenarioID
@@ -73,8 +78,9 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
             
         })
         
-     scenrioPlayerSteps = scenarioIdData?.latestScenarioInstance?.steps?.compactMap({ genericName in
-            return getStep(forGenericName: genericName)
+     scenrioPlayerSteps = scenarioIdData?.latestScenarioInstance?.scenarioInstanceSteps?.compactMap({ scenarioInstanceStep in
+         let currentScenarioPlayerStep: ScenrioPlayerStep? = getStep(forGenericName: scenarioInstanceStep.screenSlug ?? "")
+         return currentScenarioPlayerStep
         }) ?? []
     
         for instanceStep in scenarioIdData?.latestScenarioInstance?.scenarioInstanceSteps ?? [] {
@@ -88,8 +94,30 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         
     }
     
+    func fillCustomModels(currentScenarioPlayerStep: ScenrioPlayerStep, model: ScenarioInstanceStep) {
+        switch currentScenarioPlayerStep {
+        case .identifySample:
+//            return "remote-id-input"
+            
+            identification =  Identification(scenarioInstanceStepId: model.id, autoGenerate: model.config?.autoGenerate, barCode:  model.config?.barCode, manual: model.config?.manual, preference: model.config?.preference, continueSampleIsEnabled: model.config?.continueSampleIsEnabled, continueSampleDaysLimit: model.config?.continueSampleDaysLimit)
+//        case .declareCategory:
+//            return ""
+//        case .declareLabel:
+//            return "declare-label"
+//        case .declareNumber:
+//            return ""
+//        case .declareImage:
+//            return ""
+        case .pictureCollection:
+            let picturesCollection = PicturesCollection(scenarioInstanceStepId: model.id)
+//        case .prediction:
+//            return "prediction"
+        default: break
+        }
+    }
+    
     func getStep(forGenericName genericName: String) -> ScenrioPlayerStep? {
-        for case let step in ScenrioPlayerStep.allCases where step.genericName == genericName {
+        for case let step in ScenrioPlayerStep.allCases where step.screenSlug == genericName {
             return step
         }
         return nil
