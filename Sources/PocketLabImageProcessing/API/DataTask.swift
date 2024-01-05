@@ -49,6 +49,17 @@ public extension URLSession {
     func dataTask<T:Codable>(request: PackageAPIRequest, success: @escaping (T) -> (), failure: @escaping (Error) -> ()) -> DataTaskAPICall {
         
         let apiCall = DataTaskAPICall(task: { error in
+            
+//            MARK: case for testing
+            if request.endPoint == .testScenarioPlayer {
+                let  scenarioResponse: T? = PackagePreviewData.load(name: "ScenarioResponse")
+                if let scenarioResponse =  scenarioResponse {
+                    success(scenarioResponse)
+                }
+                return nil
+                
+            }
+            
             if let error = error {
                 failure(error)
                 return nil
