@@ -1,3 +1,4 @@
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -21,11 +22,20 @@ let package = Package(
         .target(
             name: "PocketLabImageProcessing",
             dependencies: [.product(name: "Reachability", package: "reachability.swift")],
-            resources: [.process("PackageImages.xcassets")]
+            resources: [
+                .process("PackageImages.xcassets"),
+//                .process("PackageImages.xcassets"),
+//                .process("API/UploadImagesAPI.swift"),
+//                .process("Preview Content/SampleRemoteId.json"),
+//                .process("Preview Content/ScenarioResponse.json"),
+//                .process("Preview Content/Sample.json"),
+//                .process("Preview Content/PastAction.json"),
+//                .process("Preview Content/Acquisition.json"),
+//                .process("Preview Content/TargetSample.json"),
+            ]
         ),
         .testTarget(
             name: "PocketLabImageProcessingTests",
             dependencies: ["PocketLabImageProcessing"]),
-    ],
-    version: "1.0.0"
+    ]
 )
