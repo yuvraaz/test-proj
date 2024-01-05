@@ -37,7 +37,7 @@ public struct PackageAPIRequest {
     
 }
 
-public enum PackageEndPoint {
+public enum PackageEndPoint: Equatable {
     case login
     case refresh
     case scenario
@@ -51,6 +51,9 @@ public enum PackageEndPoint {
     case pastAction
     case createAquisition
     case sampleRemoteId(id: String)
+    
+    // test
+    case testScenarioPlayer
 
     public var path: String {
         switch self {
@@ -68,6 +71,7 @@ public enum PackageEndPoint {
         case .pastAction: return "/samples/past-action"
         case .createAquisition: return "/samples/acquisition"
         case .sampleRemoteId(let id): return "/samples/sample/\(id)"
+        case .testScenarioPlayer: return ""
         }
     }
 
