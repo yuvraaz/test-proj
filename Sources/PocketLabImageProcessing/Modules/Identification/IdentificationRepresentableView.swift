@@ -19,7 +19,8 @@ struct IdentificationRepresentableView: UIViewControllerRepresentable {
     }
 
     var didFindCode: (String) -> Void
-
+    var metadataOutput: AVCaptureMetadataOutput?
+    
     func makeCoordinator() -> Coordinator {
         return Coordinator(parent: self)
     }
@@ -51,6 +52,10 @@ struct IdentificationRepresentableView: UIViewControllerRepresentable {
             metadataOutput.setMetadataObjectsDelegate(context.coordinator, queue: DispatchQueue.main)
 //            metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
             metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417, .upce, .code128]
+//            let scanningArea = CGRect(x: 0.25, y: 0.25, width: 0.5, height: 0.5) // Adjust these values as needed
+//                     metadataOutput.rectOfInterest = scanningArea
+            
+            
         } else {
             return viewController
         }
@@ -68,6 +73,11 @@ struct IdentificationRepresentableView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    
+    func setRectOfInterest(_ rect: CGRect) {
+        metadataOutput?.rectOfInterest = rect
+    }
+
 }
 
 struct IdentificationView: View {
@@ -75,6 +85,7 @@ struct IdentificationView: View {
     @State private var scannedCode: String?
     @State private var showAlert = false
     @State private var userInput = ""
+    var identificationRepresentableView = IdentificationRepresentableView(didFindCode: { _ in })
 //    @Binding var indentificationCompleted: Bool
     var clicked: ((String) -> Void)
     var body: some View {
@@ -130,7 +141,19 @@ struct IdentificationView: View {
                                          .stroke(Color.white, lineWidth: 2)
                                          .frame(width: isLandScape(geometry: geometry) ? 300 : 250, height:  isLandScape(geometry: geometry) ? 250 : 250)
                                          .background(Color.clear)
+                                         .onAppear {
+                                                    // Calculate the normalized coordinates for the region of interest
+                                                    let rectFrame = CGRect(x: 0, y: 0, width: isLandScape(geometry: geometry) ? 300 : 250, height: isLandScape(geometry: geometry) ? 300 : 250)
+                                                    let normalizedRect = CGRect(x: rectFrame.origin.x / geometry.size.width,
+                                                                                y: rectFrame.origin.y / geometry.size.height,
+                                                                                width: rectFrame.size.width / geometry.size.width,
+                                                                                height: rectFrame.size.height / geometry.size.height)
+
+                                                    // Set the region of interest
+                                                    identificationRepresentableView.setRectOfInterest(normalizedRect)
+                                                }
                                   }
+                            
                             if isLandScape(geometry: geometry){
                                 KeyboardAndFlashView(geometry: geometry)
                                     .frame(width: 220)
