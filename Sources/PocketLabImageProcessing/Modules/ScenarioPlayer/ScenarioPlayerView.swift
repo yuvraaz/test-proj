@@ -11,7 +11,7 @@ public enum VarietyAnalysisCellType {
     case identification,photo,exptectedVariety, analysis, note
 }
 
-
+let scenarioPlayerComponent: ScenarioPlayerComponent = ScenarioPlayerComponent()
 public struct ScenarioPlayerView: View {
     
     @State private var isUploadImageViewShown: Bool = false
@@ -25,9 +25,9 @@ public struct ScenarioPlayerView: View {
     @State private var showTerminationAlert = false
     //    @State private var showAlertWithRetry = false
     @Environment(\.presentationMode) var presentationMode
-    public init(player: ScenarioPlayerComponent, scenarioId: Int) {
+    public init(player: ScenarioPlayerComponent?, scenarioId: Int) {
         self.scenarioId = scenarioId
-        _viewModel = ObservedObject(initialValue: ScenarioPlayerViewModel(player: player, scenarioID: scenarioId))
+        _viewModel = ObservedObject(initialValue: ScenarioPlayerViewModel(player: player ?? scenarioPlayerComponent, scenarioID: scenarioId))
         
     }
     

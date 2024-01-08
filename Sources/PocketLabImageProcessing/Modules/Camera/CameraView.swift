@@ -94,8 +94,9 @@ class ARSessionDelegateCoordinator : NSObject, ARSessionDelegate {
             if let img: CVPixelBuffer = session.currentFrame?.capturedImage {
                 let ciImage = CIImage(cvPixelBuffer: img)
                   let context = CIContext()
-                if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
-                    self.capturedPhoto =  UIImage(cgImage: cgImage)
+                if let cgImage: CGImage = context.createCGImage(ciImage, from: ciImage.extent) {
+                    self.capturedPhoto =  UIImage(cgImage: cgImage).rotate(byDegrees: 90.0) ?? UIImage()
+//                    self.capturedPhoto
                 }
                 self.capturePhoto = false
             }
@@ -122,4 +123,24 @@ class ARSessionDelegateCoordinator : NSObject, ARSessionDelegate {
     }
 
     
+}
+
+
+extension UIImage {
+    func rotate(byDegrees degrees: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+
+        context.translateBy(x: self.size.width / 2, y: self.size.height / 2)
+        context.rotate(by: degrees * .pi / 180.0)
+        context.scaleBy(x: 1.0, y: -1.0)
+
+        let rect = CGRect(x: -self.size.width / 2, y: -self.size.height / 2, width: self.size.width, height: self.size.height)
+        context.draw(self.cgImage!, in: rect)
+
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return rotatedImage
+    }
 }

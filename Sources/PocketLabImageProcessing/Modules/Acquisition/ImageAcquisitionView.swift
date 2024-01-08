@@ -36,7 +36,7 @@ public struct ImageAcquisitionView: View {
     @StateObject public var viewModel = ImageAcquisitionViewModel()
     
     @State public var distance : Float = 0.0
-    @State public var capturePhoto : Bool = false
+    @State public var isCapturePhoto : Bool = false
     @State public var capturedPhoto: UIImage = UIImage()
     @State public var countdown = 4
     @State public var startCountDown = false
@@ -67,14 +67,14 @@ public struct ImageAcquisitionView: View {
             ProgressView()
         } else {
             ZStack(alignment: .top) {
-                ARViewContainer(distance: $distance, capturePhoto: $capturePhoto, capturedPhoto: $capturedPhoto, isPaused: $isPaused, readyToCapture: $readyToCapture)
+                ARViewContainer(distance: $distance, capturePhoto: $isCapturePhoto, capturedPhoto: $capturedPhoto, isPaused: $isPaused, readyToCapture: $readyToCapture)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     Spacer()
                     Image(uiImage: capturedPhoto)
                         .resizable()
                         .scaledToFit()
-                        .rotationEffect(.degrees(90))
+//                        .rotationEffect(.degrees(90))
                     Spacer()
                 }
                 if startCountDown && countdown > 1 {
@@ -149,14 +149,14 @@ public struct ImageAcquisitionView: View {
                 countdown -= 1
             } else {
                 timer.invalidate()
-                capturePhoto = true
+                isCapturePhoto = true
                 countdown = 4
                 startCountDown = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     if capturedPhoto == UIImage() { return }
                     viewModel.uploadImage(x: "", y: "", z: "", yaw: "", site: "", image: capturedPhoto)
                     capturedPhoto = UIImage()
-                    capturePhoto = false
+                    isCapturePhoto = false
                     if numberOfAdditionalClick == 0 {
                         viewModel.showSuccessAlert = true
                     }

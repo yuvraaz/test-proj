@@ -86,6 +86,10 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
         for instanceStep in scenarioIdData?.latestScenarioInstance?.scenarioInstanceSteps ?? [] {
             if (instanceStep.v2LabelTemplate == nil || instanceStep.v2LabelTemplate?.labelTemplateID == nil) {
             } else {
+//                switch instanceStep.v2LabelTemplate?.type?.value {
+//                case "categry": scenrioPlayerSteps.append(.declareCategory)
+//                case "image": scenrioPlayerSteps.append(.declareImage)
+//                }
                 if !scenrioPlayerSteps.contains(.declareCategory) {
                     scenrioPlayerSteps.append(.declareCategory)
                 }
@@ -100,6 +104,7 @@ class ScenarioPlayerViewModel: BaseViewModel, ObservableObject, PastActionAPI, A
 //            return "remote-id-input"
             
             identification =  Identification(scenarioInstanceStepId: model.id, autoGenerate: model.config?.autoGenerate, barCode:  model.config?.barCode, manual: model.config?.manual, preference: model.config?.preference, continueSampleIsEnabled: model.config?.continueSampleIsEnabled, continueSampleDaysLimit: model.config?.continueSampleDaysLimit)
+            
 //        case .declareCategory:
 //            return ""
 //        case .declareLabel:
